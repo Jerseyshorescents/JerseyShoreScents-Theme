@@ -1,0 +1,20 @@
+{
+  "current": {
+    "color_navy": "#16324a",
+    "color_cream": "#f7f2e8",
+    "color_ocean": "#6d91a8",
+    "social_instagram_link": "",
+    "social_facebook_link": "",
+    "social_tiktok_link": ""
+  },
+  "presets": {
+    "JerseyShoreScents Coastal": {
+      "color_navy": "#16324a",
+      "color_cream": "#f7f2e8",
+      "color_ocean": "#6d91a8",
+      "social_instagram_link": "",
+      "social_facebook_link": "",
+      "social_tiktok_link": ""
+    }
+  }
+}
