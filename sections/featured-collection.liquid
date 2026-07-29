@@ -1,5 +1,5 @@
 {% assign collection = section.settings.collection %}
-<section class="section section--cream">
+<section class="section section--cream featured-collection">
   <div class="page-width">
     <div class="section-heading section-heading--split">
       <div><p class="eyebrow eyebrow--dark">{{ section.settings.eyebrow }}</p><h2>{{ section.settings.heading }}</h2></div>
@@ -21,6 +21,32 @@
     </div>
   </div>
 </section>
+<style>
+  @media screen and (max-width: 749px) {
+    .featured-collection .product-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem;
+    }
+
+    .featured-collection .product-card {
+      border-radius: 16px;
+    }
+
+    .featured-collection .product-card__content {
+      padding: 0.75rem 0.8rem 0.9rem;
+    }
+
+    .featured-collection .product-card h3 {
+      font-size: 1.05rem;
+      line-height: 1.15;
+    }
+
+    .featured-collection .product-card p {
+      font-size: 0.9rem;
+    }
+  }
+</style>
+
 {% schema %}
 {
   "name":"Featured collection",
