@@ -1,0 +1,358 @@
+{% liquid
+  assign section_id = 'MoodV2-' | append: section.id
+%}
+
+<section
+  id="{{ section_id }}"
+  class="mood-v2 section"
+  style="--mood-v2-bg: {{ section.settings.background_color }}; --mood-v2-height: {{ section.settings.card_height }}px; --mood-v2-overlay: {{ section.settings.overlay_strength | divided_by: 100.0 }};"
+>
+  <div class="page-width">
+    <div class="section-heading mood-v2__heading">
+      {% if section.settings.eyebrow != blank %}
+        <p class="eyebrow eyebrow--dark">{{ section.settings.eyebrow }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2>{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <div class="section-heading__text">{{ section.settings.description }}</div>
+      {% endif %}
+    </div>
+
+    <div class="mood-v2__grid">
+      {% for block in section.blocks %}
+        {% liquid
+          assign card_link = block.settings.link | default: routes.all_products_collection_url
+          assign card_alt = block.settings.image.alt | default: block.settings.title
+        %}
+
+        <a
+          class="mood-v2__card"
+          href="{{ card_link }}"
+          aria-label="Explore {{ block.settings.title | escape }}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="mood-v2__media">
+            {% if block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 1400
+                | image_tag:
+                  class: 'mood-v2__image',
+                  loading: 'lazy',
+                  widths: '480, 720, 960, 1200, 1400',
+                  sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw',
+                  alt: card_alt
+              }}
+            {% else %}
+              <div class="mood-v2__placeholder">
+                {{ 'lifestyle-1' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="mood-v2__overlay" aria-hidden="true"></div>
+
+          <div class="mood-v2__content">
+            {% if block.settings.title != blank %}
+              <h3>{{ block.settings.title }}</h3>
+            {% endif %}
+
+            {% if block.settings.text != blank %}
+              <p>{{ block.settings.text }}</p>
+            {% endif %}
+
+            {% if section.settings.show_explore_link %}
+              <span class="mood-v2__link">Explore <span aria-hidden="true">→</span></span>
+            {% endif %}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  #{{ section_id }} {
+    background: var(--mood-v2-bg);
+  }
+
+  #{{ section_id }} .mood-v2__heading {
+    margin-bottom: 2.75rem;
+  }
+
+  #{{ section_id }} .mood-v2__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  #{{ section_id }} .mood-v2__card {
+    position: relative;
+    min-height: var(--mood-v2-height);
+    overflow: hidden;
+    border-radius: var(--radius-card, 22px);
+    color: #ffffff;
+    text-decoration: none;
+    background: #d8d2c8;
+    box-shadow: 0 16px 38px rgba(22, 50, 74, 0.12);
+    isolation: isolate;
+    transform: translateY(0);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  #{{ section_id }} .mood-v2__card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 50px rgba(22, 50, 74, 0.2);
+  }
+
+  #{{ section_id }} .mood-v2__media,
+  #{{ section_id }} .mood-v2__image,
+  #{{ section_id }} .mood-v2__placeholder,
+  #{{ section_id }} .mood-v2__placeholder svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  #{{ section_id }} .mood-v2__image,
+  #{{ section_id }} .mood-v2__placeholder svg {
+    object-fit: cover;
+    transition: transform 0.7s ease;
+  }
+
+  #{{ section_id }} .mood-v2__card:hover .mood-v2__image,
+  #{{ section_id }} .mood-v2__card:hover .mood-v2__placeholder svg {
+    transform: scale(1.055);
+  }
+
+  #{{ section_id }} .mood-v2__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to top,
+      rgba(8, 19, 28, var(--mood-v2-overlay)) 0%,
+      rgba(8, 19, 28, calc(var(--mood-v2-overlay) * 0.55)) 42%,
+      rgba(8, 19, 28, 0.06) 78%,
+      rgba(8, 19, 28, 0) 100%
+    );
+    transition: opacity 0.35s ease;
+  }
+
+  #{{ section_id }} .mood-v2__card:hover .mood-v2__overlay {
+    opacity: 1.08;
+  }
+
+  #{{ section_id }} .mood-v2__content {
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 2rem;
+    transform: translateY(0);
+    transition: transform 0.35s ease;
+  }
+
+  #{{ section_id }} .mood-v2__card:hover .mood-v2__content {
+    transform: translateY(-4px);
+  }
+
+  #{{ section_id }} .mood-v2__content h3 {
+    margin: 0 0 0.45rem;
+    color: #ffffff;
+    font-size: clamp(1.7rem, 2.4vw, 2.25rem);
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.25);
+  }
+
+  #{{ section_id }} .mood-v2__content p {
+    max-width: 34rem;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  #{{ section_id }} .mood-v2__link {
+    display: inline-block;
+    margin-top: 0.85rem;
+    color: #ffffff;
+    font-size: 0.77rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  @media screen and (max-width: 989px) {
+    #{{ section_id }} .mood-v2__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    #{{ section_id }} .mood-v2__grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    #{{ section_id }} .mood-v2__card {
+      min-height: min(var(--mood-v2-height), 420px);
+    }
+
+    #{{ section_id }} .mood-v2__content {
+      padding: 1.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #{{ section_id }} .mood-v2__card,
+    #{{ section_id }} .mood-v2__image,
+    #{{ section_id }} .mood-v2__placeholder svg,
+    #{{ section_id }} .mood-v2__content {
+      transition: none;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Shop by mood - image",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Find your feeling"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Mood"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Explore fragrances that match your personality and the moments you want to create.</p>"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_height",
+      "label": "Card height",
+      "min": 280,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "default": 360
+    },
+    {
+      "type": "range",
+      "id": "overlay_strength",
+      "label": "Image overlay strength",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 60
+    },
+    {
+      "type": "checkbox",
+      "id": "show_explore_link",
+      "label": "Show Explore link",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "mood",
+      "name": "Mood",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Fresh & Coastal"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Clean, airy scents inspired by saltwater and sea breeze."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by mood - image",
+      "blocks": [
+        {
+          "type": "mood",
+          "settings": {
+            "title": "Fresh & Coastal",
+            "text": "Clean, airy scents inspired by saltwater and sea breeze."
+          }
+        },
+        {
+          "type": "mood",
+          "settings": {
+            "title": "Fruity & Citrus",
+            "text": "Bright, juicy, uplifting scents with a sparkling finish."
+          }
+        },
+        {
+          "type": "mood",
+          "settings": {
+            "title": "Floral",
+            "text": "Soft blossoms, romantic bouquets, and timeless femininity."
+          }
+        },
+        {
+          "type": "mood",
+          "settings": {
+            "title": "Sweet & Gourmand",
+            "text": "Comforting notes of vanilla, caramel, and delicious treats."
+          }
+        },
+        {
+          "type": "mood",
+          "settings": {
+            "title": "Warm & Cozy",
+            "text": "Soft amber, warm woods, and scents made for slow evenings."
+          }
+        },
+        {
+          "type": "mood",
+          "settings": {
+            "title": "Masculine",
+            "text": "Confident woods, spice, clean musk, and fresh cologne notes."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
