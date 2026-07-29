@@ -3,6 +3,21 @@
 
 <section class="section section--sand featured-editorial" style="--featured-image-width: {{ section.settings.image_width }}px; --featured-glow-opacity: {{ section.settings.glow_opacity | divided_by: 100.0 }};">
   <div class="page-width featured-editorial__inner">
+    <div class="featured-editorial__visual">
+      <div class="featured-editorial__glow" aria-hidden="true"></div>
+      <span class="featured-editorial__sparkle featured-editorial__sparkle--one" aria-hidden="true">✦</span>
+      <span class="featured-editorial__sparkle featured-editorial__sparkle--two" aria-hidden="true">✧</span>
+      <span class="featured-editorial__sparkle featured-editorial__sparkle--three" aria-hidden="true">✦</span>
+
+      <div class="featured-editorial__media">
+        {% if image != blank %}
+          {{ image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '320, 480, 640, 800, 1000', sizes: '(min-width: 990px) 38vw, 78vw', alt: section.settings.heading }}
+        {% else %}
+          {{ 'product-2' | placeholder_svg_tag }}
+        {% endif %}
+      </div>
+    </div>
+
     <div class="featured-editorial__content">
       <p class="eyebrow eyebrow--dark">{{ section.settings.eyebrow }}</p>
       <h2>{{ section.settings.heading }}</h2>
@@ -13,21 +28,6 @@
       <a class="button button--primary" href="{{ section.settings.link | default: product.url | default: routes.all_products_collection_url }}">
         {{ section.settings.button_label }}
       </a>
-    </div>
-
-    <div class="featured-editorial__visual">
-      <div class="featured-editorial__glow" aria-hidden="true"></div>
-      <span class="featured-editorial__sparkle featured-editorial__sparkle--one" aria-hidden="true">✦</span>
-      <span class="featured-editorial__sparkle featured-editorial__sparkle--two" aria-hidden="true">✧</span>
-      <span class="featured-editorial__sparkle featured-editorial__sparkle--three" aria-hidden="true">✦</span>
-
-      <div class="featured-editorial__media">
-        {% if image != blank %}
-          {{ image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '320, 480, 640, 800, 1000', sizes: '(min-width: 990px) 42vw, 78vw', alt: section.settings.heading }}
-        {% else %}
-          {{ 'product-2' | placeholder_svg_tag }}
-        {% endif %}
-      </div>
     </div>
   </div>
 </section>
@@ -40,14 +40,17 @@
 
   .featured-editorial__inner {
     display: grid;
-    grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+    grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
     align-items: center;
-    gap: clamp(3rem, 7vw, 7rem);
+    gap: clamp(4rem, 8vw, 8rem);
     min-height: 620px;
   }
 
   .featured-editorial__content {
-    max-width: 600px;
+    max-width: 620px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding-block: clamp(2rem, 5vw, 5rem);
   }
 
@@ -63,7 +66,7 @@
   .featured-editorial__visual {
     position: relative;
     display: grid;
-    place-items: end center;
+    place-items: center start;
     min-height: 520px;
     isolation: isolate;
   }
@@ -71,7 +74,7 @@
   .featured-editorial__media {
     position: relative;
     z-index: 2;
-    width: min(var(--featured-image-width), 100%);
+    width: min(calc(var(--featured-image-width) * 0.82), 100%);
     transition: transform 300ms ease;
   }
 
@@ -80,8 +83,10 @@
     display: block;
     width: 100%;
     height: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 28px 26px rgba(72, 48, 22, 0.22));
+    object-fit: cover;
+    border-radius: 28px;
+    overflow: hidden;
+    filter: drop-shadow(0 28px 26px rgba(72, 48, 22, 0.18));
   }
 
   .featured-editorial__visual:hover .featured-editorial__media {
@@ -91,10 +96,11 @@
   .featured-editorial__glow {
     position: absolute;
     z-index: 0;
-    width: min(34vw, 420px);
+    width: min(26vw, 300px);
     aspect-ratio: 1;
-    right: 5%;
-    bottom: 7%;
+    left: 18%;
+    top: 50%;
+    transform: translateY(-50%);
     border-radius: 50%;
     background: radial-gradient(circle, rgba(225, 181, 86, 0.72) 0%, rgba(244, 221, 170, 0.36) 38%, rgba(255, 255, 255, 0) 72%);
     opacity: var(--featured-glow-opacity);
@@ -158,14 +164,14 @@
     }
 
     .featured-editorial__media {
-      width: min(var(--featured-image-width), 72vw);
+      width: min(calc(var(--featured-image-width) * 0.82), 72vw);
     }
 
     .featured-editorial__glow {
       width: min(72vw, 360px);
-      right: 50%;
-      bottom: 8%;
-      transform: translateX(50%);
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 
