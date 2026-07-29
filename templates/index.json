@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "home_foundation": {
+      "type": "home-placeholder",
+      "settings": {
+        "eyebrow": "Inspired by the Jersey Shore",
+        "heading": "Luxury Fragrance & Body Care",
+        "text": "<p>The theme foundation is installed. The full coastal homepage design is next.</p>"
+      }
+    }
+  },
+  "order": [
+    "home_foundation"
+  ]
+}
