@@ -1,15 +1,72 @@
 {
   "sections": {
-    "home_foundation": {
-      "type": "home-placeholder",
+    "hero": {
+      "type": "hero",
       "settings": {
         "eyebrow": "Inspired by the Jersey Shore",
         "heading": "Luxury Fragrance & Body Care",
-        "text": "<p>The theme foundation is installed. The full coastal homepage design is next.</p>"
+        "text": "<p>Handcrafted scents and body care inspired by salty air, warm sand, and unforgettable shore memories.</p>",
+        "button_1_label": "Shop Perfume",
+        "button_2_label": "Shop Body Care",
+        "overlay": 35,
+        "height": 700,
+        "mobile_height": 575
       }
+    },
+    "favorites": {
+      "type": "discover-favorites",
+      "blocks": {
+        "perfume": {"type":"collection","settings":{"title":"Perfume"}},
+        "butter": {"type":"collection","settings":{"title":"Whipped Body Butter"}},
+        "shimmer": {"type":"collection","settings":{"title":"Shimmer Body Oil"}},
+        "scrub": {"type":"collection","settings":{"title":"Sugar Scrub"}},
+        "bath": {"type":"collection","settings":{"title":"Bath Bomb"}},
+        "soap": {"type":"collection","settings":{"title":"Soap"}},
+        "lip": {"type":"collection","settings":{"title":"Lip Balm"}}
+      },
+      "block_order": ["perfume","butter","shimmer","scrub","bath","soap","lip"],
+      "settings": {
+        "eyebrow": "Made for every ritual",
+        "heading": "Discover Your Favorites",
+        "text": "<p>Explore handcrafted fragrance and body care made to bring a little shore-inspired luxury into every day.</p>"
+      }
+    },
+    "moods": {
+      "type": "shop-by-mood",
+      "blocks": {
+        "fresh": {"type":"mood","settings":{"icon":"〰","title":"Fresh & Coastal","text":"Clean, airy scents inspired by saltwater and sea breeze."}},
+        "sweet": {"type":"mood","settings":{"icon":"✦","title":"Sweet & Gourmand","text":"Comforting notes of vanilla, caramel, and delicious treats."}},
+        "floral": {"type":"mood","settings":{"icon":"❀","title":"Floral","text":"Soft blossoms, romantic bouquets, and timeless femininity."}},
+        "fruity": {"type":"mood","settings":{"icon":"◌","title":"Fruity & Citrus","text":"Bright, juicy, uplifting scents with a sparkling finish."}},
+        "masculine": {"type":"mood","settings":{"icon":"◆","title":"Masculine","text":"Confident woods, spice, clean musk, and fresh cologne notes."}},
+        "warm": {"type":"mood","settings":{"icon":"☼","title":"Warm & Cozy","text":"Soft amber, warm woods, and scents made for slow evenings."}}
+      },
+      "block_order": ["fresh","sweet","floral","fruity","masculine","warm"],
+      "settings": {"eyebrow":"Find your feeling","heading":"Shop by Mood"}
+    },
+    "featured_oil": {
+      "type": "featured-editorial",
+      "settings": {
+        "eyebrow": "A little glow, bottled",
+        "heading": "Featured Shimmer Body Oils",
+        "text": "<p>Silky, lightweight moisture with a luminous finish. Made for sun-kissed skin, date nights, and every moment that deserves a little extra glow.</p>",
+        "button_label": "Shop Shimmer Oils"
+      }
+    },
+    "best_sellers": {
+      "type": "featured-collection",
+      "settings": {"eyebrow":"Loved by the shore","heading":"Best Sellers","products_to_show":4}
+    },
+    "reviews": {
+      "type": "testimonials",
+      "blocks": {
+        "review_1": {"type":"testimonial","settings":{"quote":"The scent is beautiful and lasts for hours. Everything arrived packaged with so much care.","name":"Happy customer","product":"Verified purchase"}},
+        "review_2": {"type":"testimonial","settings":{"quote":"The body butter feels amazing and the fragrance is even better than I expected.","name":"Shore lover","product":"Verified purchase"}},
+        "review_3": {"type":"testimonial","settings":{"quote":"Beautiful products, fast shipping, and such a thoughtful small-business experience.","name":"Repeat customer","product":"Verified purchase"}}
+      },
+      "block_order": ["review_1","review_2","review_3"],
+      "settings": {"eyebrow":"From our customers","heading":"A Little Shore Love"}
     }
   },
-  "order": [
-    "home_foundation"
-  ]
+  "order": ["hero","favorites","moods","featured_oil","best_sellers","reviews"]
 }
