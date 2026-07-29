@@ -1,0 +1,39 @@
+{% liquid
+  assign image = section.settings.image
+%}
+<section class="hero" style="--hero-overlay: {{ section.settings.overlay | divided_by: 100.0 }}; --hero-height: {{ section.settings.height }}px; --hero-mobile-height: {{ section.settings.mobile_height }}px;">
+  {% if image != blank %}
+    {{ image | image_url: width: 2400 | image_tag: class: 'hero__image', loading: 'eager', widths: '750, 1100, 1500, 2000, 2400', sizes: '100vw', alt: image.alt | default: section.settings.heading }}
+  {% else %}
+    <div class="hero__placeholder">{{ 'lifestyle-1' | placeholder_svg_tag }}</div>
+  {% endif %}
+  <div class="hero__overlay"></div>
+  <div class="hero__content page-width">
+    {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{% endif %}
+    {% if section.settings.heading != blank %}<h1>{{ section.settings.heading }}</h1>{% endif %}
+    {% if section.settings.text != blank %}<div class="hero__text rte">{{ section.settings.text }}</div>{% endif %}
+    <div class="button-group">
+      {% if section.settings.button_1_label != blank %}<a class="button button--primary" href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}">{{ section.settings.button_1_label }}</a>{% endif %}
+      {% if section.settings.button_2_label != blank %}<a class="button button--light" href="{{ section.settings.button_2_link | default: routes.all_products_collection_url }}">{{ section.settings.button_2_label }}</a>{% endif %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Coastal hero",
+  "settings": [
+    {"type":"image_picker","id":"image","label":"Background image"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Inspired by the Jersey Shore"},
+    {"type":"text","id":"heading","label":"Heading","default":"Luxury Fragrance & Body Care"},
+    {"type":"richtext","id":"text","label":"Text","default":"<p>Handcrafted scents and body care inspired by salty air, warm sand, and unforgettable shore memories.</p>"},
+    {"type":"text","id":"button_1_label","label":"First button label","default":"Shop Perfume"},
+    {"type":"url","id":"button_1_link","label":"First button link"},
+    {"type":"text","id":"button_2_label","label":"Second button label","default":"Shop Body Care"},
+    {"type":"url","id":"button_2_link","label":"Second button link"},
+    {"type":"range","id":"overlay","label":"Overlay strength","min":0,"max":80,"step":5,"unit":"%","default":35},
+    {"type":"range","id":"height","label":"Desktop height","min":500,"max":850,"step":25,"unit":"px","default":700},
+    {"type":"range","id":"mobile_height","label":"Mobile height","min":450,"max":750,"step":25,"unit":"px","default":575}
+  ],
+  "presets": [{"name":"Coastal hero"}]
+}
+{% endschema %}
