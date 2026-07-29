@@ -1,0 +1,73 @@
+<header class="site-header">
+  {% if section.settings.show_announcement and section.settings.announcement_text != blank %}
+    <div class="announcement-bar">
+      {{ section.settings.announcement_text }}
+    </div>
+  {% endif %}
+
+  <div class="page-width header-inner">
+    <a class="header-search" href="{{ routes.search_url }}">Search</a>
+
+    <a class="header-brand" href="{{ routes.root_url }}">
+      <span class="header-brand__wave" aria-hidden="true">≈</span>
+      <span class="header-brand__name">
+        {% if section.settings.logo_text != blank %}
+          {{ section.settings.logo_text }}
+        {% else %}
+          {{ shop.name }}
+        {% endif %}
+      </span>
+    </a>
+
+    <div class="header-actions">
+      {% if shop.customer_accounts_enabled %}
+        <a href="{{ routes.account_url }}">Account</a>
+      {% endif %}
+      <a href="{{ routes.cart_url }}">Cart ({{ cart.item_count }})</a>
+    </div>
+  </div>
+
+  {% if section.settings.menu != blank %}
+    <nav class="header-nav" aria-label="Primary navigation">
+      <div class="page-width">
+        <ul>
+          {% for link in section.settings.menu.links %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </nav>
+  {% endif %}
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "Free shipping on qualifying orders"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "default": "JerseyShoreScents"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}
