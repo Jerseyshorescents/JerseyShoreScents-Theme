@@ -1,0 +1,45 @@
+<section class="section section--cream">
+  <div class="page-width">
+    <div class="section-heading">
+      {% if section.settings.eyebrow != blank %}<p class="eyebrow eyebrow--dark">{{ section.settings.eyebrow }}</p>{% endif %}
+      <h2>{{ section.settings.heading }}</h2>
+      {% if section.settings.text != blank %}<div class="section-heading__text rte">{{ section.settings.text }}</div>{% endif %}
+    </div>
+    <div class="collection-grid">
+      {% for block in section.blocks %}
+        {% assign collection = block.settings.collection %}
+        {% assign card_image = block.settings.image | default: collection.featured_image %}
+        {% assign card_title = block.settings.title | default: collection.title %}
+        {% assign card_link = block.settings.link | default: collection.url %}
+        <a class="collection-card" href="{{ card_link | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
+          <div class="collection-card__media">
+            {% if card_image != blank %}
+              {{ card_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 50vw', alt: card_title }}
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag }}
+            {% endif %}
+          </div>
+          <div class="collection-card__content"><h3>{{ card_title | default: 'Collection' }}</h3><span>Explore <span aria-hidden="true">→</span></span></div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name":"Discover favorites",
+  "max_blocks":7,
+  "settings":[
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Made for every ritual"},
+    {"type":"text","id":"heading","label":"Heading","default":"Discover Your Favorites"},
+    {"type":"richtext","id":"text","label":"Text","default":"<p>Explore handcrafted fragrance and body care made to bring a little shore-inspired luxury into every day.</p>"}
+  ],
+  "blocks":[{"type":"collection","name":"Collection card","settings":[
+    {"type":"collection","id":"collection","label":"Collection"},
+    {"type":"image_picker","id":"image","label":"Custom image"},
+    {"type":"text","id":"title","label":"Custom title"},
+    {"type":"url","id":"link","label":"Custom link"}
+  ]}],
+  "presets":[{"name":"Discover favorites","blocks":[{"type":"collection"},{"type":"collection"},{"type":"collection"},{"type":"collection"},{"type":"collection"},{"type":"collection"},{"type":"collection"}]}]
+}
+{% endschema %}
