@@ -1,28 +1,105 @@
 {% liquid
-  assign image = section.settings.image
+  assign desktop_image = section.settings.image
+  assign mobile_image = section.settings.mobile_image | default: desktop_image
+  assign content_position = section.settings.content_position | default: 'center'
 %}
-<section class="hero" style="--hero-overlay: {{ section.settings.overlay | divided_by: 100.0 }}; --hero-height: {{ section.settings.height }}px; --hero-mobile-height: {{ section.settings.mobile_height }}px;">
-  {% if image != blank %}
-    {{ image | image_url: width: 2400 | image_tag: class: 'hero__image', loading: 'eager', widths: '750, 1100, 1500, 2000, 2400', sizes: '100vw', alt: image.alt | default: section.settings.heading }}
-  {% else %}
-    <div class="hero__placeholder">{{ 'lifestyle-1' | placeholder_svg_tag }}</div>
-  {% endif %}
-  <div class="hero__overlay"></div>
-  <div class="hero__content page-width">
-    {% if section.settings.eyebrow != blank %}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{% endif %}
-    {% if section.settings.heading != blank %}<h1>{{ section.settings.heading }}</h1>{% endif %}
-    {% if section.settings.text != blank %}<div class="hero__text rte">{{ section.settings.text }}</div>{% endif %}
-    <div class="button-group">
-      {% if section.settings.button_1_label != blank %}<a class="button button--primary" href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}">{{ section.settings.button_1_label }}</a>{% endif %}
-      {% if section.settings.button_2_label != blank %}<a class="button button--light" href="{{ section.settings.button_2_link | default: routes.all_products_collection_url }}">{{ section.settings.button_2_label }}</a>{% endif %}
+
+<section
+  class="hero hero--{{ content_position }}"
+  style="
+    --hero-overlay: {{ section.settings.overlay | divided_by: 100.0 }};
+    --hero-height: {{ section.settings.height }}px;
+    --hero-mobile-height: {{ section.settings.mobile_height }}px;
+    --hero-text-width: {{ section.settings.text_width }}px;
+    --hero-focal-x: {{ section.settings.focal_x }}%;
+    --hero-focal-y: {{ section.settings.focal_y }}%;
+  "
+>
+  <picture class="hero__media">
+    {% if mobile_image != blank %}
+      <source
+        media="(max-width: 749px)"
+        srcset="
+          {{ mobile_image | image_url: width: 600 }} 600w,
+          {{ mobile_image | image_url: width: 900 }} 900w,
+          {{ mobile_image | image_url: width: 1200 }} 1200w
+        "
+        sizes="100vw"
+      >
+    {% endif %}
+
+    {% if desktop_image != blank %}
+      {{ desktop_image
+        | image_url: width: 2400
+        | image_tag:
+          class: 'hero__image',
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '750, 1100, 1500, 2000, 2400',
+          sizes: '100vw',
+          alt: desktop_image.alt | default: section.settings.heading
+      }}
+    {% else %}
+      <div class="hero__placeholder">
+        {{ 'lifestyle-1' | placeholder_svg_tag }}
+      </div>
+    {% endif %}
+  </picture>
+
+  <div class="hero__overlay" aria-hidden="true"></div>
+  <div class="hero__vignette" aria-hidden="true"></div>
+
+  <div class="hero__inner page-width">
+    <div class="hero__content">
+      {% if section.settings.show_wave %}
+        <div class="hero__wave" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+      {% endif %}
+
+      {% if section.settings.eyebrow != blank %}
+        <p class="hero__eyebrow">{{ section.settings.eyebrow }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h1 class="hero__heading">{{ section.settings.heading }}</h1>
+      {% endif %}
+
+      {% if section.settings.text != blank %}
+        <div class="hero__text rte">{{ section.settings.text }}</div>
+      {% endif %}
+
+      <div class="hero__buttons">
+        {% if section.settings.button_1_label != blank %}
+          <a class="button button--hero-primary" href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}">
+            {{ section.settings.button_1_label }}
+          </a>
+        {% endif %}
+
+        {% if section.settings.button_2_label != blank %}
+          <a class="button button--hero-secondary" href="{{ section.settings.button_2_link | default: routes.all_products_collection_url }}">
+            {{ section.settings.button_2_label }}
+          </a>
+        {% endif %}
+      </div>
     </div>
   </div>
+
+  {% if section.settings.show_scroll_hint %}
+    <a class="hero__scroll" href="#MainContent" aria-label="Scroll to shop">
+      <span>Explore</span>
+      <i aria-hidden="true"></i>
+    </a>
+  {% endif %}
 </section>
+
 {% schema %}
 {
   "name": "Coastal hero",
   "settings": [
-    {"type":"image_picker","id":"image","label":"Background image"},
+    {"type":"image_picker","id":"image","label":"Desktop background image"},
+    {"type":"image_picker","id":"mobile_image","label":"Mobile background image"},
+    {"type":"checkbox","id":"show_wave","label":"Show wave detail","default":true},
     {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Inspired by the Jersey Shore"},
     {"type":"text","id":"heading","label":"Heading","default":"Luxury Fragrance & Body Care"},
     {"type":"richtext","id":"text","label":"Text","default":"<p>Handcrafted scents and body care inspired by salty air, warm sand, and unforgettable shore memories.</p>"},
@@ -30,9 +107,18 @@
     {"type":"url","id":"button_1_link","label":"First button link"},
     {"type":"text","id":"button_2_label","label":"Second button label","default":"Shop Body Care"},
     {"type":"url","id":"button_2_link","label":"Second button link"},
+    {"type":"select","id":"content_position","label":"Content position","default":"center","options":[
+      {"value":"left","label":"Left"},
+      {"value":"center","label":"Center"},
+      {"value":"right","label":"Right"}
+    ]},
+    {"type":"range","id":"text_width","label":"Text width","min":480,"max":900,"step":20,"unit":"px","default":720},
     {"type":"range","id":"overlay","label":"Overlay strength","min":0,"max":80,"step":5,"unit":"%","default":35},
-    {"type":"range","id":"height","label":"Desktop height","min":500,"max":850,"step":25,"unit":"px","default":700},
-    {"type":"range","id":"mobile_height","label":"Mobile height","min":450,"max":750,"step":25,"unit":"px","default":575}
+    {"type":"range","id":"focal_x","label":"Image focal point horizontal","min":0,"max":100,"step":5,"unit":"%","default":50},
+    {"type":"range","id":"focal_y","label":"Image focal point vertical","min":0,"max":100,"step":5,"unit":"%","default":50},
+    {"type":"range","id":"height","label":"Desktop height","min":550,"max":900,"step":25,"unit":"px","default":725},
+    {"type":"range","id":"mobile_height","label":"Mobile height","min":500,"max":800,"step":25,"unit":"px","default":650},
+    {"type":"checkbox","id":"show_scroll_hint","label":"Show Explore scroll hint","default":true}
   ],
   "presets": [{"name":"Coastal hero"}]
 }
