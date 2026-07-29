@@ -1,0 +1,66 @@
+<footer class="site-footer">
+  <div class="page-width">
+    <div class="footer-grid">
+      <div>
+        <h2 class="footer-heading">{{ section.settings.heading }}</h2>
+        <div>{{ section.settings.text }}</div>
+      </div>
+
+      {% if section.settings.menu != blank %}
+        <div>
+          <h2 class="footer-heading">Shop</h2>
+          <ul class="footer-links">
+            {% for link in section.settings.menu.links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      <div>
+        <h2 class="footer-heading">Follow</h2>
+        <ul class="footer-links">
+          {% if settings.social_instagram_link != blank %}<li><a href="{{ settings.social_instagram_link }}">Instagram</a></li>{% endif %}
+          {% if settings.social_facebook_link != blank %}<li><a href="{{ settings.social_facebook_link }}">Facebook</a></li>{% endif %}
+          {% if settings.social_tiktok_link != blank %}<li><a href="{{ settings.social_tiktok_link }}">TikTok</a></li>{% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.bottom_text }}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "JerseyShoreScents"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Luxury fragrance and body care inspired by the Jersey Shore.</p>"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Footer menu",
+      "default": "footer"
+    },
+    {
+      "type": "text",
+      "id": "bottom_text",
+      "label": "Bottom text",
+      "default": "Veteran Owned · Woman Owned"
+    }
+  ]
+}
+{% endschema %}
