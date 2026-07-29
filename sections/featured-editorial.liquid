@@ -1,32 +1,194 @@
 {% assign product = section.settings.product %}
-<section class="section section--sand">
-  <div class="page-width editorial">
-    <div class="editorial__media">
-      {% assign image = section.settings.image | default: product.featured_image %}
-      {% if image != blank %}
-        {{ image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 50vw, 100vw', alt: section.settings.heading }}
-      {% else %}
-        {{ 'product-2' | placeholder_svg_tag }}
-      {% endif %}
-    </div>
-    <div class="editorial__content">
+{% assign image = section.settings.image | default: product.featured_image %}
+
+<section class="section section--sand featured-editorial" style="--featured-image-width: {{ section.settings.image_width }}px; --featured-glow-opacity: {{ section.settings.glow_opacity | divided_by: 100.0 }};">
+  <div class="page-width featured-editorial__inner">
+    <div class="featured-editorial__content">
       <p class="eyebrow eyebrow--dark">{{ section.settings.eyebrow }}</p>
       <h2>{{ section.settings.heading }}</h2>
       <div class="rte">{{ section.settings.text }}</div>
-      {% if product != blank %}<p class="editorial__price">{{ product.price | money }}</p>{% endif %}
-      <a class="button button--primary" href="{{ section.settings.link | default: product.url | default: routes.all_products_collection_url }}">{{ section.settings.button_label }}</a>
+      {% if product != blank %}
+        <p class="editorial__price">{{ product.price | money }}</p>
+      {% endif %}
+      <a class="button button--primary" href="{{ section.settings.link | default: product.url | default: routes.all_products_collection_url }}">
+        {{ section.settings.button_label }}
+      </a>
+    </div>
+
+    <div class="featured-editorial__visual">
+      <div class="featured-editorial__glow" aria-hidden="true"></div>
+      <span class="featured-editorial__sparkle featured-editorial__sparkle--one" aria-hidden="true">✦</span>
+      <span class="featured-editorial__sparkle featured-editorial__sparkle--two" aria-hidden="true">✧</span>
+      <span class="featured-editorial__sparkle featured-editorial__sparkle--three" aria-hidden="true">✦</span>
+
+      <div class="featured-editorial__media">
+        {% if image != blank %}
+          {{ image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '320, 480, 640, 800, 1000', sizes: '(min-width: 990px) 42vw, 78vw', alt: section.settings.heading }}
+        {% else %}
+          {{ 'product-2' | placeholder_svg_tag }}
+        {% endif %}
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  .featured-editorial {
+    overflow: hidden;
+    background: linear-gradient(135deg, #f4eadc 0%, #fffaf3 55%, #efe1cd 100%);
+  }
+
+  .featured-editorial__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+    align-items: center;
+    gap: clamp(3rem, 7vw, 7rem);
+    min-height: 620px;
+  }
+
+  .featured-editorial__content {
+    max-width: 600px;
+    padding-block: clamp(2rem, 5vw, 5rem);
+  }
+
+  .featured-editorial__content h2 {
+    max-width: 11ch;
+    margin-bottom: 1.25rem;
+  }
+
+  .featured-editorial__content .rte {
+    max-width: 540px;
+  }
+
+  .featured-editorial__visual {
+    position: relative;
+    display: grid;
+    place-items: end center;
+    min-height: 520px;
+    isolation: isolate;
+  }
+
+  .featured-editorial__media {
+    position: relative;
+    z-index: 2;
+    width: min(var(--featured-image-width), 100%);
+    transition: transform 300ms ease;
+  }
+
+  .featured-editorial__media img,
+  .featured-editorial__media svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 28px 26px rgba(72, 48, 22, 0.22));
+  }
+
+  .featured-editorial__visual:hover .featured-editorial__media {
+    transform: translateY(-8px);
+  }
+
+  .featured-editorial__glow {
+    position: absolute;
+    z-index: 0;
+    width: min(34vw, 420px);
+    aspect-ratio: 1;
+    right: 5%;
+    bottom: 7%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(225, 181, 86, 0.72) 0%, rgba(244, 221, 170, 0.36) 38%, rgba(255, 255, 255, 0) 72%);
+    opacity: var(--featured-glow-opacity);
+    filter: blur(8px);
+  }
+
+  .featured-editorial__sparkle {
+    position: absolute;
+    z-index: 3;
+    color: rgba(176, 126, 34, 0.72);
+    line-height: 1;
+    animation: featured-editorial-twinkle 3.6s ease-in-out infinite;
+  }
+
+  .featured-editorial__sparkle--one {
+    top: 18%;
+    right: 20%;
+    font-size: 1.4rem;
+  }
+
+  .featured-editorial__sparkle--two {
+    top: 34%;
+    left: 14%;
+    font-size: 1rem;
+    animation-delay: 0.9s;
+  }
+
+  .featured-editorial__sparkle--three {
+    bottom: 22%;
+    right: 7%;
+    font-size: 0.85rem;
+    animation-delay: 1.8s;
+  }
+
+  @keyframes featured-editorial-twinkle {
+    0%, 100% { opacity: 0.35; transform: scale(0.86); }
+    50% { opacity: 1; transform: scale(1.08); }
+  }
+
+  @media screen and (max-width: 989px) {
+    .featured-editorial__inner {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      min-height: auto;
+      text-align: center;
+    }
+
+    .featured-editorial__content {
+      margin-inline: auto;
+      padding-bottom: 0;
+    }
+
+    .featured-editorial__content h2,
+    .featured-editorial__content .rte {
+      max-width: none;
+    }
+
+    .featured-editorial__visual {
+      min-height: 390px;
+      place-items: center;
+    }
+
+    .featured-editorial__media {
+      width: min(var(--featured-image-width), 72vw);
+    }
+
+    .featured-editorial__glow {
+      width: min(72vw, 360px);
+      right: 50%;
+      bottom: 8%;
+      transform: translateX(50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .featured-editorial__media,
+    .featured-editorial__sparkle {
+      transition: none;
+      animation: none;
+    }
+  }
+</style>
+
 {% schema %}
 {
   "name":"Featured editorial",
   "settings":[
     {"type":"product","id":"product","label":"Product"},
     {"type":"image_picker","id":"image","label":"Custom image"},
+    {"type":"range","id":"image_width","label":"Image width","min":260,"max":620,"step":20,"unit":"px","default":380},
+    {"type":"range","id":"glow_opacity","label":"Glow strength","min":0,"max":100,"step":5,"unit":"%","default":70},
     {"type":"text","id":"eyebrow","label":"Eyebrow","default":"A little glow, bottled"},
-    {"type":"text","id":"heading","label":"Heading","default":"Featured Shimmer Body Oils"},
-    {"type":"richtext","id":"text","label":"Text","default":"<p>Silky, lightweight moisture with a luminous finish. Made for sun-kissed skin, date nights, and every moment that deserves a little extra glow.</p>"},
+    {"type":"text","id":"heading","label":"Heading","default":"Coastal Glow, Elevated"},
+    {"type":"richtext","id":"text","label":"Text","default":"<p>Lightweight shimmer oils that leave your skin hydrated with a radiant, sun-kissed finish.</p>"},
     {"type":"text","id":"button_label","label":"Button label","default":"Shop Shimmer Oils"},
     {"type":"url","id":"link","label":"Custom link"}
   ],
