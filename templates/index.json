@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -7,7 +16,9 @@
         "heading": "Luxury Fragrance & Body Care",
         "text": "<p>Handcrafted scents and body care inspired by salty air, warm sand, and unforgettable shore memories.</p>",
         "button_1_label": "Shop Perfume",
+        "button_1_link": "",
         "button_2_label": "Shop Body Care",
+        "button_2_link": "",
         "overlay": 35,
         "height": 700,
         "mobile_height": 575
@@ -16,15 +27,79 @@
     "favorites": {
       "type": "discover-favorites",
       "blocks": {
-        "perfume": {"type":"collection","settings":{"title":"Perfume"}},
-        "butter": {"type":"collection","settings":{"title":"Whipped Body Butter"}},
-        "shimmer": {"type":"collection","settings":{"title":"Shimmer Body Oil"}},
-        "scrub": {"type":"collection","settings":{"title":"Sugar Scrub"}},
-        "bath": {"type":"collection","settings":{"title":"Bath Bomb"}},
-        "soap": {"type":"collection","settings":{"title":"Soap"}},
-        "lip": {"type":"collection","settings":{"title":"Lip Balm"}}
+        "perfume": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/il_fullxfull.7457481886_2rf6.avif",
+            "title": "Perfume",
+            "link": ""
+          }
+        },
+        "butter": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/il_fullxfull.7640448718_ooo8_810f5029-4dbc-41ac-b1da-6cd335fea85c.jpg",
+            "title": "Whipped Body Butter",
+            "link": ""
+          }
+        },
+        "shimmer": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/il_fullxfull.7533140343_qgjp.avif",
+            "title": "Shimmer Body Oil",
+            "link": ""
+          }
+        },
+        "scrub": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/il_fullxfull.7531463582_l7h0.avif",
+            "title": "Sugar Scrub",
+            "link": ""
+          }
+        },
+        "bath": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/il_fullxfull.7787793667_8dra.avif",
+            "title": "Bath Bomb",
+            "link": ""
+          }
+        },
+        "soap": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/il_fullxfull.7735924011_3pki_387ae6c2-bb1c-4e8f-ac60-0fb025c01d63.jpg",
+            "title": "Soap",
+            "link": ""
+          }
+        },
+        "lip": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/il_fullxfull.7876259820_qgi8_d6f0cd46-07ac-472b-81ed-59e8fda3990b.jpg",
+            "title": "Lip Balm",
+            "link": ""
+          }
+        }
       },
-      "block_order": ["perfume","butter","shimmer","scrub","bath","soap","lip"],
+      "block_order": [
+        "perfume",
+        "butter",
+        "shimmer",
+        "scrub",
+        "bath",
+        "soap",
+        "lip"
+      ],
       "settings": {
         "eyebrow": "Made for every ritual",
         "heading": "Discover Your Favorites",
@@ -34,39 +109,140 @@
     "moods": {
       "type": "shop-by-mood",
       "blocks": {
-        "fresh": {"type":"mood","settings":{"icon":"〰","title":"Fresh & Coastal","text":"Clean, airy scents inspired by saltwater and sea breeze."}},
-        "sweet": {"type":"mood","settings":{"icon":"✦","title":"Sweet & Gourmand","text":"Comforting notes of vanilla, caramel, and delicious treats."}},
-        "floral": {"type":"mood","settings":{"icon":"❀","title":"Floral","text":"Soft blossoms, romantic bouquets, and timeless femininity."}},
-        "fruity": {"type":"mood","settings":{"icon":"◌","title":"Fruity & Citrus","text":"Bright, juicy, uplifting scents with a sparkling finish."}},
-        "masculine": {"type":"mood","settings":{"icon":"◆","title":"Masculine","text":"Confident woods, spice, clean musk, and fresh cologne notes."}},
-        "warm": {"type":"mood","settings":{"icon":"☼","title":"Warm & Cozy","text":"Soft amber, warm woods, and scents made for slow evenings."}}
+        "fresh": {
+          "type": "mood",
+          "settings": {
+            "icon": "〰",
+            "title": "Fresh & Coastal",
+            "text": "Clean, airy scents inspired by saltwater and sea breeze.",
+            "link": ""
+          }
+        },
+        "sweet": {
+          "type": "mood",
+          "settings": {
+            "icon": "✦",
+            "title": "Sweet & Gourmand",
+            "text": "Comforting notes of vanilla, caramel, and delicious treats.",
+            "link": ""
+          }
+        },
+        "floral": {
+          "type": "mood",
+          "settings": {
+            "icon": "❀",
+            "title": "Floral",
+            "text": "Soft blossoms, romantic bouquets, and timeless femininity.",
+            "link": ""
+          }
+        },
+        "fruity": {
+          "type": "mood",
+          "settings": {
+            "icon": "◌",
+            "title": "Fruity & Citrus",
+            "text": "Bright, juicy, uplifting scents with a sparkling finish.",
+            "link": ""
+          }
+        },
+        "masculine": {
+          "type": "mood",
+          "settings": {
+            "icon": "◆",
+            "title": "Masculine",
+            "text": "Confident woods, spice, clean musk, and fresh cologne notes.",
+            "link": ""
+          }
+        },
+        "warm": {
+          "type": "mood",
+          "settings": {
+            "icon": "☼",
+            "title": "Warm & Cozy",
+            "text": "Soft amber, warm woods, and scents made for slow evenings.",
+            "link": ""
+          }
+        }
       },
-      "block_order": ["fresh","sweet","floral","fruity","masculine","warm"],
-      "settings": {"eyebrow":"Find your feeling","heading":"Shop by Mood"}
+      "block_order": [
+        "fresh",
+        "sweet",
+        "floral",
+        "fruity",
+        "masculine",
+        "warm"
+      ],
+      "settings": {
+        "eyebrow": "Find your feeling",
+        "heading": "Shop by Mood"
+      }
     },
     "featured_oil": {
       "type": "featured-editorial",
       "settings": {
+        "product": "",
+        "image": "shopify://shop_images/il_fullxfull.7226582883_llxe.webp",
         "eyebrow": "A little glow, bottled",
         "heading": "Featured Shimmer Body Oils",
         "text": "<p>Silky, lightweight moisture with a luminous finish. Made for sun-kissed skin, date nights, and every moment that deserves a little extra glow.</p>",
-        "button_label": "Shop Shimmer Oils"
+        "button_label": "Shop Shimmer Oils",
+        "link": ""
       }
     },
     "best_sellers": {
       "type": "featured-collection",
-      "settings": {"eyebrow":"Loved by the shore","heading":"Best Sellers","products_to_show":4}
+      "settings": {
+        "eyebrow": "Loved by the shore",
+        "heading": "Best Sellers",
+        "collection": "",
+        "products_to_show": 4
+      }
     },
     "reviews": {
       "type": "testimonials",
       "blocks": {
-        "review_1": {"type":"testimonial","settings":{"quote":"The scent is beautiful and lasts for hours. Everything arrived packaged with so much care.","name":"Happy customer","product":"Verified purchase"}},
-        "review_2": {"type":"testimonial","settings":{"quote":"The body butter feels amazing and the fragrance is even better than I expected.","name":"Shore lover","product":"Verified purchase"}},
-        "review_3": {"type":"testimonial","settings":{"quote":"Beautiful products, fast shipping, and such a thoughtful small-business experience.","name":"Repeat customer","product":"Verified purchase"}}
+        "review_1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The scent is beautiful and lasts for hours. Everything arrived packaged with so much care.",
+            "name": "Happy customer",
+            "product": "Verified purchase"
+          }
+        },
+        "review_2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The body butter feels amazing and the fragrance is even better than I expected.",
+            "name": "Shore lover",
+            "product": "Verified purchase"
+          }
+        },
+        "review_3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Beautiful products, fast shipping, and such a thoughtful small-business experience.",
+            "name": "Repeat customer",
+            "product": "Verified purchase"
+          }
+        }
       },
-      "block_order": ["review_1","review_2","review_3"],
-      "settings": {"eyebrow":"From our customers","heading":"A Little Shore Love"}
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "eyebrow": "From our customers",
+        "heading": "A Little Shore Love"
+      }
     }
   },
-  "order": ["hero","favorites","moods","featured_oil","best_sellers","reviews"]
+  "order": [
+    "hero",
+    "favorites",
+    "moods",
+    "featured_oil",
+    "best_sellers",
+    "reviews"
+  ]
 }
