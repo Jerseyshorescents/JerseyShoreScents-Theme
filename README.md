@@ -1,9 +1,1 @@
 # JerseyShoreScents-Theme
-├── assets/
-├── config/
-├── layout/
-├── locales/
-├── sections/
-├── snippets/
-├── templates/
-└── README.md
