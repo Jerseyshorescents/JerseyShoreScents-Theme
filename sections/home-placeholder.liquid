@@ -1,0 +1,38 @@
+<section class="placeholder-home">
+  <div>
+    <p>{{ section.settings.eyebrow }}</p>
+    <h1>{{ section.settings.heading }}</h1>
+    <div>{{ section.settings.text }}</div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Homepage foundation",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Inspired by the Jersey Shore"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Luxury Fragrance & Body Care"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>The theme foundation is installed. The full coastal homepage design is next.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage foundation"
+    }
+  ]
+}
+{% endschema %}
