@@ -1,0 +1,53 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "JerseyShoreScents Coastal Theme",
+    "theme_version": "1.0.0",
+    "theme_author": "JerseyShoreScents",
+    "theme_documentation_url": "https://github.com/Jerseyshorescents/JerseyShoreScents-Theme",
+    "theme_support_url": "https://github.com/Jerseyshorescents/JerseyShoreScents-Theme/issues"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_navy",
+        "label": "Navy",
+        "default": "#16324a"
+      },
+      {
+        "type": "color",
+        "id": "color_cream",
+        "label": "Cream",
+        "default": "#f7f2e8"
+      },
+      {
+        "type": "color",
+        "id": "color_ocean",
+        "label": "Ocean blue",
+        "default": "#6d91a8"
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram_link",
+        "label": "Instagram link"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook_link",
+        "label": "Facebook link"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok_link",
+        "label": "TikTok link"
+      }
+    ]
+  }
+]
