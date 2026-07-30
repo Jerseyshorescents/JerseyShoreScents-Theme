@@ -5,9 +5,18 @@
       "settings": {
         "show_vendor": false,
         "show_dynamic_checkout": false,
-        "shipping_text": "<p>Orders are carefully packed and shipped from New Jersey. Please review product-specific care information before ordering during warm weather.</p>"
+        "shipping_text": "<p>Orders are carefully packed and shipped from New Jersey. Please review product-specific care information before ordering during warm weather.</p>",
+        "assurance_1_icon": "✦",
+        "assurance_1_heading": "Handcrafted with care",
+        "assurance_1_text": "Made in small batches.",
+        "assurance_2_icon": "≈",
+        "assurance_2_heading": "Inspired by the shore",
+        "assurance_2_text": "Made in New Jersey.",
+        "returns_text": "<p>Because our products are personal care items, please review the return and exchange policy before placing your order.</p>"
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
