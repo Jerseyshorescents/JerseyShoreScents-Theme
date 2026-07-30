@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-contact",
+      "settings": {
+        "eyebrow": "We’re here to help",
+        "heading": "Contact Us",
+        "intro": "<p>Have a question about an order or one of our handcrafted products? Send us a message below.</p>",
+        "details_eyebrow": "Get in touch",
+        "details_heading": "We’d Love to Hear From You",
+        "details_text": "<p>Use the form for product questions, order concerns, shipping help, or anything else we can assist with.</p>",
+        "email": "info@jerseyshorescents.com",
+        "location": "New Jersey, USA",
+        "form_heading": "Send Us a Message",
+        "form_text": "<p>Complete the form and your message will be delivered through Shopify.</p>",
+        "show_phone": true,
+        "show_order_number": true,
+        "show_topic": true
+      }
+    }
+  },
+  "order": ["main"]
+}
