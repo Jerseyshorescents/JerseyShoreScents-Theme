@@ -40,8 +40,7 @@
       ['40% / 30% / 30%', '40% / 30% / 30% — Nearly balanced'],
       ['50% / 30% / 20%', '50% / 30% / 20% — Layered dominant blend'],
       ['50% / 25% / 25%', '50% / 25% / 25% — One dominant scent'],
-      ['60% / 30% / 10%', '60% / 30% / 10% — Bold dominant blend'],
-      ['60% / 20% / 20%', '60% / 20% / 20% — Strong dominant scent']
+      ['60% / 30% / 10%', '60% / 30% / 10% — Bold dominant blend']
     ]
   };
 
@@ -50,8 +49,18 @@
     thirdWrap.hidden = n === 2;
     scentSelects[2].required = n === 3;
     if (n === 2) scentSelects[2].value = '';
+    const activeSelects = scentSelects.slice(0, n);
+    scentSelects.forEach((select, selectIndex) => {
+      const selectedElsewhere = activeSelects
+        .filter((_, index) => index !== selectIndex)
+        .map(other => other.value)
+        .filter(Boolean);
+      [...select.options].forEach(option => {
+        option.disabled = option.value !== '' && selectedElsewhere.includes(option.value);
+      });
+    });
     ratio.innerHTML = ratioOptions[n].map(([value, label]) => '<option value="' + value + '">' + label + '</option>').join('');
-    const chosen = scentSelects.slice(0, n).map(select => select.value).filter(Boolean);
+    const chosen = activeSelects.map(select => select.value).filter(Boolean);
     summary.textContent = chosen.length
       ? chosen.map((name, index) => (index === 0 ? 'Dominant: ' : index === 1 ? 'Supporting: ' : 'Finishing: ') + name).join(' · ')
       : 'Choose your fragrances in order.';
