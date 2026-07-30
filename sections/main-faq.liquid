@@ -1,0 +1,159 @@
+<section class="faq-page" id="FaqSection-{{ section.id }}">
+  <header class="faq-hero">
+    <div class="page-width">
+      <div class="faq-hero__wave" aria-hidden="true">≈</div>
+      <p class="eyebrow eyebrow--dark">{{ section.settings.eyebrow }}</p>
+      <h1>{{ section.settings.heading }}</h1>
+      <div class="faq-hero__text rte">{{ section.settings.text }}</div>
+
+      {% if section.settings.show_search %}
+        <div class="faq-search">
+          <label class="visually-hidden" for="FaqSearch-{{ section.id }}">Search frequently asked questions</label>
+          <span aria-hidden="true">⌕</span>
+          <input id="FaqSearch-{{ section.id }}" type="search" placeholder="Search questions" data-faq-search-input autocomplete="off">
+        </div>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="page-width faq-content">
+    {% if section.settings.show_categories %}
+      <div class="faq-filters" aria-label="FAQ categories">
+        <button class="is-active" type="button" data-faq-filter="all">All</button>
+        <button type="button" data-faq-filter="ordering">Ordering</button>
+        <button type="button" data-faq-filter="shipping">Shipping</button>
+        <button type="button" data-faq-filter="products">Products</button>
+        <button type="button" data-faq-filter="returns">Returns</button>
+      </div>
+    {% endif %}
+
+    <div class="faq-list">
+      {% for block in section.blocks %}
+        <details class="faq-item" data-faq-item data-faq-category="{{ block.settings.category }}" data-faq-search="{{ block.settings.question | append: ' ' | append: block.settings.answer | strip_html | downcase | escape }}" {{ block.shopify_attributes }}>
+          <summary>
+            <span>{{ block.settings.question }}</span>
+            <span class="faq-item__icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-item__answer rte">{{ block.settings.answer }}</div>
+        </details>
+      {% endfor %}
+    </div>
+
+    <div class="faq-no-results" data-faq-no-results hidden>
+      <h2>No matching questions</h2>
+      <p>Try a different word or browse all questions.</p>
+    </div>
+
+    <aside class="faq-contact">
+      <div>
+        <p class="eyebrow eyebrow--dark">{{ section.settings.contact_eyebrow }}</p>
+        <h2>{{ section.settings.contact_heading }}</h2>
+        <div class="rte">{{ section.settings.contact_text }}</div>
+      </div>
+      {% if section.settings.contact_label != blank %}<a class="button button--primary" href="{{ section.settings.contact_link | default: '/pages/contact' }}">{{ section.settings.contact_label }}</a>{% endif %}
+    </aside>
+  </div>
+</section>
+
+<style>
+  .visually-hidden { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important; }
+  .faq-page { min-height: 65vh; background: #fffaf3; }
+  .faq-hero { padding: clamp(4rem, 8vw, 6.5rem) 0; background: linear-gradient(135deg, #f4eadc 0%, #fffaf3 52%, #e5d4bd 100%); text-align: center; }
+  .faq-hero__wave { margin-bottom: .25rem; color: #6d91a8; font-size: 2.2rem; line-height: 1; }
+  .faq-hero h1 { margin: .25rem 0 .85rem; color: #16324a; font-size: clamp(3.2rem, 7vw, 5.5rem); }
+  .faq-hero__text { max-width: 660px; margin-inline: auto; color: rgba(31, 42, 51, .72); font-size: 1.05rem; }
+  .faq-hero__text p { margin: 0; }
+  .faq-search { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: .55rem; max-width: 600px; min-height: 52px; margin: 1.75rem auto 0; padding: .35rem 1rem; border: 1px solid rgba(22, 50, 74, .14); border-radius: 999px; background: #fff; box-shadow: 0 12px 30px rgba(22, 50, 74, .08); }
+  .faq-search span { color: #6d91a8; font-size: 1.35rem; }
+  .faq-search input { min-width: 0; border: 0; outline: 0; background: transparent; color: #16324a; }
+  .faq-content { padding-block: clamp(3rem, 7vw, 6rem); }
+  .faq-filters { display: flex; justify-content: center; flex-wrap: wrap; gap: .6rem; margin-bottom: 2rem; }
+  .faq-filters button { min-height: 40px; padding: .55rem 1rem; border: 1px solid rgba(22, 50, 74, .16); border-radius: 999px; background: #fff; color: #16324a; cursor: pointer; font-weight: 700; }
+  .faq-filters button.is-active { background: #16324a; color: #fff; }
+  .faq-list { max-width: 900px; margin-inline: auto; }
+  .faq-item { border-bottom: 1px solid rgba(22, 50, 74, .14); }
+  .faq-item:first-child { border-top: 1px solid rgba(22, 50, 74, .14); }
+  .faq-item[hidden] { display: none; }
+  .faq-item summary { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; padding: 1.25rem .25rem; color: #16324a; cursor: pointer; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(1.35rem, 2.3vw, 1.75rem); font-weight: 600; line-height: 1.2; list-style: none; }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item__icon { display: grid; place-items: center; flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%; background: rgba(109, 145, 168, .12); color: #6d91a8; font-family: Arial, sans-serif; font-size: 1.2rem; transition: transform .2s ease, color .2s ease, background .2s ease; }
+  .faq-item[open] .faq-item__icon { transform: rotate(45deg); background: #16324a; color: #fff; }
+  .faq-item__answer { max-width: 760px; padding: 0 3rem 1.4rem .25rem; color: rgba(31, 42, 51, .73); }
+  .faq-item__answer > *:first-child { margin-top: 0; }
+  .faq-item__answer > *:last-child { margin-bottom: 0; }
+  .faq-no-results { padding: 3rem 1rem; text-align: center; }
+  .faq-no-results h2 { color: #16324a; }
+  .faq-contact { display: flex; justify-content: space-between; align-items: center; gap: 2rem; max-width: 1000px; margin: clamp(3rem, 7vw, 5rem) auto 0; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 24px; background: #fff; box-shadow: 0 16px 38px rgba(22, 50, 74, .1); }
+  .faq-contact h2 { margin: .15rem 0 .5rem; color: #16324a; font-size: clamp(2rem, 4vw, 3rem); }
+  .faq-contact .rte { color: rgba(31, 42, 51, .7); }
+  .faq-contact .rte p { margin: 0; }
+  .faq-contact .button { flex: 0 0 auto; }
+  @media screen and (max-width: 749px) {
+    .faq-hero { padding: 3.5rem 0; }
+    .faq-filters { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; padding-bottom: .4rem; }
+    .faq-filters button { flex: 0 0 auto; }
+    .faq-contact { align-items: flex-start; flex-direction: column; border-radius: 18px; }
+  }
+</style>
+
+<script>
+  (() => {
+    const section = document.getElementById('FaqSection-{{ section.id }}');
+    if (!section) return;
+    const items = Array.from(section.querySelectorAll('[data-faq-item]'));
+    const filters = Array.from(section.querySelectorAll('[data-faq-filter]'));
+    const searchInput = section.querySelector('[data-faq-search-input]');
+    const noResults = section.querySelector('[data-faq-no-results]');
+    let activeCategory = 'all';
+
+    const updateFaqs = () => {
+      const query = (searchInput?.value || '').trim().toLowerCase();
+      let visibleCount = 0;
+      items.forEach((item) => {
+        const matchesCategory = activeCategory === 'all' || item.dataset.faqCategory === activeCategory;
+        const matchesSearch = !query || item.dataset.faqSearch.includes(query);
+        item.hidden = !(matchesCategory && matchesSearch);
+        if (!item.hidden) visibleCount += 1;
+      });
+      if (noResults) noResults.hidden = visibleCount !== 0;
+    };
+
+    filters.forEach((button) => button.addEventListener('click', () => {
+      activeCategory = button.dataset.faqFilter;
+      filters.forEach((filter) => filter.classList.toggle('is-active', filter === button));
+      updateFaqs();
+    }));
+    searchInput?.addEventListener('input', updateFaqs);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "max_blocks": 30,
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Here to help"},
+    {"type":"text","id":"heading","label":"Heading","default":"Frequently Asked Questions"},
+    {"type":"richtext","id":"text","label":"Introduction","default":"<p>Find quick answers about ordering, shipping, our products, and store policies.</p>"},
+    {"type":"checkbox","id":"show_search","label":"Show question search","default":true},
+    {"type":"checkbox","id":"show_categories","label":"Show category filters","default":true},
+    {"type":"text","id":"contact_eyebrow","label":"Contact eyebrow","default":"Still have a question?"},
+    {"type":"text","id":"contact_heading","label":"Contact heading","default":"We’re Happy to Help"},
+    {"type":"richtext","id":"contact_text","label":"Contact text","default":"<p>Send us a message and we’ll help you find the information you need.</p>"},
+    {"type":"text","id":"contact_label","label":"Contact button label","default":"Contact Us"},
+    {"type":"url","id":"contact_link","label":"Contact button link"}
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "Question",
+      "settings": [
+        {"type":"select","id":"category","label":"Category","default":"products","options":[{"value":"ordering","label":"Ordering"},{"value":"shipping","label":"Shipping"},{"value":"products","label":"Products"},{"value":"returns","label":"Returns"}]},
+        {"type":"text","id":"question","label":"Question","default":"What would you like customers to know?"},
+        {"type":"richtext","id":"answer","label":"Answer","default":"<p>Add your answer here.</p>"}
+      ]
+    }
+  ],
+  "presets": [{"name":"FAQ"}]
+}
+{% endschema %}
