@@ -14,9 +14,19 @@
         "assurance_2_text": "Made in New Jersey.",
         "returns_text": "<p>Because our products are personal care items, please review the return and exchange policy before placing your order.</p>"
       }
+    },
+    "reviews_app": {
+      "type": "product-reviews-app",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "eyebrow": "From our customers",
+        "heading": "Reviews for This Product"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "reviews_app"
   ]
 }
