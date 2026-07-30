@@ -10,13 +10,22 @@
 <div data-third-scent><label for="BlendScent3-{{ section.id }}"><strong>Scent 3 — Finishing note</strong><small>This fragrance has the smallest percentage.</small></label>
 <select id="BlendScent3-{{ section.id }}" name="properties[Fragrance 3 — Finishing note]" data-blend-scent><option value="">Choose finishing scent</option>{% for block in section.blocks %}<option value="{{ block.settings.name | escape }}">{{ block.settings.name }} — {{ block.settings.short_note }}</option>{% endfor %}</select></div></div>
 <div class="blend-ratios"><label class="blend-label" for="Ratio-{{ section.id }}">3. Choose your proportions</label><select id="Ratio-{{ section.id }}" name="properties[Blend ratio]" required><option value="50% / 50%">50% / 50% — Balanced</option><option value="60% / 40%">60% / 40% — Slightly dominant</option><option value="70% / 30%">70% / 30% — Strongly dominant</option></select></div>
-<label class="blend-label" for="Name-{{ section.id }}">Name your blend <small>(optional)</small></label><input class="blend-name" id="Name-{{ section.id }}" name="properties[Custom blend name]" placeholder="Example: Boardwalk Sunset">
+<label class="blend-label" for="Name-{{ section.id }}">Custom label name <small>(optional · maximum 24 characters)</small></label>
+<input class="blend-name" id="Name-{{ section.id }}" name="properties[Custom label name]" maxlength="24" placeholder="Example: Boardwalk Sunset" data-label-name>
+<input type="hidden" name="properties[Complete blend recipe]" data-complete-recipe>
 
-<div class="blend-summary"><strong>Your blend</strong><p data-summary>Select two fragrances to begin.</p></div><p class="blend-error" data-error hidden>Please select exactly two fragrances.</p>
+<div class="blend-summary"><strong>Your custom 50 ml recipe</strong><p data-summary>Select two fragrances to begin.</p><small data-label-summary hidden></small></div>
+<p class="blend-error" data-error hidden>Please complete your fragrance selections.</p>
+
+<label class="blend-confirm">
+  <input type="checkbox" name="properties[Custom blend acknowledgment]" value="Confirmed — custom blend and final sale policy accepted" required>
+  <span>I confirm that my scent order and percentages are correct. I understand that fragrances may smell different once blended or on my skin, and that this custom perfume is final sale.</span>
+</label>
+
 <button class="button button--primary" type="submit"{% unless v.available %} disabled{% endunless %}>{% if v.available %}Add Custom Blend to Cart{% else %}Sold Out{% endif %}</button>
-<p class="blend-final">Custom fragrance blends are final sale.</p>{% endform %}</div></div></section>
+<p class="blend-final">Your complete recipe and custom label name will appear with this item in your cart and order.</p>{% endform %}</div></div></section>
 <style>
-.blend-page{padding:clamp(2rem,6vw,5rem) 0;background:linear-gradient(135deg,#fffaf3,#f4eadc)}.blend-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,5rem);align-items:start}.blend-photo{overflow:hidden;aspect-ratio:4/5;border-radius:28px;background:#fff;box-shadow:0 20px 45px #16324a1a}.blend-photo img,.blend-photo svg{width:100%;height:100%;object-fit:cover}.blend-info h1{margin:.2rem 0;color:#16324a;font-size:clamp(3rem,5vw,4.7rem)}.blend-price{margin:.7rem 0 1rem;color:#16324a;font-size:1.35rem;font-weight:700}.blend-form{margin-top:1.5rem}.blend-form fieldset{display:flex;gap:1rem;margin:0 0 1.3rem;padding:0;border:0}.blend-form legend,.blend-label{display:block;width:100%;margin-bottom:.55rem;color:#16324a;font-weight:700}.blend-scents{display:grid;gap:.55rem}.blend-scents label{margin-top:.45rem;color:#16324a}.blend-scents label strong,.blend-scents label small{display:block}.blend-scents label small{margin-top:.15rem;color:#657078;font-weight:400}.blend-scents select{width:100%;min-height:52px;padding:.75rem;border:1px solid #16324a33;border-radius:12px;background:#fff;color:#16324a}.blend-ratios{margin:1.2rem 0}.blend-ratios select,.blend-name{width:100%;min-height:50px;padding:.75rem;border:1px solid #16324a33;border-radius:12px;background:#fff;box-sizing:border-box}.blend-summary{margin:1.2rem 0;padding:1rem;border-radius:14px;background:#fff}.blend-summary p,.blend-final{margin:.35rem 0 0}.blend-error{color:#9a342d}.blend-form .button{width:100%;margin-top:.5rem}.blend-final{text-align:center;color:#657078;font-size:.85rem}@media(max-width:749px){.blend-grid{grid-template-columns:1fr}.blend-photo{max-height:560px;border-radius:20px}}
+.blend-page{padding:clamp(2rem,6vw,5rem) 0;background:linear-gradient(135deg,#fffaf3,#f4eadc)}.blend-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,5rem);align-items:start}.blend-photo{overflow:hidden;aspect-ratio:4/5;border-radius:28px;background:#fff;box-shadow:0 20px 45px #16324a1a}.blend-photo img,.blend-photo svg{width:100%;height:100%;object-fit:cover}.blend-info h1{margin:.2rem 0;color:#16324a;font-size:clamp(3rem,5vw,4.7rem)}.blend-price{margin:.7rem 0 1rem;color:#16324a;font-size:1.35rem;font-weight:700}.blend-form{margin-top:1.5rem}.blend-form fieldset{display:flex;gap:1rem;margin:0 0 1.3rem;padding:0;border:0}.blend-form legend,.blend-label{display:block;width:100%;margin-bottom:.55rem;color:#16324a;font-weight:700}.blend-scents{display:grid;gap:.55rem}.blend-scents label{margin-top:.45rem;color:#16324a}.blend-scents label strong,.blend-scents label small{display:block}.blend-scents label small{margin-top:.15rem;color:#657078;font-weight:400}.blend-scents select{width:100%;min-height:52px;padding:.75rem;border:1px solid #16324a33;border-radius:12px;background:#fff;color:#16324a}.blend-ratios{margin:1.2rem 0}.blend-ratios select,.blend-name{width:100%;min-height:50px;padding:.75rem;border:1px solid #16324a33;border-radius:12px;background:#fff;box-sizing:border-box}.blend-summary{margin:1.2rem 0;padding:1rem;border-radius:14px;background:#fff}.blend-summary p,.blend-final{margin:.35rem 0 0}.blend-summary small{display:block;margin-top:.45rem;color:#567f99}.blend-error{color:#9a342d}.blend-confirm{display:flex;gap:.7rem;margin:1rem 0;padding:1rem;border:1px solid #16324a26;border-radius:14px;background:#fff;color:#46535d;font-size:.9rem;line-height:1.45}.blend-confirm input{flex:0 0 auto;width:18px;height:18px;margin-top:.15rem;accent-color:#16324a}.blend-form .button{width:100%;margin-top:.5rem}.blend-final{text-align:center;color:#657078;font-size:.85rem}@media(max-width:749px){.blend-grid{grid-template-columns:1fr}.blend-photo{max-height:560px;border-radius:20px}}
 </style>
 <script>
 (() => {
@@ -28,6 +37,9 @@
   const ratio = section.querySelector('select[name="properties[Blend ratio]"]');
   const summary = section.querySelector('[data-summary]');
   const error = section.querySelector('[data-error]');
+  const labelName = section.querySelector('[data-label-name]');
+  const labelSummary = section.querySelector('[data-label-summary]');
+  const completeRecipe = section.querySelector('[data-complete-recipe]');
   const count = () => Number(section.querySelector('input[name="_count"]:checked').value);
 
   const ratioOptions = {
@@ -61,13 +73,20 @@
     });
     ratio.innerHTML = ratioOptions[n].map(([value, label]) => '<option value="' + value + '">' + label + '</option>').join('');
     const chosen = activeSelects.map(select => select.value).filter(Boolean);
-    summary.textContent = chosen.length
-      ? chosen.map((name, index) => (index === 0 ? 'Dominant: ' : index === 1 ? 'Supporting: ' : 'Finishing: ') + name).join(' · ')
-      : 'Choose your fragrances in order.';
+    const percentages = ratio.value.split('/').map(value => value.trim());
+    const roles = ['Dominant', 'Supporting', 'Finishing'];
+    const recipeParts = chosen.map((name, index) => name + ' — ' + (percentages[index] || '') + ' (' + roles[index] + ')');
+    summary.textContent = chosen.length ? recipeParts.join(' · ') : 'Choose your fragrances in order.';
+    completeRecipe.value = chosen.length === n ? '50 ml Eau de Parfum | ' + recipeParts.join(' | ') : '';
+    const customName = labelName.value.trim();
+    labelSummary.textContent = customName ? 'Custom label: ' + customName : '';
+    labelSummary.hidden = !customName;
   }
 
   countInputs.forEach(input => input.addEventListener('change', update));
   scentSelects.forEach(select => select.addEventListener('change', update));
+  ratio.addEventListener('change', update);
+  labelName.addEventListener('input', update);
   form.addEventListener('submit', event => {
     const active = scentSelects.slice(0, count());
     const values = active.map(select => select.value);
