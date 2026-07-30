@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "show_vendor": false,
+        "show_dynamic_checkout": false,
+        "shipping_text": "<p>Orders are carefully packed and shipped from New Jersey. Please review product-specific care information before ordering during warm weather.</p>"
+      }
+    }
+  },
+  "order": ["main"]
+}
