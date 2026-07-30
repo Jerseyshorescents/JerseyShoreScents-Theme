@@ -1,0 +1,212 @@
+<section class="cart-page" id="CartSection-{{ section.id }}">
+  <div class="page-width">
+    <header class="cart-header">
+      <p class="eyebrow eyebrow--dark">{{ section.settings.eyebrow }}</p>
+      <h1>{{ section.settings.heading }}</h1>
+    </header>
+
+    {% if cart.item_count > 0 %}
+      {% form 'cart', cart, id: 'CartForm', class: 'cart-form' %}
+        <div class="cart-layout">
+          <div class="cart-items">
+            {% for item in cart.items %}
+              <article class="cart-item">
+                <a class="cart-item__image" href="{{ item.url }}">
+                  {% if item.image != blank %}
+                    {{ item.image | image_url: width: 360 | image_tag: loading: 'lazy', widths: '140, 220, 300, 360', sizes: '(max-width: 749px) 100px, 140px', alt: item.product.title }}
+                  {% else %}
+                    {{ 'product-1' | placeholder_svg_tag }}
+                  {% endif %}
+                </a>
+
+                <div class="cart-item__details">
+                  {% if section.settings.show_vendor and item.product.vendor != blank %}<p class="cart-item__vendor">{{ item.product.vendor }}</p>{% endif %}
+                  <h2><a href="{{ item.url }}">{{ item.product.title }}</a></h2>
+
+                  {% unless item.product.has_only_default_variant %}
+                    <dl class="cart-item__options">
+                      {% for option in item.options_with_values %}
+                        <div><dt>{{ option.name }}:</dt><dd>{{ option.value }}</dd></div>
+                      {% endfor %}
+                    </dl>
+                  {% endunless %}
+
+                  {% if item.selling_plan_allocation != blank %}<p class="cart-item__plan">{{ item.selling_plan_allocation.selling_plan.name }}</p>{% endif %}
+
+                  {% unless item.properties == empty %}
+                    <dl class="cart-item__properties">
+                      {% for property in item.properties %}
+                        {% assign property_first_char = property.first | slice: 0 %}
+                        {% unless property.last == blank or property_first_char == '_' %}
+                          <div><dt>{{ property.first }}:</dt><dd>{{ property.last }}</dd></div>
+                        {% endunless %}
+                      {% endfor %}
+                    </dl>
+                  {% endunless %}
+
+                  {% if item.line_level_discount_allocations.size > 0 %}
+                    <ul class="cart-item__discounts" aria-label="Discounts">
+                      {% for discount in item.line_level_discount_allocations %}<li>✦ {{ discount.discount_application.title }} (−{{ discount.amount | money }})</li>{% endfor %}
+                    </ul>
+                  {% endif %}
+                </div>
+
+                <div class="cart-item__quantity">
+                  <label for="CartQuantity-{{ forloop.index }}">Quantity</label>
+                  <div class="cart-quantity-control">
+                    <button type="button" data-cart-minus aria-label="Decrease {{ item.product.title }} quantity">−</button>
+                    <input id="CartQuantity-{{ forloop.index }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0" inputmode="numeric">
+                    <button type="button" data-cart-plus aria-label="Increase {{ item.product.title }} quantity">+</button>
+                  </div>
+                  <a class="cart-item__remove" href="{{ item.url_to_remove }}">Remove</a>
+                </div>
+
+                <div class="cart-item__price">
+                  {% if item.original_line_price != item.final_line_price %}<s>{{ item.original_line_price | money }}</s>{% endif %}
+                  <strong>{{ item.final_line_price | money }}</strong>
+                  {% if item.unit_price_measurement %}
+                    <small>{{ item.unit_price | unit_price_with_measurement: item.unit_price_measurement }}</small>
+                  {% endif %}
+                </div>
+              </article>
+            {% endfor %}
+
+            <div class="cart-update-row">
+              <a class="text-link" href="{{ routes.all_products_collection_url }}">← Continue shopping</a>
+              <button class="button cart-update-button" type="submit" name="update">Update cart</button>
+            </div>
+          </div>
+
+          <aside class="cart-summary">
+            <h2>Order Summary</h2>
+
+            {% if cart.cart_level_discount_applications.size > 0 %}
+              <div class="cart-summary__discounts">
+                {% for discount in cart.cart_level_discount_applications %}
+                  <p><span>{{ discount.title }}</span><strong>−{{ discount.total_allocated_amount | money }}</strong></p>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <div class="cart-summary__subtotal">
+              <span>Subtotal</span>
+              <strong>{{ cart.total_price | money }}</strong>
+            </div>
+
+            <p class="cart-summary__notice">{{ section.settings.checkout_note }}</p>
+
+            {% if section.settings.show_order_note %}
+              <label for="CartNote">Order notes</label>
+              <textarea id="CartNote" name="note" rows="4" placeholder="Special instructions for your order">{{ cart.note }}</textarea>
+            {% endif %}
+
+            <button class="button button--primary cart-checkout-button" type="submit" name="checkout">Checkout</button>
+
+            <div class="cart-summary__assurance">
+              <span aria-hidden="true">✦</span>
+              <p><strong>Carefully packed</strong><br>Prepared with care in New Jersey.</p>
+            </div>
+          </aside>
+        </div>
+      {% endform %}
+    {% else %}
+      <div class="cart-empty">
+        <div class="cart-empty__icon" aria-hidden="true">≈</div>
+        <h2>Your cart is waiting</h2>
+        <p>Add a little shore-inspired luxury to get started.</p>
+        <a class="button button--primary" href="{{ routes.all_products_collection_url }}">Shop all products</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .cart-page { min-height: 65vh; padding: clamp(3rem, 7vw, 6rem) 0; background: linear-gradient(135deg, #fffaf3, #f7f2e8); }
+  .cart-header { margin-bottom: 2.5rem; text-align: center; }
+  .cart-header h1 { margin: .2rem 0 0; color: #16324a; font-size: clamp(3rem, 6vw, 5rem); }
+  .cart-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(310px, .65fr); align-items: start; gap: clamp(2rem, 5vw, 4.5rem); }
+  .cart-items { min-width: 0; }
+  .cart-item { display: grid; grid-template-columns: 130px minmax(0, 1fr) 125px 100px; align-items: center; gap: 1.25rem; padding: 1.25rem 0; border-bottom: 1px solid rgba(22, 50, 74, .13); }
+  .cart-item:first-child { border-top: 1px solid rgba(22, 50, 74, .13); }
+  .cart-item__image { display: block; overflow: hidden; aspect-ratio: 4 / 5; border-radius: 16px; background: #fff; }
+  .cart-item__image img, .cart-item__image svg { width: 100%; height: 100%; object-fit: cover; }
+  .cart-item__details h2 { margin: 0 0 .4rem; color: #16324a; font-size: 1.35rem; }
+  .cart-item__details h2 a { text-decoration: none; }
+  .cart-item__vendor { margin: 0 0 .3rem; color: #6d91a8; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .cart-item__options, .cart-item__properties { margin: 0; color: rgba(31, 42, 51, .68); font-size: .84rem; }
+  .cart-item__options div, .cart-item__properties div { display: flex; gap: .3rem; }
+  .cart-item__options dt, .cart-item__properties dt, .cart-item__options dd, .cart-item__properties dd { margin: 0; }
+  .cart-item__plan { margin: .35rem 0 0; font-size: .84rem; }
+  .cart-item__discounts { margin: .5rem 0 0; padding: 0; color: #567d72; list-style: none; font-size: .8rem; }
+  .cart-item__quantity label { display: block; margin-bottom: .35rem; color: #16324a; font-size: .72rem; font-weight: 700; text-transform: uppercase; }
+  .cart-quantity-control { display: grid; grid-template-columns: 32px 1fr 32px; min-height: 42px; overflow: hidden; border: 1px solid rgba(22, 50, 74, .2); border-radius: 999px; background: #fff; }
+  .cart-quantity-control button { border: 0; background: transparent; color: #16324a; cursor: pointer; font-size: 1.1rem; }
+  .cart-quantity-control input { width: 100%; border: 0; outline: 0; background: transparent; text-align: center; -moz-appearance: textfield; }
+  .cart-quantity-control input::-webkit-outer-spin-button, .cart-quantity-control input::-webkit-inner-spin-button { margin: 0; -webkit-appearance: none; }
+  .cart-item__remove { display: inline-block; margin-top: .45rem; color: rgba(31, 42, 51, .6); font-size: .78rem; }
+  .cart-item__price { display: flex; flex-direction: column; align-items: flex-end; color: #16324a; }
+  .cart-item__price s { color: rgba(31, 42, 51, .5); font-size: .82rem; }
+  .cart-item__price small { margin-top: .25rem; color: rgba(31, 42, 51, .6); }
+  .cart-update-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1.25rem; }
+  .cart-update-button { min-height: 42px; padding: .55rem 1rem; border-color: rgba(22, 50, 74, .25); background: transparent; color: #16324a; }
+  .cart-summary { position: sticky; top: 1.5rem; padding: clamp(1.4rem, 3vw, 2rem); border-radius: 22px; background: #fff; box-shadow: 0 18px 42px rgba(22, 50, 74, .11); }
+  .cart-summary h2 { margin: 0 0 1.25rem; color: #16324a; font-size: 2rem; }
+  .cart-summary__discounts p, .cart-summary__subtotal { display: flex; justify-content: space-between; gap: 1rem; }
+  .cart-summary__discounts p { margin: .4rem 0; color: #567d72; font-size: .85rem; }
+  .cart-summary__subtotal { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(22, 50, 74, .13); color: #16324a; font-size: 1.15rem; }
+  .cart-summary__notice { color: rgba(31, 42, 51, .65); font-size: .8rem; }
+  .cart-summary label { display: block; margin: 1.1rem 0 .4rem; color: #16324a; font-size: .78rem; font-weight: 700; text-transform: uppercase; }
+  .cart-summary textarea { width: 100%; resize: vertical; padding: .75rem; border: 1px solid rgba(22, 50, 74, .2); border-radius: 12px; }
+  .cart-checkout-button { width: 100%; margin-top: 1rem; }
+  .cart-summary__assurance { display: flex; gap: .65rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(22, 50, 74, .1); }
+  .cart-summary__assurance span { color: #6d91a8; }
+  .cart-summary__assurance p { margin: 0; font-size: .8rem; }
+  .cart-empty { max-width: 560px; margin: 0 auto; padding: clamp(3rem, 8vw, 6rem) 1rem; text-align: center; }
+  .cart-empty__icon { color: #6d91a8; font-size: 3rem; }
+  .cart-empty h2 { margin: .4rem 0; color: #16324a; font-size: clamp(2.4rem, 5vw, 3.5rem); }
+  .cart-empty p { margin-bottom: 1.5rem; color: rgba(31, 42, 51, .7); }
+  @media screen and (max-width: 989px) {
+    .cart-layout { grid-template-columns: 1fr; }
+    .cart-summary { position: static; }
+  }
+  @media screen and (max-width: 749px) {
+    .cart-item { grid-template-columns: 92px minmax(0, 1fr); align-items: start; gap: .85rem; }
+    .cart-item__image { grid-row: span 3; }
+    .cart-item__quantity { grid-column: 2; max-width: 125px; }
+    .cart-item__price { grid-column: 2; align-items: flex-start; }
+    .cart-item__details h2 { font-size: 1.1rem; }
+    .cart-update-row { align-items: flex-start; flex-direction: column; }
+  }
+</style>
+
+<script>
+  (() => {
+    const section = document.getElementById('CartSection-{{ section.id }}');
+    if (!section) return;
+    section.querySelectorAll('[data-cart-minus]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const input = button.parentElement.querySelector('input');
+        input.value = Math.max(0, Number(input.value || 0) - 1);
+      });
+    });
+    section.querySelectorAll('[data-cart-plus]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const input = button.parentElement.querySelector('input');
+        input.value = Number(input.value || 0) + 1;
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Your shore-inspired picks"},
+    {"type":"text","id":"heading","label":"Heading","default":"Your Cart"},
+    {"type":"checkbox","id":"show_vendor","label":"Show product vendor","default":false},
+    {"type":"checkbox","id":"show_order_note","label":"Show order notes","default":true},
+    {"type":"text","id":"checkout_note","label":"Checkout note","default":"Shipping and taxes are calculated at checkout."}
+  ]
+}
+{% endschema %}
