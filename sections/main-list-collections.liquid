@@ -1,0 +1,108 @@
+{% paginate collections by section.settings.collections_per_page %}
+  <section class="collection-list-page">
+    <header class="collection-list-hero">
+      <div class="page-width">
+        <div class="collection-list-hero__wave" aria-hidden="true">≈</div>
+        <p class="eyebrow eyebrow--dark">{{ section.settings.eyebrow }}</p>
+        <h1>{{ section.settings.heading }}</h1>
+        <div class="collection-list-hero__text rte">{{ section.settings.text }}</div>
+      </div>
+    </header>
+
+    <div class="page-width collection-list-catalog">
+      <div class="collection-list-grid">
+        {% for collection_item in collections %}
+          {% assign show_collection = true %}
+          {% if collection_item.handle == 'frontpage' %}{% assign show_collection = false %}{% endif %}
+          {% if section.settings.hide_empty_collections and collection_item.products_count == 0 %}{% assign show_collection = false %}{% endif %}
+
+          {% if show_collection %}
+            {% assign collection_image = collection_item.image %}
+            {% if collection_image == blank and collection_item.products.first.featured_image != blank %}
+              {% assign collection_image = collection_item.products.first.featured_image %}
+            {% endif %}
+
+            <a class="collection-list-card" href="{{ collection_item.url }}">
+              <div class="collection-list-card__media">
+                {% if collection_image != blank %}
+                  {{ collection_image | image_url: width: 1100 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900, 1100', sizes: '(min-width: 990px) 33vw, (min-width: 600px) 50vw, 100vw', alt: collection_item.title }}
+                {% else %}
+                  {{ 'collection-1' | placeholder_svg_tag }}
+                {% endif %}
+                <div class="collection-list-card__overlay" aria-hidden="true"></div>
+                <span class="collection-list-card__arrow" aria-hidden="true">→</span>
+              </div>
+
+              <div class="collection-list-card__content">
+                <div>
+                  <p class="collection-list-card__count">{{ collection_item.products_count }} {% if collection_item.products_count == 1 %}product{% else %}products{% endif %}</p>
+                  <h2>{{ collection_item.title }}</h2>
+                </div>
+                {% if section.settings.show_descriptions and collection_item.description != blank %}
+                  <p class="collection-list-card__description">{{ collection_item.description | strip_html | truncatewords: 20 }}</p>
+                {% endif %}
+                <span class="collection-list-card__link">Explore collection</span>
+              </div>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% if paginate.pages > 1 %}
+        <nav class="collection-list-pagination" aria-label="Collection pages">
+          {% if paginate.previous %}<a href="{{ paginate.previous.url }}">← Previous</a>{% endif %}
+          <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+          {% if paginate.next %}<a href="{{ paginate.next.url }}">Next →</a>{% endif %}
+        </nav>
+      {% endif %}
+    </div>
+  </section>
+{% endpaginate %}
+
+<style>
+  .collection-list-page { min-height: 65vh; background: #fffaf3; }
+  .collection-list-hero { padding: clamp(4rem, 8vw, 6.5rem) 0; background: linear-gradient(135deg, #f4eadc 0%, #fffaf3 52%, #e5d4bd 100%); text-align: center; }
+  .collection-list-hero__wave { margin-bottom: .25rem; color: #6d91a8; font-size: 2.2rem; line-height: 1; }
+  .collection-list-hero h1 { margin: .25rem 0 .85rem; color: #16324a; font-size: clamp(3.2rem, 7vw, 5.5rem); }
+  .collection-list-hero__text { max-width: 660px; margin-inline: auto; color: rgba(31, 42, 51, .72); font-size: 1.05rem; }
+  .collection-list-hero__text p { margin: 0; }
+  .collection-list-catalog { padding-block: clamp(3rem, 7vw, 6rem); }
+  .collection-list-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2.4vw, 2rem); }
+  .collection-list-card { overflow: hidden; border-radius: 24px; background: #fff; box-shadow: 0 16px 38px rgba(22, 50, 74, .1); text-decoration: none; transition: transform .3s ease, box-shadow .3s ease; }
+  .collection-list-card:hover { transform: translateY(-7px); box-shadow: 0 24px 50px rgba(22, 50, 74, .16); }
+  .collection-list-card__media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #e8e3dc; }
+  .collection-list-card__media img, .collection-list-card__media svg { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+  .collection-list-card:hover .collection-list-card__media img { transform: scale(1.045); }
+  .collection-list-card__overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(12, 32, 46, .25)); }
+  .collection-list-card__arrow { position: absolute; right: 1rem; bottom: 1rem; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255, 255, 255, .92); color: #16324a; font-size: 1.15rem; transition: color .2s ease, background .2s ease, transform .2s ease; }
+  .collection-list-card:hover .collection-list-card__arrow { transform: translateX(3px); background: #16324a; color: #fff; }
+  .collection-list-card__content { padding: 1.25rem 1.35rem 1.45rem; }
+  .collection-list-card__count { margin: 0 0 .25rem; color: #6d91a8; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .collection-list-card h2 { margin: 0; color: #16324a; font-size: clamp(1.55rem, 2.4vw, 2rem); }
+  .collection-list-card__description { margin: .65rem 0 0; color: rgba(31, 42, 51, .68); font-size: .9rem; line-height: 1.5; }
+  .collection-list-card__link { display: inline-block; margin-top: .8rem; color: #16324a; font-size: .8rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+  .collection-list-pagination { display: flex; justify-content: center; align-items: center; gap: 1.25rem; margin-top: 3rem; }
+  .collection-list-pagination a { color: #16324a; font-weight: 700; text-decoration: none; }
+  @media screen and (max-width: 989px) { .collection-list-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media screen and (max-width: 599px) {
+    .collection-list-hero { padding: 3.5rem 0; }
+    .collection-list-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .collection-list-card { border-radius: 18px; }
+    .collection-list-card__content { padding: 1rem 1.05rem 1.2rem; }
+  }
+  @media (hover: none) { .collection-list-card:hover { transform: none; } }
+</style>
+
+{% schema %}
+{
+  "name": "Collection list",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Find your favorite ritual"},
+    {"type":"text","id":"heading","label":"Heading","default":"Shop by Collection"},
+    {"type":"richtext","id":"text","label":"Introduction","default":"<p>Explore handcrafted fragrance and body care for every mood, season, and everyday ritual.</p>"},
+    {"type":"checkbox","id":"show_descriptions","label":"Show collection descriptions","default":true},
+    {"type":"checkbox","id":"hide_empty_collections","label":"Hide empty collections","default":true},
+    {"type":"range","id":"collections_per_page","label":"Collections per page","min":6,"max":30,"step":3,"default":12}
+  ]
+}
+{% endschema %}
