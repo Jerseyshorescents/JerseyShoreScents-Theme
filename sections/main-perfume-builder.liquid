@@ -2,15 +2,77 @@
 <section class="blend-page" id="Blend-{{ section.id }}"><div class="page-width blend-grid"><div class="blend-photo">{% if product.featured_image %}{{ product.featured_image | image_url: width: 1200 | image_tag: loading: 'eager', alt: product.title }}{% else %}{{ 'product-1' | placeholder_svg_tag }}{% endif %}</div><div class="blend-info"><p class="eyebrow eyebrow--dark">The Perfume Lab · 50 ml</p><h1>{{ product.title }}</h1><div class="blend-price">{{ v.price | money }}</div><div class="rte">{{ product.description }}</div>
 {% form 'product', product, id: 'BlendForm', class: 'blend-form' %}<input type="hidden" name="id" value="{{ v.id }}">
 <fieldset><legend>1. How many scents?</legend><label><input type="radio" name="_count" value="2" checked> Two scents</label><label><input type="radio" name="_count" value="3"> Three scents</label></fieldset>
-<div class="blend-scents"><p class="blend-label">2. Select your fragrances in preference order</p>{% for block in section.blocks %}<label class="scent-choice" {{ block.shopify_attributes }}><input type="checkbox" value="{{ block.settings.name | escape }}"><span><strong>{{ block.settings.name }}</strong><small>{{ block.settings.short_note }}</small></span></label>{% endfor %}</div>
+<div class="blend-scents"><p class="blend-label">2. Build your fragrance order</p>
+<label for="BlendScent1-{{ section.id }}"><strong>Scent 1 — Dominant</strong><small>This fragrance has the highest percentage.</small></label>
+<select id="BlendScent1-{{ section.id }}" name="properties[Fragrance 1 — Dominant]" data-blend-scent required><option value="">Choose dominant scent</option>{% for block in section.blocks %}<option value="{{ block.settings.name | escape }}">{{ block.settings.name }} — {{ block.settings.short_note }}</option>{% endfor %}</select>
+<label for="BlendScent2-{{ section.id }}"><strong>Scent 2 — Supporting</strong><small>This fragrance has the second-highest percentage.</small></label>
+<select id="BlendScent2-{{ section.id }}" name="properties[Fragrance 2 — Supporting]" data-blend-scent required><option value="">Choose supporting scent</option>{% for block in section.blocks %}<option value="{{ block.settings.name | escape }}">{{ block.settings.name }} — {{ block.settings.short_note }}</option>{% endfor %}</select>
+<div data-third-scent><label for="BlendScent3-{{ section.id }}"><strong>Scent 3 — Finishing note</strong><small>This fragrance has the smallest percentage.</small></label>
+<select id="BlendScent3-{{ section.id }}" name="properties[Fragrance 3 — Finishing note]" data-blend-scent><option value="">Choose finishing scent</option>{% for block in section.blocks %}<option value="{{ block.settings.name | escape }}">{{ block.settings.name }} — {{ block.settings.short_note }}</option>{% endfor %}</select></div></div>
 <div class="blend-ratios"><label class="blend-label" for="Ratio-{{ section.id }}">3. Choose your proportions</label><select id="Ratio-{{ section.id }}" name="properties[Blend ratio]" required><option value="50% / 50%">50% / 50% — Balanced</option><option value="60% / 40%">60% / 40% — Slightly dominant</option><option value="70% / 30%">70% / 30% — Strongly dominant</option></select></div>
 <label class="blend-label" for="Name-{{ section.id }}">Name your blend <small>(optional)</small></label><input class="blend-name" id="Name-{{ section.id }}" name="properties[Custom blend name]" placeholder="Example: Boardwalk Sunset">
-<input type="hidden" name="properties[Fragrance 1]" data-scent="1"><input type="hidden" name="properties[Fragrance 2]" data-scent="2"><input type="hidden" name="properties[Fragrance 3]" data-scent="3">
+
 <div class="blend-summary"><strong>Your blend</strong><p data-summary>Select two fragrances to begin.</p></div><p class="blend-error" data-error hidden>Please select exactly two fragrances.</p>
 <button class="button button--primary" type="submit"{% unless v.available %} disabled{% endunless %}>{% if v.available %}Add Custom Blend to Cart{% else %}Sold Out{% endif %}</button>
 <p class="blend-final">Custom fragrance blends are final sale.</p>{% endform %}</div></div></section>
 <style>
-.blend-page{padding:clamp(2rem,6vw,5rem) 0;background:linear-gradient(135deg,#fffaf3,#f4eadc)}.blend-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,5rem);align-items:start}.blend-photo{overflow:hidden;aspect-ratio:4/5;border-radius:28px;background:#fff;box-shadow:0 20px 45px #16324a1a}.blend-photo img,.blend-photo svg{width:100%;height:100%;object-fit:cover}.blend-info h1{margin:.2rem 0;color:#16324a;font-size:clamp(3rem,5vw,4.7rem)}.blend-price{margin:.7rem 0 1rem;color:#16324a;font-size:1.35rem;font-weight:700}.blend-form{margin-top:1.5rem}.blend-form fieldset{display:flex;gap:1rem;margin:0 0 1.3rem;padding:0;border:0}.blend-form legend,.blend-label{display:block;width:100%;margin-bottom:.55rem;color:#16324a;font-weight:700}.blend-scents{display:grid;gap:.65rem}.scent-choice{display:flex;padding:1rem;border:1px solid #16324a2b;border-radius:14px;background:#fff;cursor:pointer}.scent-choice:has(input:checked){border-color:#6d91a8;background:#edf4f7}.scent-choice input{margin:.25rem .8rem 0 0}.scent-choice strong,.scent-choice small{display:block;color:#16324a}.scent-choice small{margin-top:.2rem;color:#657078}.blend-ratios{margin:1.2rem 0}.blend-ratios select,.blend-name{width:100%;min-height:50px;padding:.75rem;border:1px solid #16324a33;border-radius:12px;background:#fff;box-sizing:border-box}.blend-summary{margin:1.2rem 0;padding:1rem;border-radius:14px;background:#fff}.blend-summary p,.blend-final{margin:.35rem 0 0}.blend-error{color:#9a342d}.blend-form .button{width:100%;margin-top:.5rem}.blend-final{text-align:center;color:#657078;font-size:.85rem}@media(max-width:749px){.blend-grid{grid-template-columns:1fr}.blend-photo{max-height:560px;border-radius:20px}}
+.blend-page{padding:clamp(2rem,6vw,5rem) 0;background:linear-gradient(135deg,#fffaf3,#f4eadc)}.blend-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,5rem);align-items:start}.blend-photo{overflow:hidden;aspect-ratio:4/5;border-radius:28px;background:#fff;box-shadow:0 20px 45px #16324a1a}.blend-photo img,.blend-photo svg{width:100%;height:100%;object-fit:cover}.blend-info h1{margin:.2rem 0;color:#16324a;font-size:clamp(3rem,5vw,4.7rem)}.blend-price{margin:.7rem 0 1rem;color:#16324a;font-size:1.35rem;font-weight:700}.blend-form{margin-top:1.5rem}.blend-form fieldset{display:flex;gap:1rem;margin:0 0 1.3rem;padding:0;border:0}.blend-form legend,.blend-label{display:block;width:100%;margin-bottom:.55rem;color:#16324a;font-weight:700}.blend-scents{display:grid;gap:.55rem}.blend-scents label{margin-top:.45rem;color:#16324a}.blend-scents label strong,.blend-scents label small{display:block}.blend-scents label small{margin-top:.15rem;color:#657078;font-weight:400}.blend-scents select{width:100%;min-height:52px;padding:.75rem;border:1px solid #16324a33;border-radius:12px;background:#fff;color:#16324a}.blend-ratios{margin:1.2rem 0}.blend-ratios select,.blend-name{width:100%;min-height:50px;padding:.75rem;border:1px solid #16324a33;border-radius:12px;background:#fff;box-sizing:border-box}.blend-summary{margin:1.2rem 0;padding:1rem;border-radius:14px;background:#fff}.blend-summary p,.blend-final{margin:.35rem 0 0}.blend-error{color:#9a342d}.blend-form .button{width:100%;margin-top:.5rem}.blend-final{text-align:center;color:#657078;font-size:.85rem}@media(max-width:749px){.blend-grid{grid-template-columns:1fr}.blend-photo{max-height:560px;border-radius:20px}}
 </style>
-<script>(()=>{const s=document.getElementById('Blend-{{ section.id }}'),f=s.querySelector('form'),checks=[...s.querySelectorAll('.scent-choice input')],radios=[...s.querySelectorAll('input[name="_count"]')],ratio=s.querySelector('select'),summary=s.querySelector('[data-summary]'),error=s.querySelector('[data-error]');const count=()=>Number(s.querySelector('input[name="_count"]:checked').value);function update(){const n=count(),chosen=checks.filter(x=>x.checked);checks.forEach(x=>x.disabled=!x.checked&&chosen.length>=n);if(n===3&&ratio.options.length===3)ratio.innerHTML='<option value="40% / 30% / 30%">40% / 30% / 30% — Balanced</option><option value="50% / 25% / 25%">50% / 25% / 25% — One dominant scent</option><option value="60% / 20% / 20%">60% / 20% / 20% — Strong dominant scent</option>';if(n===2&&ratio.options[0]?.value!=="50% / 50%")ratio.innerHTML='<option value="50% / 50%">50% / 50% — Balanced</option><option value="60% / 40%">60% / 40% — Slightly dominant</option><option value="70% / 30%">70% / 30% — Strongly dominant</option>';summary.textContent=chosen.length?chosen.map((x,i)=>x.value+(i===0?' (dominant first)':'')).join(' + '):'Select '+n+' fragrances to begin.'}checks.forEach(x=>x.addEventListener('change',update));radios.forEach(x=>x.addEventListener('change',()=>{checks.forEach(c=>c.checked=false);update()}));f.addEventListener('submit',e=>{const chosen=checks.filter(x=>x.checked),n=count();if(chosen.length!==n){e.preventDefault();error.textContent='Please select exactly '+n+' fragrances.';error.hidden=false;return}error.hidden=true;[1,2,3].forEach((i)=>s.querySelector('[data-scent="'+i+'"]').value=chosen[i-1]?.value||'')});update()})()</script>
+<script>
+(() => {
+  const section = document.getElementById('Blend-{{ section.id }}');
+  const form = section.querySelector('form');
+  const countInputs = [...section.querySelectorAll('input[name="_count"]')];
+  const scentSelects = [...section.querySelectorAll('[data-blend-scent]')];
+  const thirdWrap = section.querySelector('[data-third-scent]');
+  const ratio = section.querySelector('select[name="properties[Blend ratio]"]');
+  const summary = section.querySelector('[data-summary]');
+  const error = section.querySelector('[data-error]');
+  const count = () => Number(section.querySelector('input[name="_count"]:checked').value);
+
+  const ratioOptions = {
+    2: [
+      ['50% / 50%', '50% / 50% — Balanced'],
+      ['60% / 40%', '60% / 40% — Slightly dominant'],
+      ['70% / 30%', '70% / 30% — Strongly dominant']
+    ],
+    3: [
+      ['40% / 30% / 30%', '40% / 30% / 30% — Nearly balanced'],
+      ['50% / 30% / 20%', '50% / 30% / 20% — Layered dominant blend'],
+      ['50% / 25% / 25%', '50% / 25% / 25% — One dominant scent'],
+      ['60% / 30% / 10%', '60% / 30% / 10% — Bold dominant blend'],
+      ['60% / 20% / 20%', '60% / 20% / 20% — Strong dominant scent']
+    ]
+  };
+
+  function update() {
+    const n = count();
+    thirdWrap.hidden = n === 2;
+    scentSelects[2].required = n === 3;
+    if (n === 2) scentSelects[2].value = '';
+    ratio.innerHTML = ratioOptions[n].map(([value, label]) => '<option value="' + value + '">' + label + '</option>').join('');
+    const chosen = scentSelects.slice(0, n).map(select => select.value).filter(Boolean);
+    summary.textContent = chosen.length
+      ? chosen.map((name, index) => (index === 0 ? 'Dominant: ' : index === 1 ? 'Supporting: ' : 'Finishing: ') + name).join(' · ')
+      : 'Choose your fragrances in order.';
+  }
+
+  countInputs.forEach(input => input.addEventListener('change', update));
+  scentSelects.forEach(select => select.addEventListener('change', update));
+  form.addEventListener('submit', event => {
+    const active = scentSelects.slice(0, count());
+    const values = active.map(select => select.value);
+    if (values.some(value => !value) || new Set(values).size !== values.length) {
+      event.preventDefault();
+      error.textContent = values.some(value => !value)
+        ? 'Please choose each fragrance.'
+        : 'Please choose a different fragrance for each position.';
+      error.hidden = false;
+      return;
+    }
+    error.hidden = true;
+  });
+  update();
+})();
+</script>
 {% schema %}{"name":"Custom perfume builder","settings":[],"blocks":[{"type":"scent","name":"Available scent","settings":[{"type":"text","id":"name","label":"Scent name","default":"Placeholder Scent"},{"type":"text","id":"short_note","label":"Short scent note","default":"Add a short description."}]}]}{% endschema %}
