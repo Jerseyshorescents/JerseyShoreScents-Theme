@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-search",
+      "settings": {
+        "eyebrow": "Find your next favorite",
+        "heading": "Search JerseyShoreScents",
+        "results_per_page": 20
+      }
+    }
+  },
+  "order": ["main"]
+}
