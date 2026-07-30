@@ -1,0 +1,170 @@
+{% paginate collection.products by section.settings.products_per_page %}
+  <section class="collection-page">
+    <header class="collection-hero{% if collection.image != blank %} collection-hero--with-image{% endif %}">
+      {% if collection.image != blank %}
+        {{ collection.image | image_url: width: 1800 | image_tag: loading: 'eager', widths: '750, 1100, 1500, 1800', sizes: '100vw', class: 'collection-hero__image', alt: collection.title }}
+        <div class="collection-hero__overlay" aria-hidden="true"></div>
+      {% endif %}
+      <div class="page-width collection-hero__content">
+        <p class="eyebrow{% unless collection.image != blank %} eyebrow--dark{% endunless %}">{{ section.settings.eyebrow }}</p>
+        <h1>{{ collection.title }}</h1>
+        {% if section.settings.show_description and collection.description != blank %}
+          <div class="collection-hero__description rte">{{ collection.description }}</div>
+        {% endif %}
+      </div>
+    </header>
+
+    <div class="page-width collection-catalog">
+      <div class="collection-toolbar">
+        <p class="collection-count">{{ collection.products_count }} {% if collection.products_count == 1 %}product{% else %}products{% endif %}</p>
+
+        {% if section.settings.show_sorting %}
+          <form class="collection-sort" method="get">
+            <label for="SortBy-{{ section.id }}">Sort by</label>
+            <select id="SortBy-{{ section.id }}" name="sort_by" onchange="this.form.submit()">
+              {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+              {% for option in collection.sort_options %}
+                <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>
+              {% endfor %}
+            </select>
+          </form>
+        {% endif %}
+      </div>
+
+      {% if collection.products_count > 0 %}
+        <div class="collection-products">
+          {% for product in collection.products %}
+            <article class="collection-product-card">
+              <a class="collection-product-card__media" href="{{ product.url | within: collection }}">
+                {% if product.featured_image != blank %}
+                  {{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '240, 360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 50vw', alt: product.title }}
+                  {% if section.settings.show_second_image and product.images[1] != blank %}
+                    {{ product.images[1] | image_url: width: 900 | image_tag: loading: 'lazy', widths: '240, 360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 50vw', class: 'collection-product-card__secondary-image', alt: product.title }}
+                  {% endif %}
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag }}
+                {% endif %}
+
+                {% unless product.available %}
+                  <span class="collection-product-card__badge">Sold out</span>
+                {% elsif product.compare_at_price > product.price %}
+                  <span class="collection-product-card__badge collection-product-card__badge--sale">Sale</span>
+                {% endunless %}
+              </a>
+
+              <div class="collection-product-card__content">
+                <h2><a href="{{ product.url | within: collection }}">{{ product.title }}</a></h2>
+                <div class="collection-product-card__price">
+                  {% if product.price_varies %}<span class="price-prefix">From </span>{% endif %}
+                  <span>{{ product.price | money }}</span>
+                  {% if product.compare_at_price > product.price %}<s>{{ product.compare_at_price | money }}</s>{% endif %}
+                </div>
+
+                {% if section.settings.show_quick_add %}
+                  {% if product.available %}
+                    {% if product.has_only_default_variant %}
+                      {% form 'product', product, class: 'collection-product-card__form' %}
+                        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button class="button button--primary collection-product-card__button" type="submit">Quick add</button>
+                      {% endform %}
+                    {% else %}
+                      <a class="button button--primary collection-product-card__button" href="{{ product.url | within: collection }}">Choose options</a>
+                    {% endif %}
+                  {% else %}
+                    <span class="button collection-product-card__button collection-product-card__button--disabled">Sold out</span>
+                  {% endif %}
+                {% endif %}
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="collection-empty">
+          <h2>No products found</h2>
+          <p>This collection is waiting for its next shore-inspired favorite.</p>
+          <a class="button button--primary" href="{{ routes.all_products_collection_url }}">Shop all products</a>
+        </div>
+      {% endif %}
+
+      {% if paginate.pages > 1 %}
+        <nav class="collection-pagination" aria-label="Pagination">
+          {% if paginate.previous %}<a href="{{ paginate.previous.url }}">← Previous</a>{% endif %}
+          <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+          {% if paginate.next %}<a href="{{ paginate.next.url }}">Next →</a>{% endif %}
+        </nav>
+      {% endif %}
+    </div>
+  </section>
+{% endpaginate %}
+
+<style>
+  .collection-page { background: #fffaf3; }
+  .collection-hero { position: relative; display: grid; place-items: center; min-height: 300px; overflow: hidden; background: linear-gradient(135deg, #f4eadc, #fffaf3 58%, #e8d8c2); text-align: center; }
+  .collection-hero--with-image { min-height: clamp(360px, 48vw, 560px); color: #fff; }
+  .collection-hero__image, .collection-hero__overlay { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .collection-hero__image { object-fit: cover; }
+  .collection-hero__overlay { background: linear-gradient(90deg, rgba(10, 30, 44, .62), rgba(10, 30, 44, .3)); }
+  .collection-hero__content { position: relative; z-index: 1; padding-block: 4rem; }
+  .collection-hero h1 { margin: .25rem 0 .8rem; color: inherit; font-size: clamp(3rem, 7vw, 5.6rem); }
+  .collection-hero:not(.collection-hero--with-image) h1 { color: #16324a; }
+  .collection-hero__description { max-width: 680px; margin-inline: auto; font-size: 1.05rem; }
+  .collection-hero__description p { margin: 0; }
+  .collection-catalog { padding-block: clamp(3rem, 6vw, 5rem); }
+  .collection-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(22, 50, 74, .13); }
+  .collection-count { margin: 0; color: rgba(31, 42, 51, .7); }
+  .collection-sort { display: flex; align-items: center; gap: .7rem; }
+  .collection-sort label { color: #16324a; font-size: .88rem; font-weight: 700; }
+  .collection-sort select { min-height: 42px; padding: .55rem 2.1rem .55rem .8rem; border: 1px solid rgba(22, 50, 74, .2); border-radius: 999px; background: #fff; color: #16324a; }
+  .collection-products { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
+  .collection-product-card { overflow: hidden; border-radius: 20px; background: #fff; box-shadow: 0 14px 32px rgba(22, 50, 74, .09); }
+  .collection-product-card__media { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; background: #eee; }
+  .collection-product-card__media img, .collection-product-card__media svg { width: 100%; height: 100%; object-fit: cover; transition: opacity .35s ease, transform .35s ease; }
+  .collection-product-card__secondary-image { position: absolute; inset: 0; opacity: 0; }
+  .collection-product-card:hover .collection-product-card__secondary-image { opacity: 1; }
+  .collection-product-card:hover .collection-product-card__media img { transform: scale(1.025); }
+  .collection-product-card__badge { position: absolute; z-index: 2; top: .75rem; left: .75rem; padding: .35rem .7rem; border-radius: 999px; background: #16324a; color: #fff; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .collection-product-card__badge--sale { background: #6d91a8; }
+  .collection-product-card__content { padding: 1rem 1rem 1.15rem; }
+  .collection-product-card h2 { margin: 0 0 .45rem; color: #16324a; font-size: 1.35rem; line-height: 1.15; }
+  .collection-product-card h2 a { text-decoration: none; }
+  .collection-product-card__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: .45rem; min-height: 1.6rem; font-weight: 700; }
+  .collection-product-card__price s { color: rgba(31, 42, 51, .5); font-weight: 400; }
+  .price-prefix { font-size: .85rem; font-weight: 400; }
+  .collection-product-card__form { margin-top: .9rem; }
+  .collection-product-card__button { width: 100%; min-height: 42px; margin-top: .9rem; padding: .6rem .85rem; font-size: .84rem; }
+  .collection-product-card__form .collection-product-card__button { margin-top: 0; }
+  .collection-product-card__button--disabled { background: #d9d9d9; color: #666; pointer-events: none; }
+  .collection-empty { padding: 5rem 1rem; text-align: center; }
+  .collection-empty h2 { color: #16324a; }
+  .collection-pagination { display: flex; justify-content: center; align-items: center; gap: 1.25rem; margin-top: 3rem; }
+  .collection-pagination a { color: #16324a; font-weight: 700; text-decoration: none; }
+  @media screen and (max-width: 989px) { .collection-products { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media screen and (max-width: 749px) {
+    .collection-hero { min-height: 240px; }
+    .collection-hero--with-image { min-height: 360px; }
+    .collection-toolbar { align-items: flex-start; }
+    .collection-sort { align-items: flex-start; flex-direction: column; gap: .3rem; }
+    .collection-products { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+    .collection-product-card { border-radius: 15px; }
+    .collection-product-card__content { padding: .75rem .75rem .85rem; }
+    .collection-product-card h2 { font-size: 1.05rem; }
+    .collection-product-card__button { min-height: 40px; padding-inline: .45rem; font-size: .76rem; }
+    .collection-product-card__badge { top: .5rem; left: .5rem; font-size: .64rem; }
+  }
+  @media (hover: none) { .collection-product-card__secondary-image { display: none; } }
+</style>
+
+{% schema %}
+{
+  "name": "Collection products",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Handcrafted by the shore"},
+    {"type":"checkbox","id":"show_description","label":"Show collection description","default":true},
+    {"type":"checkbox","id":"show_sorting","label":"Show sorting","default":true},
+    {"type":"checkbox","id":"show_second_image","label":"Show second image on hover","default":true},
+    {"type":"checkbox","id":"show_quick_add","label":"Show quick add","default":true},
+    {"type":"range","id":"products_per_page","label":"Products per page","min":8,"max":36,"step":4,"default":16}
+  ]
+}
+{% endschema %}
