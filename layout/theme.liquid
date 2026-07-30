@@ -30,5 +30,19 @@
     </main>
 
     {% section 'footer' %}
+
+    <div class="cart-notification" data-cart-notification hidden role="status" aria-live="polite" aria-atomic="true">
+      <button class="cart-notification__close" type="button" data-cart-notification-close aria-label="Close">×</button>
+      <div class="cart-notification__icon" aria-hidden="true">✓</div>
+      <div>
+        <p class="cart-notification__title" data-cart-notification-title>Added to your cart</p>
+        <p class="cart-notification__message" data-cart-notification-message></p>
+        <div class="cart-notification__actions">
+          <a class="button button--primary" href="{{ routes.cart_url }}">View Cart</a>
+          <button class="cart-notification__continue" type="button" data-cart-notification-close>Continue Shopping</button>
+        </div>
+      </div>
+    </div>
+
   </body>
 </html>
