@@ -1,0 +1,173 @@
+<section class="contact-page" id="ContactSection-{{ section.id }}">
+  <header class="contact-hero">
+    <div class="page-width">
+      <div class="contact-hero__wave" aria-hidden="true">≈</div>
+      <p class="eyebrow eyebrow--dark">{{ section.settings.eyebrow }}</p>
+      <h1>{{ section.settings.heading }}</h1>
+      <div class="contact-hero__text rte">{{ section.settings.intro }}</div>
+    </div>
+  </header>
+
+  <div class="page-width contact-layout">
+    <aside class="contact-details">
+      <p class="eyebrow eyebrow--dark">{{ section.settings.details_eyebrow }}</p>
+      <h2>{{ section.settings.details_heading }}</h2>
+      <div class="contact-details__text rte">{{ section.settings.details_text }}</div>
+
+      {% if section.settings.email != blank %}
+        <div class="contact-detail">
+          <span class="contact-detail__icon" aria-hidden="true">✉</span>
+          <div>
+            <strong>Email us</strong>
+            <a href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email }}</a>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if section.settings.location != blank %}
+        <div class="contact-detail">
+          <span class="contact-detail__icon" aria-hidden="true">⌖</span>
+          <div>
+            <strong>Our home</strong>
+            <span>{{ section.settings.location }}</span>
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="contact-note">
+        <strong>Order concern?</strong>
+        <p>Please include your order number and any helpful details so we can better assist you.</p>
+      </div>
+    </aside>
+
+    <div class="contact-form-card">
+      <h2>{{ section.settings.form_heading }}</h2>
+      <div class="contact-form-card__text rte">{{ section.settings.form_text }}</div>
+
+      {% form 'contact', id: 'ContactForm', class: 'contact-form' %}
+        {% if form.posted_successfully? %}
+          <div class="contact-form__success" tabindex="-1" autofocus>
+            <strong>Thank you for reaching out.</strong>
+            <p>Your message has been sent successfully.</p>
+          </div>
+        {% endif %}
+
+        {% if form.errors %}
+          <div class="contact-form__errors" role="alert">
+            {{ form.errors | default_errors }}
+          </div>
+        {% endif %}
+
+        <div class="contact-form__row">
+          <div class="contact-field">
+            <label for="ContactForm-name">Name</label>
+            <input id="ContactForm-name" type="text" name="contact[name]" autocomplete="name" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}">
+          </div>
+          <div class="contact-field">
+            <label for="ContactForm-email">Email <span aria-hidden="true">*</span></label>
+            <input id="ContactForm-email" type="email" name="contact[email]" autocomplete="email" autocorrect="off" autocapitalize="off" required value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+          </div>
+        </div>
+
+        <div class="contact-form__row">
+          {% if section.settings.show_phone %}
+            <div class="contact-field">
+              <label for="ContactForm-phone">Phone <small>(optional)</small></label>
+              <input id="ContactForm-phone" type="tel" name="contact[phone]" autocomplete="tel" pattern="[0-9\-+() ]*" value="{{ form.phone }}">
+            </div>
+          {% endif %}
+          {% if section.settings.show_order_number %}
+            <div class="contact-field">
+              <label for="ContactForm-order">Order number <small>(optional)</small></label>
+              <input id="ContactForm-order" type="text" name="contact[Order number]" autocomplete="off">
+            </div>
+          {% endif %}
+        </div>
+
+        {% if section.settings.show_topic %}
+          <div class="contact-field">
+            <label for="ContactForm-topic">How can we help?</label>
+            <select id="ContactForm-topic" name="contact[Topic]">
+              <option value="General question">General question</option>
+              <option value="Order question">Order question</option>
+              <option value="Shipping concern">Shipping concern</option>
+              <option value="Product question">Product question</option>
+              <option value="Return or exchange question">Return or exchange question</option>
+              <option value="Bulk order">Bulk order</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        {% endif %}
+
+        <div class="contact-field">
+          <label for="ContactForm-body">Message <span aria-hidden="true">*</span></label>
+          <textarea id="ContactForm-body" rows="7" name="contact[body]" required>{{ form.body }}</textarea>
+        </div>
+
+        <button class="button button--primary contact-form__submit" type="submit">Send Message</button>
+      {% endform %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-page { min-height: 65vh; background: #fffaf3; }
+  .contact-hero { padding: clamp(3.75rem, 8vw, 6rem) 0; background: linear-gradient(135deg, #f4eadc 0%, #fffaf3 52%, #e5d4bd 100%); text-align: center; }
+  .contact-hero__wave { margin-bottom: .25rem; color: #6d91a8; font-size: 2.2rem; line-height: 1; }
+  .contact-hero h1 { margin: .25rem 0 .85rem; color: #16324a; font-size: clamp(3.25rem, 7vw, 5.5rem); }
+  .contact-hero__text { max-width: 650px; margin-inline: auto; color: rgba(31, 42, 51, .72); font-size: 1.05rem; }
+  .contact-hero__text p, .contact-details__text p, .contact-form-card__text p { margin: 0; }
+  .contact-layout { display: grid; grid-template-columns: minmax(260px, .75fr) minmax(0, 1.25fr); gap: clamp(2rem, 6vw, 5rem); align-items: start; padding-block: clamp(3rem, 7vw, 6rem); }
+  .contact-details { padding: .5rem 0; }
+  .contact-details h2, .contact-form-card h2 { margin: .15rem 0 .65rem; color: #16324a; font-size: clamp(2.1rem, 4vw, 3rem); }
+  .contact-details__text, .contact-form-card__text { color: rgba(31, 42, 51, .7); }
+  .contact-detail { display: flex; align-items: center; gap: .9rem; margin-top: 1.6rem; color: #16324a; }
+  .contact-detail__icon { display: grid; place-items: center; flex: 0 0 auto; width: 42px; height: 42px; border-radius: 50%; background: rgba(109, 145, 168, .13); color: #6d91a8; font-size: 1.2rem; }
+  .contact-detail strong, .contact-detail a, .contact-detail span { display: block; }
+  .contact-detail a { margin-top: .12rem; color: #567f99; text-decoration: underline; text-underline-offset: 3px; }
+  .contact-note { margin-top: 2rem; padding: 1.2rem 1.25rem; border-left: 3px solid #6d91a8; border-radius: 0 14px 14px 0; background: #f4eadc; color: #16324a; }
+  .contact-note p { margin: .3rem 0 0; color: rgba(31, 42, 51, .72); }
+  .contact-form-card { padding: clamp(1.5rem, 4vw, 2.75rem); border-radius: 24px; background: #fff; box-shadow: 0 18px 45px rgba(22, 50, 74, .1); }
+  .contact-form { margin-top: 1.75rem; }
+  .contact-form__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .contact-field { margin-bottom: 1rem; }
+  .contact-field label { display: block; margin-bottom: .4rem; color: #16324a; font-weight: 700; }
+  .contact-field label small { color: rgba(31, 42, 51, .6); font-weight: 400; }
+  .contact-field input, .contact-field select, .contact-field textarea { width: 100%; min-height: 48px; padding: .75rem .9rem; border: 1px solid rgba(22, 50, 74, .18); border-radius: 10px; background: #fffdf9; color: #1f2a33; font: inherit; box-sizing: border-box; }
+  .contact-field textarea { min-height: 150px; resize: vertical; }
+  .contact-field input:focus, .contact-field select:focus, .contact-field textarea:focus { border-color: #6d91a8; outline: 2px solid rgba(109, 145, 168, .18); outline-offset: 1px; }
+  .contact-form__success, .contact-form__errors { margin-bottom: 1.25rem; padding: 1rem 1.1rem; border-radius: 10px; }
+  .contact-form__success { background: #edf5ef; color: #244b30; }
+  .contact-form__success p { margin: .25rem 0 0; }
+  .contact-form__errors { background: #fff0ee; color: #7a2e25; }
+  .contact-form__submit { min-width: 170px; margin-top: .25rem; }
+  @media screen and (max-width: 749px) {
+    .contact-hero { padding: 3.5rem 0; }
+    .contact-layout { grid-template-columns: 1fr; }
+    .contact-form-card { border-radius: 18px; }
+    .contact-form__row { grid-template-columns: 1fr; gap: 0; }
+    .contact-form__submit { width: 100%; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Contact page",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"We’re here to help"},
+    {"type":"text","id":"heading","label":"Heading","default":"Contact Us"},
+    {"type":"richtext","id":"intro","label":"Introduction","default":"<p>Have a question about an order or one of our handcrafted products? Send us a message below.</p>"},
+    {"type":"text","id":"details_eyebrow","label":"Details eyebrow","default":"Get in touch"},
+    {"type":"text","id":"details_heading","label":"Details heading","default":"We’d Love to Hear From You"},
+    {"type":"richtext","id":"details_text","label":"Details text","default":"<p>Use the form for product questions, order concerns, shipping help, or anything else we can assist with.</p>"},
+    {"type":"text","id":"email","label":"Contact email","default":"info@jerseyshorescents.com"},
+    {"type":"text","id":"location","label":"Location","default":"New Jersey, USA"},
+    {"type":"text","id":"form_heading","label":"Form heading","default":"Send Us a Message"},
+    {"type":"richtext","id":"form_text","label":"Form text","default":"<p>Complete the form and your message will be delivered through Shopify.</p>"},
+    {"type":"checkbox","id":"show_phone","label":"Show phone field","default":true},
+    {"type":"checkbox","id":"show_order_number","label":"Show order number field","default":true},
+    {"type":"checkbox","id":"show_topic","label":"Show topic menu","default":true}
+  ],
+  "presets": [{"name":"Contact page"}]
+}
+{% endschema %}
