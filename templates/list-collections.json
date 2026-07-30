@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "eyebrow": "Find your favorite ritual",
+        "heading": "Shop by Collection",
+        "text": "<p>Explore handcrafted fragrance and body care for every mood, season, and everyday ritual.</p>",
+        "show_descriptions": true,
+        "hide_empty_collections": true,
+        "collections_per_page": 12
+      }
+    }
+  },
+  "order": ["main"]
+}
