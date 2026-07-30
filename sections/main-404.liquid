@@ -1,0 +1,69 @@
+<section class="not-found-page">
+  <div class="not-found-page__glow not-found-page__glow--one" aria-hidden="true"></div>
+  <div class="not-found-page__glow not-found-page__glow--two" aria-hidden="true"></div>
+
+  <div class="page-width not-found-page__content">
+    <p class="not-found-page__code">404</p>
+    <p class="eyebrow eyebrow--dark">{{ section.settings.eyebrow }}</p>
+    <h1>{{ section.settings.heading }}</h1>
+    <div class="not-found-page__text rte">{{ section.settings.text }}</div>
+
+    <div class="not-found-page__buttons">
+      <a class="button button--primary" href="{{ routes.root_url }}">{{ section.settings.home_label }}</a>
+      <a class="button not-found-page__secondary-button" href="{{ routes.all_products_collection_url }}">{{ section.settings.shop_label }}</a>
+    </div>
+
+    {% if section.settings.show_search %}
+      <div class="not-found-page__search-wrap">
+        <p>Or search for what you need:</p>
+        <form class="not-found-page__search" action="{{ routes.search_url }}" method="get" role="search">
+          <label class="visually-hidden" for="NotFoundSearch-{{ section.id }}">Search the store</label>
+          <input id="NotFoundSearch-{{ section.id }}" type="search" name="q" placeholder="Search perfumes, body care, and more" autocomplete="off">
+          <input type="hidden" name="options[prefix]" value="last">
+          <button class="button button--primary" type="submit">Search</button>
+        </form>
+      </div>
+    {% endif %}
+
+    <div class="not-found-page__shoreline" aria-hidden="true">≈ &nbsp; ≈ &nbsp; ≈</div>
+  </div>
+</section>
+
+<style>
+  .visually-hidden { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important; }
+  .not-found-page { position: relative; display: grid; place-items: center; min-height: 68vh; overflow: hidden; padding: clamp(4rem, 9vw, 8rem) 0; background: linear-gradient(135deg, #f4eadc 0%, #fffaf3 52%, #e9d9c4 100%); }
+  .not-found-page__content { position: relative; z-index: 1; max-width: 760px; text-align: center; }
+  .not-found-page__code { margin: 0; color: rgba(109, 145, 168, .22); font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(7rem, 22vw, 14rem); font-weight: 500; line-height: .65; }
+  .not-found-page h1 { margin: .6rem 0 1rem; color: #16324a; font-size: clamp(3rem, 7vw, 5.4rem); }
+  .not-found-page__text { max-width: 590px; margin-inline: auto; color: rgba(31, 42, 51, .72); font-size: 1.05rem; }
+  .not-found-page__text p { margin: 0; }
+  .not-found-page__buttons { display: flex; justify-content: center; flex-wrap: wrap; gap: .8rem; margin-top: 1.75rem; }
+  .not-found-page__secondary-button { border-color: rgba(22, 50, 74, .25); background: rgba(255, 255, 255, .65); color: #16324a; }
+  .not-found-page__search-wrap { max-width: 620px; margin: 2.5rem auto 0; padding-top: 2rem; border-top: 1px solid rgba(22, 50, 74, .13); }
+  .not-found-page__search-wrap > p { margin: 0 0 .75rem; color: rgba(31, 42, 51, .68); font-size: .9rem; }
+  .not-found-page__search { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .6rem; padding: .4rem; border: 1px solid rgba(22, 50, 74, .14); border-radius: 999px; background: #fff; box-shadow: 0 12px 30px rgba(22, 50, 74, .08); }
+  .not-found-page__search input[type='search'] { min-width: 0; padding: .6rem 1rem; border: 0; outline: 0; background: transparent; }
+  .not-found-page__search .button { min-height: 44px; }
+  .not-found-page__shoreline { margin-top: 2.5rem; color: #6d91a8; font-size: 1.5rem; letter-spacing: .15em; }
+  .not-found-page__glow { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(109, 145, 168, .2), transparent 68%); filter: blur(8px); }
+  .not-found-page__glow--one { width: 420px; height: 420px; top: -160px; left: -120px; }
+  .not-found-page__glow--two { width: 360px; height: 360px; right: -100px; bottom: -140px; }
+  @media screen and (max-width: 480px) {
+    .not-found-page__search { grid-template-columns: 1fr; border-radius: 20px; }
+    .not-found-page__search .button { width: 100%; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "404 page",
+  "settings": [
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"This page drifted away"},
+    {"type":"text","id":"heading","label":"Heading","default":"We Couldn’t Find That Page"},
+    {"type":"richtext","id":"text","label":"Text","default":"<p>The page may have moved or the link may be outdated. Let’s get you back to something good.</p>"},
+    {"type":"text","id":"home_label","label":"Home button label","default":"Return Home"},
+    {"type":"text","id":"shop_label","label":"Shop button label","default":"Shop All Products"},
+    {"type":"checkbox","id":"show_search","label":"Show search bar","default":true}
+  ]
+}
+{% endschema %}
