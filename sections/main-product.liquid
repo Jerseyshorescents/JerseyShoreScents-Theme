@@ -89,14 +89,18 @@
       </div>
 
       <div class="product-accordions">
+        {% assign scent_description = product.metafields.custom.scent_description %}
         {% assign scent_notes = product.metafields.custom.scent_notes %}
         {% assign directions = product.metafields.custom.directions %}
         {% assign ingredients = product.metafields.custom.ingredients %}
         {% assign shipping_note = product.metafields.custom.shipping_note %}
         {% assign returns_policy = product.metafields.custom.returns_exchange_policy %}
 
+        {% if scent_description != blank %}
+          <details open><summary>Scent Description</summary><div class="rte">{{ scent_description | metafield_tag }}</div></details>
+        {% endif %}
         {% if scent_notes != blank %}
-          <details open><summary>Scent notes</summary><div class="rte">{{ scent_notes | metafield_tag }}</div></details>
+          <details{% if scent_description == blank %} open{% endif %}><summary>Scent Notes</summary><div class="rte">{{ scent_notes | metafield_tag }}</div></details>
         {% endif %}
         {% if directions != blank %}
           <details><summary>How to use</summary><div class="rte">{{ directions | metafield_tag }}</div></details>
