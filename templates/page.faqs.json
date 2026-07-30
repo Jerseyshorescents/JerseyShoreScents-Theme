@@ -1,0 +1,114 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-faq",
+      "blocks": {
+        "processing": {
+          "type": "faq",
+          "settings": {
+            "category": "ordering",
+            "question": "How long does it take to process an order?",
+            "answer": "<p>Most perfume orders ship within 2–4 business days. Processing times for other handmade products may vary during busy periods because orders are prepared with care in the order they are received.</p>"
+          }
+        },
+        "tracking": {
+          "type": "faq",
+          "settings": {
+            "category": "shipping",
+            "question": "Will I receive tracking information?",
+            "answer": "<p>Yes. Once your order ships, tracking information is sent to the email address used at checkout. Please allow time for the carrier to scan and update the package.</p>"
+          }
+        },
+        "warm_weather": {
+          "type": "faq",
+          "settings": {
+            "category": "shipping",
+            "question": "What happens if my body butter melts during shipping?",
+            "answer": "<p>Whipped body butter is naturally semi-soft and can melt in warm temperatures. During warmer months, we use insulated packaging and ice packs to help protect orders, but we cannot control temperatures in carrier facilities, delivery trucks, or mailboxes. Melting can change the whipped texture and make the jar appear less full, but it does not change the product’s quality. Refunds and exchanges are not offered for products that melt in transit.</p>"
+          }
+        },
+        "body_butter_after_melting": {
+          "type": "faq",
+          "settings": {
+            "category": "products",
+            "question": "Can I still use body butter if it melts?",
+            "answer": "<p>Yes. Place the jar upright in a cool area until it becomes solid again. The texture may be more like a balm and the volume may look different because the whipped air has settled, but the product is still usable.</p>"
+          }
+        },
+        "perfume_scent": {
+          "type": "faq",
+          "settings": {
+            "category": "products",
+            "question": "Why does a perfume smell different on me?",
+            "answer": "<p>Fragrance can develop differently on each person. Skin chemistry, natural pH levels, and other personal factors can change how individual notes smell and how the fragrance develops throughout the day.</p>"
+          }
+        },
+        "samples": {
+          "type": "faq",
+          "settings": {
+            "category": "products",
+            "question": "Can I sample a perfume before buying a larger bottle?",
+            "answer": "<p>We encourage trying a perfume sample pack before purchasing a larger bottle. Sample packs may sell out, so please message us if one is unavailable and we can let you know whether another pack can be prepared.</p>"
+          }
+        },
+        "ingredients": {
+          "type": "faq",
+          "settings": {
+            "category": "products",
+            "question": "Where can I find ingredients and product directions?",
+            "answer": "<p>Ingredients, scent information, and directions are listed on the individual product page when applicable. Please review that information before purchasing or using a product.</p>"
+          }
+        },
+        "returns": {
+          "type": "faq",
+          "settings": {
+            "category": "returns",
+            "question": "Do you accept returns or exchanges?",
+            "answer": "<p>Because our products are handmade personal-care items, all sales are final. Returns, exchanges, and refunds are not offered for preferences involving scent, color, texture, or warm-weather melting. Please review each product description and store policy before ordering.</p>"
+          }
+        },
+        "damage": {
+          "type": "faq",
+          "settings": {
+            "category": "returns",
+            "question": "What should I do if my order arrives damaged or leaking?",
+            "answer": "<p>Please contact us as soon as possible with your order number and clear photos of the product, packaging, and shipping box. We will review the issue and help determine the appropriate next step.</p>"
+          }
+        },
+        "bulk_orders": {
+          "type": "faq",
+          "settings": {
+            "category": "ordering",
+            "question": "Do you accept bulk orders?",
+            "answer": "<p>Yes, depending on the products, quantities, and requested timeline. Please use our Bulk Orders or Contact page with the details of what you need so availability and timing can be reviewed.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "processing",
+        "tracking",
+        "warm_weather",
+        "body_butter_after_melting",
+        "perfume_scent",
+        "samples",
+        "ingredients",
+        "returns",
+        "damage",
+        "bulk_orders"
+      ],
+      "settings": {
+        "eyebrow": "Here to help",
+        "heading": "Frequently Asked Questions",
+        "text": "<p>Find quick answers about ordering, shipping, our products, and store policies.</p>",
+        "show_search": true,
+        "show_categories": true,
+        "contact_eyebrow": "Still have a question?",
+        "contact_heading": "We’re Happy to Help",
+        "contact_text": "<p>Send us a message and we’ll help you find the information you need.</p>",
+        "contact_label": "Contact Us",
+        "contact_link": ""
+      }
+    }
+  },
+  "order": ["main"]
+}
