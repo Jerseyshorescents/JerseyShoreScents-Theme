@@ -1,15 +1,48 @@
+{% assign normalized_collection_title = collection.title | downcase %}
+{% assign is_shop_page = false %}
+{% if collection.handle == 'all' or normalized_collection_title == 'shop' %}
+  {% assign is_shop_page = true %}
+{% endif %}
+
 {% paginate collection.products by section.settings.products_per_page %}
-  <section class="collection-page">
-    <header class="collection-hero{% if collection.image != blank %} collection-hero--with-image{% endif %}">
-      {% if collection.image != blank %}
-        {{ collection.image | image_url: width: 1800 | image_tag: loading: 'eager', widths: '750, 1100, 1500, 1800', sizes: '100vw', class: 'collection-hero__image', alt: collection.title }}
-        <div class="collection-hero__overlay" aria-hidden="true"></div>
-      {% endif %}
+  <section class="collection-page{% if is_shop_page %} collection-page--shop{% endif %}">
+    <header class="collection-hero{% if is_shop_page %} collection-hero--shop{% elsif collection.image != blank %} collection-hero--with-image{% endif %}">
+      {% unless is_shop_page %}
+        {% if collection.image != blank %}
+          {{ collection.image | image_url: width: 1800 | image_tag: loading: 'eager', widths: '750, 1100, 1500, 1800', sizes: '100vw', class: 'collection-hero__image', alt: collection.title }}
+          <div class="collection-hero__overlay" aria-hidden="true"></div>
+        {% endif %}
+      {% endunless %}
+
       <div class="page-width collection-hero__content">
-        <p class="eyebrow{% unless collection.image != blank %} eyebrow--dark{% endunless %}">{{ section.settings.eyebrow }}</p>
-        <h1>{{ collection.title }}</h1>
-        {% if section.settings.show_description and collection.description != blank %}
-          <div class="collection-hero__description rte">{{ collection.description }}</div>
+        {% if is_shop_page %}
+          <div class="collection-shop__wave" aria-hidden="true">≈</div>
+          <p class="eyebrow eyebrow--dark">{{ section.settings.shop_eyebrow }}</p>
+          <h1>{{ section.settings.shop_heading }}</h1>
+          <div class="collection-hero__description rte">{{ section.settings.shop_text }}</div>
+
+          <nav class="collection-shop__categories" aria-label="Shop by category">
+            <p>{{ section.settings.category_heading }}</p>
+            <div class="collection-shop__category-links">
+              {% if section.settings.shop_category_menu != blank %}
+                {% for link in section.settings.shop_category_menu.links %}
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                {% endfor %}
+              {% else %}
+                {% for category in collections limit: 10 %}
+                  {% unless category.handle == 'all' or category.handle == 'frontpage' or category.products_count == 0 %}
+                    <a href="{{ category.url }}">{{ category.title }}</a>
+                  {% endunless %}
+                {% endfor %}
+              {% endif %}
+            </div>
+          </nav>
+        {% else %}
+          <p class="eyebrow{% unless collection.image != blank %} eyebrow--dark{% endunless %}">{{ section.settings.eyebrow }}</p>
+          <h1>{{ collection.title }}</h1>
+          {% if section.settings.show_description and collection.description != blank %}
+            <div class="collection-hero__description rte">{{ collection.description }}</div>
+          {% endif %}
         {% endif %}
       </div>
     </header>
@@ -102,6 +135,15 @@
   .collection-page { background: #fffaf3; }
   .collection-hero { position: relative; display: grid; place-items: center; min-height: 300px; overflow: hidden; background: linear-gradient(135deg, #f4eadc, #fffaf3 58%, #e8d8c2); text-align: center; }
   .collection-hero--with-image { min-height: clamp(360px, 48vw, 560px); color: #fff; }
+  .collection-hero--shop { min-height: auto; padding: clamp(4rem, 8vw, 6.5rem) 0; background: linear-gradient(135deg, #f4eadc 0%, #fffaf3 52%, #e5d4bd 100%); }
+  .collection-hero--shop .collection-hero__content { padding-block: 0; }
+  .collection-hero--shop h1 { color: #16324a; }
+  .collection-shop__wave { margin-bottom: .25rem; color: #6d91a8; font-size: 2.2rem; line-height: 1; }
+  .collection-shop__categories { margin-top: 2rem; }
+  .collection-shop__categories > p { margin: 0 0 .8rem; color: #16324a; font-size: .76rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  .collection-shop__category-links { display: flex; justify-content: center; flex-wrap: wrap; gap: .65rem; max-width: 920px; margin-inline: auto; }
+  .collection-shop__category-links a { display: inline-flex; align-items: center; min-height: 40px; padding: .55rem 1rem; border: 1px solid rgba(22, 50, 74, .16); border-radius: 999px; background: rgba(255, 255, 255, .72); color: #16324a; font-size: .85rem; font-weight: 700; text-decoration: none; transition: color .2s ease, background .2s ease, transform .2s ease; }
+  .collection-shop__category-links a:hover { transform: translateY(-2px); background: #16324a; color: #fff; }
   .collection-hero__image, .collection-hero__overlay { position: absolute; inset: 0; width: 100%; height: 100%; }
   .collection-hero__image { object-fit: cover; }
   .collection-hero__overlay { background: linear-gradient(90deg, rgba(10, 30, 44, .62), rgba(10, 30, 44, .3)); }
@@ -143,6 +185,9 @@
   @media screen and (max-width: 749px) {
     .collection-hero { min-height: 240px; }
     .collection-hero--with-image { min-height: 360px; }
+    .collection-hero--shop { min-height: auto; padding: 3.5rem 0; }
+    .collection-shop__category-links { gap: .5rem; }
+    .collection-shop__category-links a { min-height: 38px; padding: .5rem .8rem; font-size: .78rem; }
     .collection-toolbar { align-items: flex-start; }
     .collection-sort { align-items: flex-start; flex-direction: column; gap: .3rem; }
     .collection-products { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
@@ -159,7 +204,12 @@
 {
   "name": "Collection products",
   "settings": [
-    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Handcrafted by the shore"},
+    {"type":"text","id":"eyebrow","label":"Collection eyebrow","default":"Handcrafted by the shore"},
+    {"type":"text","id":"shop_eyebrow","label":"Shop page eyebrow","default":"Find your next favorite"},
+    {"type":"text","id":"shop_heading","label":"Shop page heading","default":"Shop All Products"},
+    {"type":"richtext","id":"shop_text","label":"Shop page introduction","default":"<p>Explore handcrafted fragrances and body care made to bring a little shore-inspired luxury into every day.</p>"},
+    {"type":"text","id":"category_heading","label":"Category links heading","default":"Browse by Category"},
+    {"type":"link_list","id":"shop_category_menu","label":"Shop category menu"},
     {"type":"checkbox","id":"show_description","label":"Show collection description","default":true},
     {"type":"checkbox","id":"show_sorting","label":"Show sorting","default":true},
     {"type":"checkbox","id":"show_second_image","label":"Show second image on hover","default":true},
