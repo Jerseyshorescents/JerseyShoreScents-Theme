@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "eyebrow": "Handcrafted by the shore",
+        "show_description": true,
+        "show_sorting": true,
+        "show_second_image": true,
+        "show_quick_add": true,
+        "products_per_page": 16
+      }
+    }
+  },
+  "order": ["main"]
+}
