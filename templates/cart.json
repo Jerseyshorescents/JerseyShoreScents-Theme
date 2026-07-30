@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "settings": {
+        "eyebrow": "Your shore-inspired picks",
+        "heading": "Your Cart",
+        "show_vendor": false,
+        "show_order_note": true,
+        "checkout_note": "Shipping and taxes are calculated at checkout."
+      }
+    }
+  },
+  "order": ["main"]
+}
