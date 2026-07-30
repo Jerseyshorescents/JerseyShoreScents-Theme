@@ -8,16 +8,9 @@
         "show_sorting": true,
         "show_second_image": true,
         "show_quick_add": true,
-        "products_per_page": 16,
-        "shop_eyebrow": "Find your next favorite",
-        "shop_heading": "Shop All Products",
-        "shop_text": "<p>Explore handcrafted fragrances and body care made to bring a little shore-inspired luxury into every day.</p>",
-        "category_heading": "Browse by Category",
-        "shop_category_menu": ""
+        "products_per_page": 16
       }
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main"]
 }
