@@ -23,7 +23,7 @@
       {% if shop.customer_accounts_enabled %}
         <a href="{{ routes.account_url }}">Account</a>
       {% endif %}
-      <a href="{{ routes.cart_url }}">Cart ({{ cart.item_count }})</a>
+      <a href="{{ routes.cart_url }}">Cart (<span data-cart-count>{{ cart.item_count }}</span>)</a>
     </div>
   </div>
 
