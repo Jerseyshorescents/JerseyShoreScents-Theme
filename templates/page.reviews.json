@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-reviews",
+      "settings": {
+        "eyebrow": "Kind words from customers",
+        "heading": "Customer Reviews",
+        "intro": "<p>See what customers are saying about their JerseyShoreScents favorites.</p>"
+      }
+    }
+  },
+  "order": ["main"]
+}
