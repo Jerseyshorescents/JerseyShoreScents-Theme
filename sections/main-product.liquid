@@ -1,11 +1,13 @@
 {% assign current_variant = product.selected_or_first_available_variant %}
+{% assign product_form_id = 'ProductForm-' | append: section.id %}
+{% assign product_image_alt = product.featured_media.alt | default: product.title %}
 
 <section class="product-page" id="ProductSection-{{ section.id }}" data-product-section>
   <div class="page-width product-layout">
     <div class="product-gallery">
       <div class="product-gallery__main">
         {% if product.featured_media != blank %}
-          {{ product.featured_media.preview_image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '480, 720, 960, 1200, 1400', sizes: '(min-width: 990px) 55vw, 100vw', class: 'product-gallery__main-image', id: 'ProductMainImage-' | append: section.id, alt: product.featured_media.alt | default: product.title }}
+          {{ product.featured_media.preview_image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '480, 720, 960, 1200, 1400', sizes: '(min-width: 990px) 55vw, 100vw', class: 'product-gallery__main-image', alt: product_image_alt }}
         {% else %}
           {{ 'product-1' | placeholder_svg_tag: 'product-gallery__placeholder' }}
         {% endif %}
@@ -37,7 +39,7 @@
         <div class="product-description rte">{{ product.description }}</div>
       {% endif %}
 
-      {% form 'product', product, id: 'ProductForm-' | append: section.id, class: 'product-form' %}
+      {% form 'product', product, id: product_form_id, class: 'product-form' %}
         <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
 
         {% unless product.has_only_default_variant %}
