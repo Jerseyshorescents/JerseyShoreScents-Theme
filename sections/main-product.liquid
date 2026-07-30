@@ -78,8 +78,14 @@
       {% endform %}
 
       <div class="product-assurances">
-        <div><span aria-hidden="true">✦</span><p><strong>Handcrafted with care</strong><br>Made in small batches.</p></div>
-        <div><span aria-hidden="true">≈</span><p><strong>Inspired by the shore</strong><br>Made in New Jersey.</p></div>
+        <div>
+          <span aria-hidden="true">{{ section.settings.assurance_1_icon }}</span>
+          <p><strong>{{ section.settings.assurance_1_heading }}</strong><br>{{ section.settings.assurance_1_text }}</p>
+        </div>
+        <div>
+          <span aria-hidden="true">{{ section.settings.assurance_2_icon }}</span>
+          <p><strong>{{ section.settings.assurance_2_heading }}</strong><br>{{ section.settings.assurance_2_text }}</p>
+        </div>
       </div>
 
       <div class="product-accordions">
@@ -87,6 +93,7 @@
         {% assign directions = product.metafields.custom.directions %}
         {% assign ingredients = product.metafields.custom.ingredients %}
         {% assign shipping_note = product.metafields.custom.shipping_note %}
+        {% assign returns_policy = product.metafields.custom.returns_exchange_policy %}
 
         {% if scent_notes != blank %}
           <details open><summary>Scent notes</summary><div class="rte">{{ scent_notes | metafield_tag }}</div></details>
@@ -98,7 +105,16 @@
           <details><summary>Ingredients</summary><div class="rte">{{ ingredients | metafield_tag }}</div></details>
         {% endif %}
         {% if shipping_note != blank or section.settings.shipping_text != blank %}
-          <details><summary>Shipping &amp; care</summary><div class="rte">{% if shipping_note != blank %}{{ shipping_note | metafield_tag }}{% else %}{{ section.settings.shipping_text }}{% endif %}</div></details>
+          <details><summary>Shipping Concerns</summary><div class="rte">{% if shipping_note != blank %}{{ shipping_note | metafield_tag }}{% else %}{{ section.settings.shipping_text }}{% endif %}</div></details>
+        {% endif %}
+        {% if returns_policy != blank or section.settings.returns_text != blank %}
+          <details>
+            <summary>Returns/Exchange Policy</summary>
+            <div class="rte">
+              {% if returns_policy != blank %}{{ returns_policy | metafield_tag }}{% else %}{{ section.settings.returns_text }}{% endif %}
+              {% if shop.refund_policy.url != blank %}<p><a href="{{ shop.refund_policy.url }}">Read the full return policy</a></p>{% endif %}
+            </div>
+          </details>
         {% endif %}
       </div>
     </div>
@@ -227,7 +243,14 @@
   "settings": [
     {"type":"checkbox","id":"show_vendor","label":"Show vendor","default":false},
     {"type":"checkbox","id":"show_dynamic_checkout","label":"Show dynamic checkout button","default":false},
-    {"type":"richtext","id":"shipping_text","label":"Default shipping and care text","default":"<p>Orders are carefully packed and shipped from New Jersey. Please review product-specific care information before ordering during warm weather.</p>"}
+    {"type":"text","id":"assurance_1_icon","label":"First callout icon","default":"✦"},
+    {"type":"text","id":"assurance_1_heading","label":"First callout heading","default":"Handcrafted with care"},
+    {"type":"text","id":"assurance_1_text","label":"First callout text","default":"Made in small batches."},
+    {"type":"text","id":"assurance_2_icon","label":"Second callout icon","default":"≈"},
+    {"type":"text","id":"assurance_2_heading","label":"Second callout heading","default":"Inspired by the shore"},
+    {"type":"text","id":"assurance_2_text","label":"Second callout text","default":"Made in New Jersey."},
+    {"type":"richtext","id":"shipping_text","label":"Default shipping concerns text","default":"<p>Orders are carefully packed and shipped from New Jersey. Please review product-specific care information before ordering during warm weather.</p>"},
+    {"type":"richtext","id":"returns_text","label":"Default returns and exchange text","default":"<p>Because our products are personal care items, please review the return and exchange policy before placing your order.</p>"}
   ]
 }
 {% endschema %}
