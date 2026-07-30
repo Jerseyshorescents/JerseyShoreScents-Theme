@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {
+        "eyebrow": "This page drifted away",
+        "heading": "We Couldn’t Find That Page",
+        "text": "<p>The page may have moved or the link may be outdated. Let’s get you back to something good.</p>",
+        "home_label": "Return Home",
+        "shop_label": "Shop All Products",
+        "show_search": true
+      }
+    }
+  },
+  "order": ["main"]
+}
