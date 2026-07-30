@@ -1,0 +1,37 @@
+<section class="standard-page">
+  <div class="page-width standard-page__inner">
+    <header class="standard-page__header">
+      <div class="standard-page__wave" aria-hidden="true">≈</div>
+      <h1>{{ page.title | escape }}</h1>
+    </header>
+
+    {% if page.content != blank %}
+      <div class="standard-page__content rte">
+        {{ page.content }}
+      </div>
+    {% elsif request.design_mode %}
+      <div class="standard-page__empty">
+        <p>Add content to this page from Shopify Admin → Online Store → Pages.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .standard-page { min-height: 55vh; padding: clamp(3.5rem, 8vw, 6rem) 0; background: #fffaf3; }
+  .standard-page__inner { max-width: 900px; }
+  .standard-page__header { margin-bottom: clamp(2rem, 5vw, 3.5rem); text-align: center; }
+  .standard-page__wave { color: #6d91a8; font-size: 2.1rem; line-height: 1; }
+  .standard-page h1 { margin: .3rem 0 0; color: #16324a; font-size: clamp(3rem, 7vw, 5rem); }
+  .standard-page__content { color: rgba(31, 42, 51, .8); font-size: 1.05rem; line-height: 1.75; }
+  .standard-page__content h2, .standard-page__content h3 { color: #16324a; }
+  .standard-page__content a { color: #567f99; text-decoration: underline; text-underline-offset: 3px; }
+  .standard-page__empty { padding: 2rem; border: 1px dashed rgba(109, 145, 168, .45); border-radius: 16px; text-align: center; color: rgba(31, 42, 51, .65); }
+</style>
+
+{% schema %}
+{
+  "name": "Page",
+  "settings": []
+}
+{% endschema %}
