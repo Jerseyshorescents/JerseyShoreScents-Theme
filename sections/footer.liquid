@@ -17,7 +17,19 @@
         <h2 class="footer-heading">Shop</h2>
         <ul class="footer-links">
           {% if section.settings.shop_menu != blank %}
-            {% for link in section.settings.shop_menu.links %}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}
+            {% for link in section.settings.shop_menu.links %}
+              <li>
+                {% if link.title | downcase == 'search' %}
+                  <form class="footer-search-form" action="{{ routes.search_url }}" method="get" role="search">
+                    <label class="visually-hidden" for="FooterSearch-{{ section.id }}">Search the store</label>
+                    <input id="FooterSearch-{{ section.id }}" type="search" name="q" placeholder="Search products" autocomplete="off">
+                    <button type="submit">Search</button>
+                  </form>
+                {% else %}
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                {% endif %}
+              </li>
+            {% endfor %}
           {% else %}
             <li><a href="/collections/all">Shop All</a></li>
             <li><a href="/collections/perfume">Perfumes</a></li>
@@ -121,6 +133,35 @@
     padding: 0;
     list-style: none;
     font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  .site-footer--expanded .footer-search-form {
+    display: flex;
+    width: min(260px, 100%);
+    min-height: 42px;
+    overflow: hidden;
+    border: 1px solid rgba(22, 50, 74, .18);
+    border-radius: 999px;
+    background: #fff;
+  }
+
+  .site-footer--expanded .footer-search-form input {
+    min-width: 0;
+    width: 100%;
+    padding: .6rem 0 .6rem .85rem;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #16324a;
+  }
+
+  .site-footer--expanded .footer-search-form button {
+    padding: .6rem .9rem;
+    border: 0;
+    background: #16324a;
+    color: #fff;
+    cursor: pointer;
     font-weight: 700;
   }
 
