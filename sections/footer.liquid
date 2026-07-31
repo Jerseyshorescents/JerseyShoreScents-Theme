@@ -30,44 +30,21 @@
       <nav class="footer-column" aria-label="About">
         <h2 class="footer-heading">About</h2>
         <ul class="footer-links">
-          {% if section.settings.about_menu != blank %}
-            {% for link in section.settings.about_menu.links %}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}
-          {% else %}
-            <li><a href="/pages/about-us">Our Story</a></li>
-            <li><a href="/pages/contact">Contact Us</a></li>
-          {% endif %}
+          <li><a href="{{ section.settings.story_page.url | default: '/pages/about-us' }}">Our Story</a></li>
         </ul>
       </nav>
 
       <nav class="footer-column" aria-label="Help">
         <h2 class="footer-heading">Help</h2>
         <ul class="footer-links">
-          {% if section.settings.help_menu != blank %}
-            {% for link in section.settings.help_menu.links %}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}
-          {% else %}
-            <li><a href="/pages/faq">FAQ</a></li>
-            <li><a href="/pages/shipping-returns">Shipping &amp; Returns</a></li>
-            <li><a href="/pages/contact">Contact</a></li>
-          {% endif %}
-        </ul>
-      </nav>
-
-      <nav class="footer-column" aria-label="Policies">
-        <h2 class="footer-heading">Policies</h2>
-        <ul class="footer-links">
-          {% if section.settings.policies_menu != blank %}
-            {% for link in section.settings.policies_menu.links %}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}
-          {% else %}
-            <li><a href="{{ shop.refund_policy.url | default: '/policies/refund-policy' }}">Refund Policy</a></li>
-            <li><a href="{{ shop.shipping_policy.url | default: '/policies/shipping-policy' }}">Shipping Policy</a></li>
-            <li><a href="{{ shop.privacy_policy.url | default: '/policies/privacy-policy' }}">Privacy Policy</a></li>
-            <li><a href="{{ shop.terms_of_service.url | default: '/policies/terms-of-service' }}">Terms of Service</a></li>
-          {% endif %}
+          <li><a href="{{ section.settings.faq_page.url | default: '/pages/faq' }}">FAQ's</a></li>
+          <li><a href="{{ shop.refund_policy.url | default: '/policies/refund-policy' }}">Refunds &amp; Exchange Policy</a></li>
+          <li><a href="{{ section.settings.contact_page.url | default: '/pages/contact' }}">Shipping Issues</a></li>
         </ul>
       </nav>
 
       <div class="footer-column footer-contact">
-        <h2 class="footer-heading">Contact</h2>
+        <h2 class="footer-heading"><a href="{{ section.settings.contact_page.url | default: '/pages/contact' }}">Contact</a></h2>
         {% if section.settings.email != blank %}<a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a>{% endif %}
         {% if section.settings.location != blank %}<p>{{ section.settings.location }}</p>{% endif %}
       </div>
@@ -88,7 +65,7 @@
   }
 
   .site-footer--expanded .footer-grid--expanded {
-    grid-template-columns: minmax(220px, 1.5fr) repeat(4, minmax(100px, 0.75fr)) minmax(180px, 1fr);
+    grid-template-columns: minmax(220px, 1.5fr) repeat(3, minmax(110px, 0.75fr)) minmax(210px, 1fr);
     gap: clamp(1.5rem, 3vw, 3rem);
     align-items: start;
   }
@@ -126,6 +103,7 @@
 
   .site-footer--expanded .footer-links a,
   .site-footer--expanded .footer-contact a,
+  .site-footer--expanded .footer-contact .footer-heading a,
   .site-footer--expanded .footer-socials a {
     color: rgba(31, 42, 51, 0.78);
     text-decoration: none;
@@ -206,13 +184,13 @@
   "name": "Footer",
   "settings": [
     {"type":"text","id":"heading","label":"Brand heading","default":"JerseyShoreScents"},
-    {"type":"richtext","id":"text","label":"Brand description","default":"<p>Handcrafted fragrances and body care inspired by the Jersey Shore.</p>"},
+    {"type":"richtext","id":"text","label":"Brand description","default":"<p>Handcrafted fragrances and body care.</p>"},
     {"type":"text","id":"ownership_text","label":"Ownership text","default":"Veteran Owned · Woman Owned"},
     {"type":"link_list","id":"shop_menu","label":"Shop menu","default":"footer"},
-    {"type":"link_list","id":"about_menu","label":"About menu"},
-    {"type":"link_list","id":"help_menu","label":"Help menu"},
-    {"type":"link_list","id":"policies_menu","label":"Policies menu"},
-    {"type":"text","id":"email","label":"Contact email","default":"info@jerseyshorescents.com"},
+    {"type":"page","id":"story_page","label":"Our Story page"},
+    {"type":"page","id":"faq_page","label":"FAQ page"},
+    {"type":"page","id":"contact_page","label":"Contact and shipping issues page"},
+    {"type":"text","id":"email","label":"Contact email","default":"JerseyShoreScents21@gmail.com"},
     {"type":"text","id":"location","label":"Location","default":"Based in New Jersey"},
     {"type":"text","id":"bottom_text","label":"Bottom text","default":"Veteran Owned · Woman Owned"}
   ]
