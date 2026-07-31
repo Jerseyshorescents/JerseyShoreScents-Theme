@@ -7,8 +7,7 @@
 
   <div class="page-width header-inner">
     <form class="header-search-form" action="{{ routes.search_url }}" method="get" role="search">
-      <label class="visually-hidden" for="HeaderSearch-{{ section.id }}">Search the store</label>
-      <input id="HeaderSearch-{{ section.id }}" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search" autocomplete="off">
+      <input id="HeaderSearch-{{ section.id }}" type="search" name="q" placeholder="Search" autocomplete="off">
       <button type="submit" aria-label="Submit search">⌕</button>
     </form>
 
