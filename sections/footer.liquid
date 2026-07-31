@@ -45,7 +45,7 @@
 
       <div class="footer-column footer-contact">
         <h2 class="footer-heading">Contact</h2>
-        <a class="button button--primary footer-contact__button" href="{{ section.settings.contact_page.url | default: '/pages/contact' }}">Contact Us</a>
+        <a class="footer-contact__link" href="{{ section.settings.contact_page.url | default: '/pages/contact' }}">Contact Us</a>
         {% if section.settings.location != blank %}<p>{{ section.settings.location }}</p>{% endif %}
       </div>
     </div>
@@ -126,13 +126,6 @@
 
   .site-footer--expanded .footer-contact {
     overflow-wrap: anywhere;
-  }
-
-  .site-footer--expanded .footer-contact__button {
-    display: inline-flex;
-    width: auto;
-    min-height: 42px;
-    padding: 0.65rem 1.15rem;
   }
 
   .site-footer--expanded .footer-contact p {
