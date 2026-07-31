@@ -18,8 +18,9 @@
         <ul class="footer-links">
           {% if section.settings.shop_menu != blank %}
             {% for link in section.settings.shop_menu.links %}
+              {% assign footer_link_title = link.title | downcase %}
               <li>
-                {% if link.title | downcase == 'search' %}
+                {% if footer_link_title == 'search' %}
                   <form class="footer-search-form" action="{{ routes.search_url }}" method="get" role="search">
                     <label class="visually-hidden" for="FooterSearch-{{ section.id }}">Search the store</label>
                     <input id="FooterSearch-{{ section.id }}" type="search" name="q" placeholder="Search products" autocomplete="off">
