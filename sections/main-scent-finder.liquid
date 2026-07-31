@@ -1,0 +1,175 @@
+<section class="scent-finder" id="ScentFinder-{{ section.id }}">
+  <header class="scent-finder__hero">
+    <div class="page-width">
+      <span aria-hidden="true">≈</span>
+      <p class="eyebrow eyebrow--dark">{{ section.settings.eyebrow }}</p>
+      <h1>{{ section.settings.heading }}</h1>
+      <div class="rte">{{ section.settings.intro }}</div>
+    </div>
+  </header>
+
+  <div class="page-width scent-finder__body">
+    <form class="scent-quiz" data-scent-quiz>
+      <fieldset>
+        <legend><b>1</b> Which fragrance family sounds best?</legend>
+        <div class="quiz-options">
+          {% assign families = 'fresh & coastal,sweet & gourmand,floral,fruity & citrus,warm & cozy,masculine' | split: ',' %}
+          {% for family in families %}<label><input type="radio" name="family" value="{{ family }}" required><span>{{ family | capitalize }}</span></label>{% endfor %}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><b>2</b> Which notes do you enjoy? <small>Choose all that apply.</small></legend>
+        <div class="quiz-options quiz-options--notes">
+          {% assign notes = 'vanilla,coconut,coffee,caramel,cherry,grape,citrus,amber,floral,aquatic,fruity,clean' | split: ',' %}
+          {% for note in notes %}<label><input type="checkbox" name="notes" value="{{ note }}"><span>{{ note | capitalize }}</span></label>{% endfor %}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><b>3</b> How sweet should it be?</legend>
+        <div class="quiz-options">
+          <label><input type="radio" name="sweetness" value="not sweet" required><span>Not sweet</span></label>
+          <label><input type="radio" name="sweetness" value="slightly sweet"><span>Slightly sweet</span></label>
+          <label><input type="radio" name="sweetness" value="sweet"><span>Sweet</span></label>
+          <label><input type="radio" name="sweetness" value="very sweet"><span>Very sweet</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><b>4</b> What feeling are you looking for?</legend>
+        <div class="quiz-options">
+          <label><input type="radio" name="mood" value="light & fresh" required><span>Light & fresh</span></label>
+          <label><input type="radio" name="mood" value="soft & comforting"><span>Soft & comforting</span></label>
+          <label><input type="radio" name="mood" value="rich & warm"><span>Rich & warm</span></label>
+          <label><input type="radio" name="mood" value="bold & noticeable"><span>Bold & noticeable</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><b>5</b> What would you like to shop?</legend>
+        <div class="quiz-options">
+          <label><input type="radio" name="product_type" value="any" required checked><span>Any product</span></label>
+          <label><input type="radio" name="product_type" value="perfume"><span>Perfume</span></label>
+          <label><input type="radio" name="product_type" value="body butter"><span>Body butter</span></label>
+          <label><input type="radio" name="product_type" value="body oil"><span>Body oil</span></label>
+          <label><input type="radio" name="product_type" value="scrub"><span>Scrub</span></label>
+        </div>
+      </fieldset>
+
+      <button class="button button--primary scent-quiz__submit" type="submit">Find My Perfect Scent</button>
+    </form>
+
+    <section class="scent-results" data-scent-results hidden>
+      <div class="scent-results__heading">
+        <div><p class="eyebrow eyebrow--dark">Your scent matches</p><h2>We Think You’ll Love These</h2></div>
+        <button type="button" data-retake>Retake Quiz</button>
+      </div>
+
+      <div class="scent-results__grid">
+        {% assign scent_collection = section.settings.collection %}
+        {% if scent_collection != blank %}
+          {% paginate scent_collection.products by 250 %}
+            {% for product in scent_collection.products %}
+              {% assign family = product.metafields.custom.scent_family.value %}
+              {% assign keywords = product.metafields.custom.scent_keywords.value %}
+              {% assign sweetness = product.metafields.custom.scent_sweetness.value %}
+              {% assign intensity = product.metafields.custom.scent_intensity.value %}
+              {% assign mood = product.metafields.custom.scent_mood.value %}
+              {% assign quiz_type = product.metafields.custom.quiz_product_type.value | default: product.type %}
+              <article class="scent-result-card"
+                data-result-card
+                data-family="{{ family | downcase | escape }}"
+                data-notes="{{ keywords | join: '|' | downcase | escape }}"
+                data-sweetness="{{ sweetness | downcase | escape }}"
+                data-intensity="{{ intensity | downcase | escape }}"
+                data-mood="{{ mood | downcase | escape }}"
+                data-type="{{ quiz_type | downcase | escape }}"
+                hidden>
+                <a href="{{ product.url }}" class="scent-result-card__image">
+                  {% if product.featured_image %}{{ product.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: product.title }}{% else %}{{ 'product-1' | placeholder_svg_tag }}{% endif %}
+                </a>
+                <div class="scent-result-card__content">
+                  <p class="scent-result-card__reason" data-match-reason></p>
+                  <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+                  <p class="scent-result-card__price">{{ product.price | money }}</p>
+                  {% if product.metafields.custom.scent_notes != blank %}<div class="rte">{{ product.metafields.custom.scent_notes | metafield_tag }}</div>{% endif %}
+                  <a class="button button--secondary" href="{{ product.url }}">View Product</a>
+                </div>
+              </article>
+            {% endfor %}
+          {% endpaginate %}
+        {% elsif request.design_mode %}
+          <div class="scent-finder__setup"><h3>Select a quiz collection</h3><p>Choose the collection containing the products you want the quiz to recommend.</p></div>
+        {% endif %}
+      </div>
+
+      <div class="scent-results__empty" data-no-matches hidden>
+        <h3>We need a little more scent information</h3>
+        <p>No close match was found yet. Try the quiz again or create something personal in The Perfume Lab.</p>
+        {% if section.settings.perfume_lab_page != blank %}<a class="button button--primary" href="{{ section.settings.perfume_lab_page.url }}">Visit The Perfume Lab</a>{% endif %}
+      </div>
+    </section>
+  </div>
+</section>
+
+<style>
+.scent-finder{min-height:70vh;background:#fffaf3;color:#1f2a33}.scent-finder__hero{padding:clamp(4rem,8vw,6.5rem) 0;background:linear-gradient(135deg,#f4eadc,#fffaf3 52%,#e5d4bd);text-align:center}.scent-finder__hero>div>span{color:#6d91a8;font-size:2.2rem}.scent-finder__hero h1{margin:.2rem 0 .8rem;color:#16324a;font-size:clamp(3.3rem,7vw,5.7rem)}.scent-finder__hero .rte{max-width:680px;margin:auto;color:#59636b}.scent-finder__body{padding-block:clamp(3rem,7vw,6rem)}.scent-quiz{max-width:950px;margin:auto}.scent-quiz fieldset{margin:0 0 2rem;padding:0 0 2rem;border:0;border-bottom:1px solid #16324a1f}.scent-quiz legend{margin-bottom:1rem;color:#16324a;font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700}.scent-quiz legend b{display:inline-grid;place-items:center;width:34px;height:34px;margin-right:.45rem;border-radius:50%;background:#16324a;color:#fff;font-family:Arial,sans-serif;font-size:.9rem}.scent-quiz legend small{font-family:Arial,sans-serif;font-size:.85rem;font-weight:400;color:#657078}.quiz-options{display:flex;flex-wrap:wrap;gap:.65rem}.quiz-options label{cursor:pointer}.quiz-options input{position:absolute;opacity:0;pointer-events:none}.quiz-options span{display:block;padding:.7rem 1rem;border:1px solid #16324a29;border-radius:999px;background:#fff;color:#16324a}.quiz-options input:checked+span{border-color:#16324a;background:#16324a;color:#fff}.quiz-options input:focus-visible+span{outline:2px solid #6d91a8;outline-offset:2px}.scent-quiz__submit{display:block;min-width:240px;margin:2rem auto 0}.scent-results__heading{display:flex;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:1.5rem}.scent-results__heading h2{margin:.2rem 0;color:#16324a;font-size:clamp(2.5rem,5vw,4rem)}.scent-results__heading button{border:0;background:transparent;color:#567f99;text-decoration:underline;cursor:pointer}.scent-results__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem}.scent-result-card{overflow:hidden;border-radius:20px;background:#fff;box-shadow:0 14px 34px #16324a16}.scent-result-card__image{display:block;aspect-ratio:4/5;overflow:hidden}.scent-result-card__image img,.scent-result-card__image svg{width:100%;height:100%;object-fit:cover}.scent-result-card__content{padding:1.2rem}.scent-result-card__reason{margin:0 0 .4rem;color:#6d91a8;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}.scent-result-card h3{margin:0;color:#16324a;font-size:1.65rem}.scent-result-card h3 a{color:inherit;text-decoration:none}.scent-result-card__price{font-weight:700}.scent-result-card .button{width:100%;margin-top:.7rem}.scent-results__empty,.scent-finder__setup{grid-column:1/-1;padding:2.5rem;border-radius:20px;background:#f4eadc;text-align:center}.scent-results__empty h3,.scent-finder__setup h3{color:#16324a}@media(max-width:749px){.scent-finder__hero{padding:3.5rem 0}.scent-results__grid{grid-template-columns:1fr}.scent-results__heading{align-items:start;flex-direction:column}.quiz-options span{padding:.62rem .85rem;font-size:.9rem}.scent-quiz__submit{width:100%}}
+</style>
+
+<script>
+(() => {
+  const section = document.getElementById('ScentFinder-{{ section.id }}');
+  const form = section.querySelector('[data-scent-quiz]');
+  const results = section.querySelector('[data-scent-results]');
+  const cards = [...section.querySelectorAll('[data-result-card]')];
+  const noMatches = section.querySelector('[data-no-matches]');
+  const maxResults = {{ section.settings.max_results }};
+
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const family = (data.get('family') || '').toLowerCase();
+    const notes = data.getAll('notes').map(value => value.toLowerCase());
+    const sweetness = (data.get('sweetness') || '').toLowerCase();
+    const mood = (data.get('mood') || '').toLowerCase();
+    const productType = (data.get('product_type') || 'any').toLowerCase();
+
+    const ranked = cards.map(card => {
+      const productNotes = card.dataset.notes.split('|').filter(Boolean);
+      const matchedNotes = notes.filter(note => productNotes.includes(note));
+      let score = 0;
+      if (card.dataset.family === family) score += 4;
+      score += matchedNotes.length * 3;
+      if (card.dataset.sweetness === sweetness) score += 2;
+      if (card.dataset.mood === mood || card.dataset.intensity === mood) score += 2;
+      if (productType !== 'any' && !card.dataset.type.includes(productType)) score = -100;
+      return { card, score, matchedNotes };
+    }).filter(item => item.score > 0).sort((a,b) => b.score - a.score);
+
+    cards.forEach(card => card.hidden = true);
+    ranked.slice(0, maxResults).forEach((item, index) => {
+      item.card.hidden = false;
+      const reasons = [];
+      if (item.card.dataset.family === family) reasons.push(family);
+      if (item.matchedNotes.length) reasons.push(item.matchedNotes.join(', '));
+      item.card.querySelector('[data-match-reason]').textContent = index === 0 ? 'Your best match · ' + reasons.join(' · ') : 'A close match · ' + reasons.join(' · ');
+    });
+
+    form.hidden = true;
+    results.hidden = false;
+    noMatches.hidden = ranked.length > 0;
+    results.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+
+  section.querySelector('[data-retake]')?.addEventListener('click', () => {
+    results.hidden = true;
+    form.hidden = false;
+    form.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+})();
+</script>
+
+{% schema %}
+{"name":"Scent finder quiz","settings":[{"type":"text","id":"eyebrow","label":"Eyebrow","default":"Your signature scent awaits"},{"type":"text","id":"heading","label":"Heading","default":"Find Your Perfect Scent"},{"type":"richtext","id":"intro","label":"Introduction","default":"<p>Answer a few quick questions and discover the JerseyShoreScents products that best match your taste.</p>"},{"type":"collection","id":"collection","label":"Products eligible for quiz"},{"type":"range","id":"max_results","label":"Number of results","min":3,"max":9,"step":1,"default":6},{"type":"page","id":"perfume_lab_page","label":"Perfume Lab page"}],"presets":[{"name":"Scent finder quiz"}]}
+{% endschema %}
