@@ -45,13 +45,13 @@
 </header>
 
 <style>
-  .header-search-form { display: flex; align-items: center; width: min(220px, 100%); min-height: 42px; overflow: hidden; border: 1px solid rgba(22, 50, 74, .18); border-radius: 999px; background: #fff; }
-  .header-search-form input { min-width: 0; width: 100%; padding: .65rem 0 .65rem .9rem; border: 0; outline: 0; background: transparent; color: #16324a; font: inherit; }
-  .header-search-form button { display: grid; place-items: center; flex: 0 0 42px; align-self: stretch; border: 0; background: transparent; color: #16324a; cursor: pointer; font-size: 1.2rem; }
+  .header-search-form { display: flex; align-items: center; width: min(150px, 100%); min-height: 36px; overflow: hidden; border: 1px solid rgba(22, 50, 74, .18); border-radius: 999px; background: #fff; }
+  .header-search-form input { min-width: 0; width: 100%; padding: .45rem 0 .45rem .75rem; border: 0; outline: 0; background: transparent; color: #16324a; font: inherit; }
+  .header-search-form button { display: grid; place-items: center; flex: 0 0 36px; align-self: stretch; border: 0; background: transparent; color: #16324a; cursor: pointer; font-size: 1.2rem; }
   .header-search-form:focus-within { border-color: #6d91a8; box-shadow: 0 0 0 2px rgba(109, 145, 168, .16); }
   @media screen and (max-width: 749px) {
-    .header-search-form { width: 44px; }
-    .header-search-form:focus-within { position: absolute; z-index: 5; left: 1rem; width: min(280px, calc(100vw - 2rem)); }
+    .header-search-form { width: 38px; min-height: 36px; }
+    .header-search-form:focus-within { position: absolute; z-index: 5; left: 1rem; width: min(240px, calc(100vw - 2rem)); }
     .header-search-form input { padding-left: .8rem; }
     .header-search-form:not(:focus-within) input { width: 0; padding-left: 0; }
   }
