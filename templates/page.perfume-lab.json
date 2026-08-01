@@ -1,1 +1,56 @@
-{"sections":{"main":{"type":"main-perfume-lab","blocks":{"caramel":{"type":"scent","settings":{"name":"Salted Caramel Frappe","notes":"<p><strong>Top:</strong> Fresh brewed coffee, lemon zest, and sea salt<br><strong>Middle:</strong> Sumatra dark roast, cocoa powder, and caramel butter<br><strong>Base:</strong> Sweet cream, vanilla, and brown sugar</p>"}},"cherry":{"type":"scent","settings":{"name":"Cherry","notes":"<p>Sweet black cherries and sour cherries over a base note of freshly baked Southern flaky crust.</p>"}},"grape":{"type":"scent","settings":{"name":"Grape Candy","notes":"<p>Juicy grape mixed with fruity middle notes on a base of sweet candy and grape jam.</p>"}}},"block_order":["caramel","cherry","grape"],"settings":{"eyebrow":"Create something uniquely yours","heading":"The Perfume Lab","intro":"<p>Choose two or three fragrances and create a custom 50 ml blend made especially for you.</p>","library_heading":"Fragrance Library","product":"","button_label":"Create Your Blend","disclaimer":"<p>Fragrances can change when blended and may develop differently with individual skin chemistry. Custom perfumes are made to order and are final sale.</p>"}}},"order":["main"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-perfume-lab",
+      "blocks": {
+        "caramel": {
+          "type": "scent",
+          "settings": {
+            "name": "Salted Caramel Frappe",
+            "notes": "<p><strong>Top:</strong> Fresh brewed coffee, lemon zest, and sea salt<br><strong>Middle:</strong> Sumatra dark roast, cocoa powder, and caramel butter<br><strong>Base:</strong> Sweet cream, vanilla, and brown sugar</p>"
+          }
+        },
+        "cherry": {
+          "type": "scent",
+          "settings": {
+            "name": "Cherry",
+            "notes": "<p>Sweet black cherries and sour cherries over a base note of freshly baked Southern flaky crust.</p>"
+          }
+        },
+        "grape": {
+          "type": "scent",
+          "settings": {
+            "name": "Grape Candy",
+            "notes": "<p>Juicy grape mixed with fruity middle notes on a base of sweet candy and grape jam.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "caramel",
+        "cherry",
+        "grape"
+      ],
+      "settings": {
+        "eyebrow": "Create something uniquely yours",
+        "heading": "The Perfume Lab",
+        "intro": "<p>Choose two or three fragrances and create a custom 50 ml blend made especially for you.</p>",
+        "library_heading": "Fragrance Library",
+        "product": "create-your-own-perfume",
+        "button_label": "Create Your Blend",
+        "disclaimer": "<p>Fragrances can change when blended and may develop differently with individual skin chemistry. Custom perfumes are made to order and are final sale.</p>"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
