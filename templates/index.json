@@ -12,6 +12,9 @@
     "hero": {
       "type": "hero",
       "settings": {
+        "image": "shopify://shop_images/Untitled_design_2.png",
+        "mobile_image": "shopify://shop_images/Untitled_design_2.png",
+        "show_wave": true,
         "eyebrow": "Inspired by the Jersey Shore",
         "heading": "Luxury Fragrance & Body Care",
         "text": "<p>Handcrafted scents and body care inspired by salty air, warm sand, and unforgettable shore memories.</p>",
@@ -19,9 +22,14 @@
         "button_1_link": "",
         "button_2_label": "Shop Body Care",
         "button_2_link": "",
+        "content_position": "center",
+        "text_width": 720,
         "overlay": 35,
+        "focal_x": 50,
+        "focal_y": 50,
         "height": 700,
-        "mobile_height": 575
+        "mobile_height": 575,
+        "show_scroll_hint": true
       }
     },
     "favorites": {
@@ -182,6 +190,8 @@
       "settings": {
         "product": "",
         "image": "shopify://shop_images/il_fullxfull.7226582883_llxe.webp",
+        "image_width": 380,
+        "glow_opacity": 70,
         "eyebrow": "A little glow, bottled",
         "heading": "Featured Shimmer Body Oils",
         "text": "<p>Silky, lightweight moisture with a luminous finish. Made for sun-kissed skin, date nights, and every moment that deserves a little extra glow.</p>",
