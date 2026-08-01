@@ -115,12 +115,11 @@
       }
     },
     "moods": {
-      "type": "shop-by-mood",
+      "type": "shop-by-mood-v2",
       "blocks": {
         "fresh": {
           "type": "mood",
           "settings": {
-            "icon": "〰",
             "title": "Fresh & Coastal",
             "text": "Clean, airy scents inspired by saltwater and sea breeze.",
             "link": ""
@@ -129,7 +128,6 @@
         "sweet": {
           "type": "mood",
           "settings": {
-            "icon": "✦",
             "title": "Sweet & Gourmand",
             "text": "Comforting notes of vanilla, caramel, and delicious treats.",
             "link": ""
@@ -138,7 +136,6 @@
         "floral": {
           "type": "mood",
           "settings": {
-            "icon": "❀",
             "title": "Floral",
             "text": "Soft blossoms, romantic bouquets, and timeless femininity.",
             "link": ""
@@ -147,7 +144,6 @@
         "fruity": {
           "type": "mood",
           "settings": {
-            "icon": "◌",
             "title": "Fruity & Citrus",
             "text": "Bright, juicy, uplifting scents with a sparkling finish.",
             "link": ""
@@ -156,7 +152,6 @@
         "masculine": {
           "type": "mood",
           "settings": {
-            "icon": "◆",
             "title": "Masculine",
             "text": "Confident woods, spice, clean musk, and fresh cologne notes.",
             "link": ""
@@ -165,7 +160,6 @@
         "warm": {
           "type": "mood",
           "settings": {
-            "icon": "☼",
             "title": "Warm & Cozy",
             "text": "Soft amber, warm woods, and scents made for slow evenings.",
             "link": ""
@@ -174,15 +168,20 @@
       },
       "block_order": [
         "fresh",
-        "sweet",
-        "floral",
         "fruity",
-        "masculine",
-        "warm"
+        "floral",
+        "sweet",
+        "warm",
+        "masculine"
       ],
       "settings": {
         "eyebrow": "Find your feeling",
-        "heading": "Shop by Mood"
+        "heading": "Shop by Mood",
+        "description": "<p>Explore fragrances that match your personality and the moments you want to create.</p>",
+        "background_color": "#ffffff",
+        "card_height": 360,
+        "overlay_strength": 60,
+        "show_explore_link": true
       }
     },
     "featured_oil": {
