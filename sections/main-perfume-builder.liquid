@@ -10,8 +10,8 @@
 <div data-third-scent><label for="BlendScent3-{{ section.id }}"><strong>Scent 3 — Finishing note</strong><small>This fragrance has the smallest percentage.</small></label>
 <select id="BlendScent3-{{ section.id }}" name="properties[Fragrance 3 — Finishing note]" data-blend-scent><option value="">Choose finishing scent</option>{% for block in section.blocks %}<option value="{{ block.settings.name | escape }}">{{ block.settings.name }} — {{ block.settings.short_note }}</option>{% endfor %}</select></div></div>
 <div class="blend-ratios"><label class="blend-label" for="Ratio-{{ section.id }}">3. Choose your proportions</label><select id="Ratio-{{ section.id }}" name="properties[Blend ratio]" required><option value="50% / 50%">50% / 50% — Balanced</option><option value="60% / 40%">60% / 40% — Slightly dominant</option><option value="70% / 30%">70% / 30% — Strongly dominant</option></select></div>
-<label class="blend-label" for="Name-{{ section.id }}">Custom label name <small>(optional · maximum 24 characters)</small></label>
-<input class="blend-name" id="Name-{{ section.id }}" name="properties[Custom label name]" maxlength="24" placeholder="Example: Boardwalk Sunset" data-label-name>
+<label class="blend-label" for="Name-{{ section.id }}">Custom label name <small>(required · maximum 50 characters)</small></label>
+<input class="blend-name" id="Name-{{ section.id }}" name="properties[Custom label name]" maxlength="50" placeholder="Example: Boardwalk Sunset" data-label-name required>
 <input type="hidden" name="properties[Complete blend recipe]" data-complete-recipe>
 
 <div class="blend-summary"><strong>Your custom 50 ml recipe</strong><p data-summary>Select two fragrances to begin.</p><small data-label-summary hidden></small></div>
