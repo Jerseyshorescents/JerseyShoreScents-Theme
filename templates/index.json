@@ -38,7 +38,7 @@
         "perfume": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "perfume",
             "image": "shopify://shop_images/il_fullxfull.7457481886_2rf6.avif",
             "title": "Perfume",
             "link": ""
@@ -47,7 +47,7 @@
         "butter": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "whipped-body-butters",
             "image": "shopify://shop_images/il_fullxfull.7640448718_ooo8_810f5029-4dbc-41ac-b1da-6cd335fea85c.jpg",
             "title": "Whipped Body Butter",
             "link": ""
@@ -56,7 +56,7 @@
         "shimmer": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "shimmer-body-oil",
             "image": "shopify://shop_images/il_fullxfull.7533140343_qgjp.avif",
             "title": "Shimmer Body Oil",
             "link": ""
@@ -74,7 +74,7 @@
         "bath": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "bath-bombs-1",
             "image": "shopify://shop_images/il_fullxfull.7787793667_8dra.avif",
             "title": "Bath Bomb",
             "link": ""
@@ -83,7 +83,7 @@
         "soap": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "soap",
             "image": "shopify://shop_images/il_fullxfull.7735924011_3pki_387ae6c2-bb1c-4e8f-ac60-0fb025c01d63.jpg",
             "title": "Soap",
             "link": ""
@@ -92,7 +92,7 @@
         "lip": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "lip-balm",
             "image": "shopify://shop_images/il_fullxfull.7876259820_qgi8_d6f0cd46-07ac-472b-81ed-59e8fda3990b.jpg",
             "title": "Lip Balm",
             "link": ""
