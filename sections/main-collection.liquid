@@ -1,3 +1,11 @@
+{% liquid
+  assign normalized_collection_title = collection.title | downcase
+  assign is_warm_weather_collection = false
+  if normalized_collection_title contains 'whipped body butter'
+    assign is_warm_weather_collection = true
+  endif
+%}
+
 {% paginate collection.products by section.settings.products_per_page %}
   <section class="collection-page">
     <header class="collection-hero{% if collection.image != blank %} collection-hero--with-image{% endif %}">
@@ -66,6 +74,9 @@
                       {% form 'product', product, class: 'collection-product-card__form' %}
                         <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
                         <input type="hidden" name="quantity" value="1">
+                        {% if is_warm_weather_collection %}
+                          <input type="hidden" name="properties[Warm Weather Policy]" value="Acknowledged">
+                        {% endif %}
                         <button class="button button--primary collection-product-card__button" type="submit">Quick add</button>
                       {% endform %}
                     {% else %}
@@ -96,6 +107,22 @@
       {% endif %}
     </div>
   </section>
+
+  {% if is_warm_weather_collection %}
+    <div class="warm-weather-modal" data-warm-weather-modal data-storage-key="warm-weather-{{ collection.handle }}" hidden>
+      <div class="warm-weather-modal__backdrop" aria-hidden="true"></div>
+      <div class="warm-weather-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="WarmWeatherHeading-{{ section.id }}" aria-describedby="WarmWeatherText-{{ section.id }}">
+        <p class="eyebrow eyebrow--dark">Please review before shopping</p>
+        <h2 id="WarmWeatherHeading-{{ section.id }}">Warm Weather Shipping Notice</h2>
+        <p id="WarmWeatherText-{{ section.id }}">Whipped body butters are sensitive to heat and may soften or melt during transit. We use insulated packaging and ice packs during warmer months, but we cannot control temperatures in shipping facilities, delivery vehicles, or mailboxes. Warm-weather orders are placed at the customer’s discretion, and refunds or replacements are not offered for melting.</p>
+        <label class="warm-weather-modal__check">
+          <input type="checkbox" data-warm-weather-modal-check>
+          <span>I understand that this product may soften or melt during shipping and acknowledge the warm-weather shipping policy.</span>
+        </label>
+        <button class="button button--primary warm-weather-modal__continue" type="button" data-warm-weather-modal-continue disabled>Continue shopping</button>
+      </div>
+    </div>
+  {% endif %}
 {% endpaginate %}
 
 <style>
@@ -153,7 +180,42 @@
     .collection-product-card__badge { top: .5rem; left: .5rem; font-size: .64rem; }
   }
   @media (hover: none) { .collection-product-card__secondary-image { display: none; } }
+  .warm-weather-modal[hidden] { display: none; }
+  .warm-weather-modal { position: fixed; z-index: 10000; inset: 0; display: grid; place-items: center; padding: 1rem; }
+  .warm-weather-modal__backdrop { position: absolute; inset: 0; background: rgba(8, 19, 28, .66); backdrop-filter: blur(3px); }
+  .warm-weather-modal__dialog { position: relative; width: min(100%, 620px); max-height: calc(100vh - 2rem); overflow-y: auto; padding: clamp(1.5rem, 4vw, 2.6rem); border-radius: 24px; background: #fffaf3; box-shadow: 0 28px 80px rgba(8, 19, 28, .3); }
+  .warm-weather-modal__dialog h2 { margin: .35rem 0 1rem; color: #16324a; font-size: clamp(2rem, 5vw, 3rem); }
+  .warm-weather-modal__dialog > p:not(.eyebrow) { color: rgba(31, 42, 51, .78); line-height: 1.65; }
+  .warm-weather-modal__check { display: flex; align-items: flex-start; gap: .75rem; margin: 1.4rem 0; padding: 1rem; border: 1px solid rgba(22, 50, 74, .16); border-radius: 14px; background: #fff; color: #16324a; cursor: pointer; line-height: 1.45; }
+  .warm-weather-modal__check input { flex: 0 0 auto; width: 20px; height: 20px; margin-top: .1rem; accent-color: #16324a; }
+  .warm-weather-modal__continue { width: 100%; }
+  .warm-weather-modal__continue:disabled { background: #b6b6b6; cursor: not-allowed; }
 </style>
+
+{% if is_warm_weather_collection %}
+  <script>
+    (() => {
+      const modal = document.querySelector('[data-warm-weather-modal]');
+      if (!modal) return;
+
+      const storageKey = modal.dataset.storageKey;
+      const checkbox = modal.querySelector('[data-warm-weather-modal-check]');
+      const continueButton = modal.querySelector('[data-warm-weather-modal-continue]');
+
+      if (sessionStorage.getItem(storageKey) === 'acknowledged') return;
+
+      modal.hidden = false;
+      document.documentElement.style.overflow = 'hidden';
+      checkbox.addEventListener('change', () => { continueButton.disabled = !checkbox.checked; });
+      continueButton.addEventListener('click', () => {
+        if (!checkbox.checked) return;
+        sessionStorage.setItem(storageKey, 'acknowledged');
+        modal.hidden = true;
+        document.documentElement.style.overflow = '';
+      });
+    })();
+  </script>
+{% endif %}
 
 {% schema %}
 {
