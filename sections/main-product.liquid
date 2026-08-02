@@ -1,6 +1,14 @@
 {% assign current_variant = product.selected_or_first_available_variant %}
 {% assign product_form_id = 'ProductForm-' | append: section.id %}
 {% assign product_image_alt = product.featured_media.alt | default: product.title %}
+{% assign requires_warm_weather_acknowledgment = false %}
+{% for product_collection in product.collections %}
+  {% assign normalized_product_collection_title = product_collection.title | downcase %}
+  {% if normalized_product_collection_title contains 'whipped body butter' %}
+    {% assign requires_warm_weather_acknowledgment = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
 
 <section class="product-page" id="ProductSection-{{ section.id }}" data-product-section>
   <div class="page-width product-layout">
@@ -57,6 +65,17 @@
           </div>
         {% endunless %}
 
+        {% if requires_warm_weather_acknowledgment %}
+          <div class="product-warm-weather-notice">
+            <p><strong>Warm Weather Shipping Notice</strong></p>
+            <p>Whipped body butter may soften or melt during transit. Insulated packaging and ice packs help protect warm-weather orders, but temperatures during shipping and delivery cannot be controlled. Refunds or replacements are not offered for melting.</p>
+            <label>
+              <input type="checkbox" name="properties[Warm Weather Policy]" value="Acknowledged" required data-warm-weather-acknowledgment>
+              <span>I understand that this product may soften or melt during shipping and acknowledge the warm-weather shipping policy.</span>
+            </label>
+          </div>
+        {% endif %}
+
         <div class="product-purchase-row">
           <div class="product-quantity">
             <label for="ProductQuantity-{{ section.id }}">Quantity</label>
@@ -67,12 +86,12 @@
             </div>
           </div>
 
-          <button class="button button--primary product-add-button" type="submit" name="add" data-add-to-cart{% unless current_variant.available %} disabled{% endunless %}>
+          <button class="button button--primary product-add-button" type="submit" name="add" data-add-to-cart{% unless current_variant.available %} disabled{% endunless %}{% if requires_warm_weather_acknowledgment %} disabled{% endif %}>
             <span data-add-to-cart-text>{% if current_variant.available %}Add to cart{% else %}Sold out{% endif %}</span>
           </button>
         </div>
 
-        {% if section.settings.show_dynamic_checkout and current_variant.available %}
+        {% if section.settings.show_dynamic_checkout and current_variant.available and requires_warm_weather_acknowledgment == false %}
           <div class="product-dynamic-checkout">{{ form | payment_button }}</div>
         {% endif %}
       {% endform %}
@@ -154,6 +173,11 @@
   .product-quantity__control input::-webkit-outer-spin-button, .product-quantity__control input::-webkit-inner-spin-button { margin: 0; -webkit-appearance: none; }
   .product-add-button { width: 100%; min-height: 50px; }
   .product-add-button:disabled { background: #b6b6b6; cursor: not-allowed; }
+  .product-warm-weather-notice { margin-top: 1.25rem; padding: 1.1rem; border: 1px solid rgba(22, 50, 74, .16); border-radius: 15px; background: rgba(255, 255, 255, .72); }
+  .product-warm-weather-notice > p { margin: 0 0 .65rem; color: rgba(31, 42, 51, .78); font-size: .9rem; line-height: 1.55; }
+  .product-warm-weather-notice > p:first-child { color: #16324a; font-size: 1rem; }
+  .product-warm-weather-notice label { display: flex; align-items: flex-start; gap: .7rem; margin-top: .85rem; color: #16324a; cursor: pointer; font-size: .9rem; line-height: 1.45; }
+  .product-warm-weather-notice input { flex: 0 0 auto; width: 20px; height: 20px; margin-top: .05rem; accent-color: #16324a; }
   .product-dynamic-checkout { margin-top: .75rem; }
   .product-assurances { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin-top: 1.5rem; }
   .product-assurances > div { display: flex; gap: .7rem; padding: 1rem; border: 1px solid rgba(22, 50, 74, .11); border-radius: 15px; background: rgba(255, 255, 255, .5); }
@@ -196,7 +220,13 @@
     const addButton = section.querySelector('[data-add-to-cart]');
     const addText = section.querySelector('[data-add-to-cart-text]');
     const quantity = section.querySelector('input[name="quantity"]');
+    const warmWeatherAcknowledgment = section.querySelector('[data-warm-weather-acknowledgment]');
     const currency = '{{ cart.currency.iso_code }}';
+    let selectedVariantAvailable = {{ current_variant.available | json }};
+
+    const updateAddButtonState = () => {
+      addButton.disabled = !selectedVariantAvailable || Boolean(warmWeatherAcknowledgment && !warmWeatherAcknowledgment.checked);
+    };
 
     const formatMoney = (cents) => new Intl.NumberFormat(document.documentElement.lang || 'en-US', {
       style: 'currency', currency
@@ -215,6 +245,7 @@
       const selectedOptions = optionInputs.map((input) => input.value);
       const variant = variants.find((item) => item.options.every((value, index) => value === selectedOptions[index]));
       if (!variant) {
+        selectedVariantAvailable = false;
         addButton.disabled = true;
         addText.textContent = 'Unavailable';
         return;
@@ -228,13 +259,15 @@
       } else {
         comparePrice.hidden = true;
       }
-      addButton.disabled = !variant.available;
+      selectedVariantAvailable = variant.available;
+      updateAddButtonState();
       addText.textContent = variant.available ? 'Add to cart' : 'Sold out';
       if (variant.featured_media) selectMedia(variant.featured_media.id);
       window.history.replaceState({}, '', `${window.location.pathname}?variant=${variant.id}`);
     };
 
     optionInputs.forEach((input) => input.addEventListener('change', updateVariant));
+    warmWeatherAcknowledgment?.addEventListener('change', updateAddButtonState);
     section.querySelectorAll('.product-gallery__thumb').forEach((thumb) => thumb.addEventListener('click', () => selectMedia(thumb.dataset.mediaId)));
     section.querySelector('[data-quantity-minus]')?.addEventListener('click', () => { quantity.value = Math.max(1, Number(quantity.value || 1) - 1); });
     section.querySelector('[data-quantity-plus]')?.addEventListener('click', () => { quantity.value = Number(quantity.value || 1) + 1; });
