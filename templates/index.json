@@ -65,7 +65,7 @@
         "scrub": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "sugar-scrubs",
             "image": "shopify://shop_images/il_fullxfull.7531463582_l7h0.avif",
             "title": "Sugar Scrub",
             "link": ""
@@ -101,7 +101,7 @@
         "whipped_bath_scrubs": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "whipped-body-butters",
             "image": "shopify://shop_images/il_fullxfull.7531463582_l7h0.avif",
             "title": "Whipped Bath Butters / Whipped Sugar Scrubs",
             "link": ""
