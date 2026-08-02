@@ -1,4 +1,5 @@
 {% paginate collections by section.settings.collections_per_page %}
+  {% assign hidden_collection_handles = section.settings.hidden_collection_handles | downcase | split: ',' %}
   <section class="collection-list-page">
     <header class="collection-list-hero">
       <div class="page-width">
@@ -15,6 +16,13 @@
           {% assign show_collection = true %}
           {% if collection_item.handle == 'frontpage' %}{% assign show_collection = false %}{% endif %}
           {% if section.settings.hide_empty_collections and collection_item.products_count == 0 %}{% assign show_collection = false %}{% endif %}
+          {% for hidden_handle in hidden_collection_handles %}
+            {% assign cleaned_hidden_handle = hidden_handle | strip %}
+            {% if cleaned_hidden_handle != blank and collection_item.handle == cleaned_hidden_handle %}
+              {% assign show_collection = false %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
 
           {% if show_collection %}
             {% assign collection_image = collection_item.image %}
@@ -102,6 +110,7 @@
     {"type":"richtext","id":"text","label":"Introduction","default":"<p>Explore handcrafted fragrance and body care for every mood, season, and everyday ritual.</p>"},
     {"type":"checkbox","id":"show_descriptions","label":"Show collection descriptions","default":true},
     {"type":"checkbox","id":"hide_empty_collections","label":"Hide empty collections","default":true},
+    {"type":"textarea","id":"hidden_collection_handles","label":"Hidden collection handles","info":"Separate multiple handles with commas. These collections remain active but will not appear on this page.","default":"best-sellers, scent-finder-products"},
     {"type":"range","id":"collections_per_page","label":"Collections per page","min":6,"max":30,"step":3,"default":12}
   ]
 }
