@@ -97,6 +97,15 @@
             "title": "Lip Balm",
             "link": ""
           }
+        },
+        "whipped_bath_scrubs": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/il_fullxfull.7531463582_l7h0.avif",
+            "title": "Whipped Bath Butters / Whipped Sugar Scrubs",
+            "link": ""
+          }
         }
       },
       "block_order": [
@@ -106,7 +115,8 @@
         "scrub",
         "bath",
         "soap",
-        "lip"
+        "lip",
+        "whipped_bath_scrubs"
       ],
       "settings": {
         "eyebrow": "Made for every ritual",
