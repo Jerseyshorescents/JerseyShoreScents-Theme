@@ -16,7 +16,8 @@
         "heading": "Shop by Collection",
         "text": "<p>Explore handcrafted fragrance and body care for every mood, season, and everyday wear.</p>",
         "show_descriptions": false,
-        "hide_empty_collections": true,
+        "hide_empty_collections": false,
+        "hidden_collection_handles": "best-sellers, scent-finder-products",
         "collections_per_page": 30
       }
     }
