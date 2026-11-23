@@ -25,7 +25,16 @@
     <div class="mood-v2__grid">
       {% for block in section.blocks %}
         {% liquid
-          assign card_link = block.settings.link | default: routes.all_products_collection_url
+          assign card_link = block.settings.link
+          if card_link == blank
+            assign mood_handle = block.settings.title | handleize
+            assign supported_moods = 'fresh-coastal,fruity-citrus,floral,sweet-gourmand,warm-cozy,masculine' | split: ','
+            if supported_moods contains mood_handle
+              assign card_link = routes.all_products_collection_url | append: '?view=shop-by-mood#' | append: mood_handle
+            else
+              assign card_link = routes.all_products_collection_url
+            endif
+          endif
           assign card_alt = block.settings.image.alt | default: block.settings.title
         %}
 
