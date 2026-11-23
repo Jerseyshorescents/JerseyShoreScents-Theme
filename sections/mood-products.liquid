@@ -1,7 +1,10 @@
 {% assign mood_names = 'Fresh & Coastal|Fruity & Citrus|Floral|Sweet & Gourmand|Warm & Cozy|Masculine' | split: '|' %}
 <section class="section mood-catalog">
   <div class="page-width">
-    <nav class="mood-catalog__nav" aria-label="Shop by mood">
+    {% for mood_name in mood_names %}
+      <span class="mood-catalog__anchor" id="{{ mood_name | handleize }}" aria-hidden="true"></span>
+    {% endfor %}
+    <nav class="mood-catalog__nav mood-catalog__switcher" aria-label="Shop by mood">
       {% for mood_name in mood_names %}
         <a href="#{{ mood_name | handleize }}">{{ mood_name | escape }}</a>
       {% endfor %}
@@ -11,7 +14,7 @@
         {% for mood_name in mood_names %}
           {% assign mood_handle = mood_name | handleize %}
           {% assign found_products = false %}
-          <section class="mood-catalog__group" id="{{ mood_handle }}">
+          <section class="mood-catalog__group" data-mood="{{ mood_handle }}">
             <h1>{{ mood_name | escape }}</h1>
             <div class="mood-catalog__grid">
               {% for product in collection.products %}
@@ -50,9 +53,26 @@
 <style>
   .mood-catalog__nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .75rem 1.25rem; margin-block: 1rem 2rem; }
   .mood-catalog__nav a { text-decoration: underline; text-underline-offset: .2em; }
-  .mood-catalog__group { display: none; scroll-margin-top: 1rem; }
-  .mood-catalog__group:target { display: block; }
-  .mood-catalog__group:target ~ .mood-catalog__prompt { display: none; }
+  .mood-catalog__anchor { display: block; scroll-margin-top: 1rem; }
+  .mood-catalog__switcher { gap: .5rem; }
+  .mood-catalog__switcher a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    padding: .45rem .95rem;
+    border: 1px solid #16324a;
+    border-radius: 999px;
+    color: #16324a;
+    text-decoration: none;
+  }
+  .mood-catalog__switcher a:hover { background: #eaf1f5; }
+  .mood-catalog__group { display: none; }
+  .mood-catalog__anchor:target ~ .mood-catalog__groups .mood-catalog__prompt { display: none; }
+  {% for mood_name in mood_names %}
+    {% assign mood_handle = mood_name | handleize %}
+    #{{ mood_handle }}:target ~ .mood-catalog__groups [data-mood="{{ mood_handle }}"] { display: block; }
+    #{{ mood_handle }}:target ~ .mood-catalog__switcher a[href="#{{ mood_handle }}"] { background: #16324a; color: #fff; }
+  {% endfor %}
   .mood-catalog__group h1, .mood-catalog__prompt { text-align: center; }
   .mood-catalog__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
   .mood-catalog__card { overflow: hidden; border-radius: 20px; background: #fff; box-shadow: 0 14px 32px rgba(22, 50, 74, .09); }
