@@ -6,7 +6,7 @@
     {% endfor %}
     <nav class="mood-catalog__nav mood-catalog__switcher" aria-label="Shop by mood">
       {% for mood_name in mood_names %}
-        <a href="#{{ mood_name | handleize }}">{{ mood_name | escape }}</a>
+        <a href="{{ collection.url | default: routes.all_products_collection_url }}?view=shop-by-mood#{{ mood_name | handleize }}">{{ mood_name | escape }}</a>
       {% endfor %}
     </nav>
     <div class="mood-catalog__groups">
@@ -71,7 +71,7 @@
   {% for mood_name in mood_names %}
     {% assign mood_handle = mood_name | handleize %}
     #{{ mood_handle }}:target ~ .mood-catalog__groups [data-mood="{{ mood_handle }}"] { display: block; }
-    #{{ mood_handle }}:target ~ .mood-catalog__switcher a[href="#{{ mood_handle }}"] { background: #16324a; color: #fff; }
+    #{{ mood_handle }}:target ~ .mood-catalog__switcher a[href$="#{{ mood_handle }}"] { background: #16324a; color: #fff; }
   {% endfor %}
   .mood-catalog__group h1, .mood-catalog__prompt { text-align: center; }
   .mood-catalog__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
