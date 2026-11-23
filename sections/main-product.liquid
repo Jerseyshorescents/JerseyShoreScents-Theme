@@ -2,11 +2,14 @@
 {% assign product_form_id = 'ProductForm-' | append: section.id %}
 {% assign product_image_alt = product.featured_media.alt | default: product.title %}
 {% assign requires_warm_weather_acknowledgment = false %}
+{% assign is_shimmer_body_oil = false %}
 {% for product_collection in product.collections %}
+  {% if product_collection.handle == 'shimmer-body-oil' %}
+    {% assign is_shimmer_body_oil = true %}
+  {% endif %}
   {% assign normalized_product_collection_title = product_collection.title | downcase %}
   {% if normalized_product_collection_title contains 'whipped body butter' %}
     {% assign requires_warm_weather_acknowledgment = true %}
-    {% break %}
   {% endif %}
 {% endfor %}
 
@@ -121,11 +124,32 @@
         {% if scent_notes != blank %}
           <details{% if scent_description == blank %} open{% endif %}><summary>Scent Notes</summary><div class="rte">{{ scent_notes | metafield_tag }}</div></details>
         {% endif %}
-        {% if directions != blank %}
-          <details><summary>How to use</summary><div class="rte">{{ directions | metafield_tag }}</div></details>
+        {% if directions != blank or is_shimmer_body_oil %}
+          <details>
+            <summary>How to Use</summary>
+            <div class="rte">
+              {% if directions != blank %}
+                {{ directions | metafield_tag }}
+              {% else %}
+                <p>Massage a few drops onto skin after a shower, while skin is still slightly damp.</p>
+              {% endif %}
+              {% if is_shimmer_body_oil %}
+                <p>For the shimmer finish, shake well before each use to mix the settled mica back into the oil.</p>
+              {% endif %}
+            </div>
+          </details>
         {% endif %}
-        {% if ingredients != blank %}
-          <details><summary>Ingredients</summary><div class="rte">{{ ingredients | metafield_tag }}</div></details>
+        {% if ingredients != blank or is_shimmer_body_oil %}
+          <details>
+            <summary>Ingredients</summary>
+            <div class="rte">
+              {% if ingredients != blank %}
+                {{ ingredients | metafield_tag }}
+              {% else %}
+                <p>Grapeseed oil, jojoba oil, sunflower oil, vitamin E, and fragrance oil. The shimmer finish also contains mica powder.</p>
+              {% endif %}
+            </div>
+          </details>
         {% endif %}
         {% if shipping_note != blank or section.settings.shipping_text != blank %}
           <details><summary>Shipping Concerns</summary><div class="rte">{% if shipping_note != blank %}{{ shipping_note | metafield_tag }}{% else %}{{ section.settings.shipping_text }}{% endif %}</div></details>
