@@ -9,6 +9,10 @@
       <div class="standard-page__content rte">
         {{ page.content }}
       </div>
+    {% elsif template.suffix == 'our-story' or page.handle == 'about-us' or page.handle == 'our-story' %}
+      <div class="standard-page__content rte">
+        {% render 'founder-story' %}
+      </div>
     {% elsif request.design_mode %}
       <div class="standard-page__empty">
         <p>Add content to this page from Shopify Admin → Online Store → Pages.</p>
