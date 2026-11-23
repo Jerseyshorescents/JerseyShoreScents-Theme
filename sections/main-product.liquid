@@ -3,6 +3,10 @@
 {% assign product_image_alt = product.featured_media.alt | default: product.title %}
 {% assign requires_warm_weather_acknowledgment = false %}
 {% assign is_shimmer_body_oil = false %}
+{% assign normalized_product_title = product.title | downcase %}
+{% if collection.handle == 'shimmer-body-oil' or normalized_product_title contains 'shimmer body oil' %}
+  {% assign is_shimmer_body_oil = true %}
+{% endif %}
 {% for product_collection in product.collections %}
   {% if product_collection.handle == 'shimmer-body-oil' %}
     {% assign is_shimmer_body_oil = true %}
