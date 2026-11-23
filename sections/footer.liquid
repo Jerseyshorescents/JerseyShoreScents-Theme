@@ -42,14 +42,14 @@
       <nav class="footer-column" aria-label="About">
         <h2 class="footer-heading">About</h2>
         <ul class="footer-links">
-          <li><a href="{{ section.settings.story_page.url | default: '/pages/about-us' }}">Our Story</a></li>
+          <li><a href="{{ section.settings.story_page.url | default: pages['our-story'].url | default: pages['about-us'].url | default: '/pages/our-story' }}">Our Story</a></li>
         </ul>
       </nav>
 
       <nav class="footer-column" aria-label="Help">
         <h2 class="footer-heading">Help</h2>
         <ul class="footer-links">
-          <li><a href="{{ section.settings.faq_page.url | default: '/pages/faq' }}">FAQ's</a></li>
+          <li><a href="{{ pages['faqs'].url | default: section.settings.faq_page.url | default: '/pages/faqs' }}">FAQ's</a></li>
           <li><a href="{{ shop.refund_policy.url | default: '/policies/refund-policy' }}">Refunds &amp; Exchange Policy</a></li>
           <li><a href="{{ section.settings.contact_page.url | default: '/pages/contact' }}">Shipping Issues</a></li>
         </ul>
