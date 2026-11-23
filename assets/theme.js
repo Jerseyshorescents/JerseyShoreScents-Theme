@@ -2,6 +2,8 @@ document.documentElement.classList.add('js');
 
 window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    if (link.closest('.mood-catalog__switcher')) return;
+
     link.addEventListener('click', (event) => {
       const targetId = link.getAttribute('href');
       if (!targetId || targetId === '#') return;
