@@ -1,4 +1,8 @@
 {% liquid
+  assign is_shimmer_body_oil_collection = false
+  if collection.handle == 'shimmer-body-oil'
+    assign is_shimmer_body_oil_collection = true
+  endif
   assign normalized_collection_title = collection.title | downcase
   assign is_warm_weather_collection = false
   if normalized_collection_title contains 'whipped body butter'
@@ -16,7 +20,9 @@
       <div class="page-width collection-hero__content">
         <p class="eyebrow{% unless collection.image != blank %} eyebrow--dark{% endunless %}">{{ section.settings.eyebrow }}</p>
         <h1>{{ collection.title }}</h1>
-        {% if section.settings.show_description and collection.description != blank %}
+        {% if is_shimmer_body_oil_collection %}
+          <div class="collection-hero__description rte"><p>A lightweight, scented body oil with an optional soft shimmer. Shake well before each use if you choose the shimmer finish.</p></div>
+        {% elsif section.settings.show_description and collection.description != blank %}
           <div class="collection-hero__description rte">{{ collection.description }}</div>
         {% endif %}
       </div>
@@ -105,6 +111,12 @@
           {% if paginate.next %}<a href="{{ paginate.next.url }}">Next →</a>{% endif %}
         </nav>
       {% endif %}
+      {% if is_shimmer_body_oil_collection %}
+        <section class="collection-oil-about rte">
+          <h2>About Our Shimmer Body Oils</h2>
+          <p>Grapeseed, jojoba, and sunflower oils leave skin feeling soft. Mica gives the shimmer finish its glow and can settle at the bottom of the bottle between uses. Color can vary from batch to batch.</p>
+        </section>
+      {% endif %}
     </div>
   </section>
 
@@ -137,6 +149,8 @@
   .collection-hero:not(.collection-hero--with-image) h1 { color: #16324a; }
   .collection-hero__description { max-width: 680px; margin-inline: auto; font-size: 1.05rem; }
   .collection-hero__description p { margin: 0; }
+  .collection-oil-about { max-width: 680px; margin: clamp(2.5rem, 6vw, 4rem) auto 0; text-align: center; }
+  .collection-oil-about h2 { color: #16324a; }
   .collection-catalog { padding-block: clamp(3rem, 6vw, 5rem); }
   .collection-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(22, 50, 74, .13); }
   .collection-count { margin: 0; color: rgba(31, 42, 51, .7); }
